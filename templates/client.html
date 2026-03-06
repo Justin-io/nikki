@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HOPE Kiosk - Scanning</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #0a0a0a; color: white; text-align: center; margin: 0; padding: 20px; }
+        .camera-container { margin-top: 20px; }
+        img { border: 4px solid #00ff00; border-radius: 8px; width: 640px; max-width: 100%; box-shadow: 0 0 25px rgba(0, 255, 0, 0.15); }
+        h1 { color: #00ff00; letter-spacing: 2px; text-transform: uppercase; }
+        .pulse { animation: pulse-animation 2s infinite; }
+        @keyframes pulse-animation { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <h1>HOPE Platform Interface</h1>
+    <h3 class="pulse" style="color: #888;">Live Vision Engine Active...</h3>
+    <div class="camera-container">
+        <img src="{{ url_for('video_feed') }}" alt="Camera Feed">
+    </div>
+</body>
+</html>

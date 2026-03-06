@@ -1,0 +1,7 @@
+<!DOCTYPE html><html><head><link rel="stylesheet" href="/static/css/style.css"></head><body>
+<div class="nav"><a href="/">Home</a><a href="/feed">Daily Feed</a></div>
+<div class="container"><h2>Attendance Scanner</h2><img src="/video_feed" class="stream">
+<h3>Present List</h3><div id="list"></div></div>
+<script>setInterval(() => { fetch('/api/status').then(r => r.json()).then(data => {
+    let html = ''; for(const [n, s] of Object.entries(data)) { if(s==='Present') html += `<p class="status-present">${n}</p>`; }
+    document.getElementById('list').innerHTML = html; }); }, 2000);</script></body></html>

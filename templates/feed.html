@@ -1,0 +1,10 @@
+<!DOCTYPE html><html><head><link rel="stylesheet" href="/static/css/style.css"></head><body>
+<div class="nav"><a href="/">Home</a><a href="/attendance">Attendance Hub</a></div>
+<div class="container"><h2>Daily Feed & Sensors</h2>
+<div class="card"><h3>Air Quality</h3><p id="air">Loading...</p></div>
+<div class="card"><h3>Humidity</h3><p id="hum">Loading...</p></div>
+<div class="card"><h3>Head Controls</h3><button onclick="fetch('/api/move/left')">Move Left</button><button onclick="fetch('/api/move/right')">Move Right</button></div>
+<h3>Daily News</h3><div id="news" class="card" style="width:80%">Fetching Tech Headlines...</div></div>
+<script>setInterval(() => { fetch('/api/sensors').then(r => r.json()).then(d => {
+    document.getElementById('air').innerText = d.air_quality + ' PPM';
+    document.getElementById('hum').innerText = d.humidity + '%'; }); }, 3000);</script></body></html>

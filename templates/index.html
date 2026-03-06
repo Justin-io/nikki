@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA | Sentient OS</title>
+    <script src="https://js.puter.com/v2/"></script>
+    <style>
+        :root { 
+            --bg: #ffffff; 
+            --text: #000000; 
+            --border: #000000; 
+            --muted: #888888;
+            --success: #22c55e;
+            --error: #ef4444;
+            --warning: #f59e0b;
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            line-height: 1.5; 
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+        
+        header { 
+            border-bottom: 2px solid var(--border); 
+            padding-bottom: 1rem; 
+            margin-bottom: 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        
+        h1 { font-size: 2rem; font-weight: 700; margin: 0; text-transform: uppercase; letter-spacing: -1px; }
+        
+        /* Tabs */
+        nav { display: flex; gap: 1rem; border-bottom: 1px solid #e0e0e0; margin-bottom: 2rem; }
+        .tab-link { 
+            background: none; 
+            border: none; 
+            font-size: 1rem; 
+            font-weight: 600; 
+            padding: 1rem 0; 
+            cursor: pointer; 
+            color: var(--muted); 
+            border-bottom: 2px solid transparent; 
+            margin-bottom: -1px; 
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .tab-link:hover { color: var(--text); }
+        .tab-link.active { color: var(--text); border-bottom-color: var(--border); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* The Eye */
+        .eye-container { 
+            width: 200px; 
+            height: 200px; 
+            margin: 0 auto 2rem; 
+            position: relative; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        
+        .eye { 
+            width: 100%; 
+            height: 100%; 
+            background: #fff; 
+            border: 4px solid #000; 
+            border-radius: 50%; 
+            position: relative; 
+            overflow: hidden; 
+            transition: all 0.2s ease; 
+        }
+        
+        .pupil { 
+            width: 50%; 
+            height: 50%; 
+            background: #000; 
+            border-radius: 50%; 
+            position: absolute; 
+            top: 25%; 
+            left: 25%; 
+            transition: transform 0.1s linear; 
+        }
+        
+        .pupil::after { 
+            content: ''; 
+            position: absolute; 
+            width: 30%; 
+            height: 30%; 
+            background: #fff; 
+            border-radius: 50%; 
+            top: 20%; 
+            left: 20%; 
+        }
+
+        /* Emotions */
+        .eye.happy { 
+            border-radius: 50% 50% 40% 40%; 
+            border-bottom-width: 6px; 
+            border-color: #000; 
+        }
+        .eye.happy .pupil { background: #d63384; }
+        
+        .eye.panic { 
+            animation: shake 0.1s infinite; 
+            border-color: #ff0000; 
+            border-width: 6px; 
+        }
+        .eye.panic .pupil { 
+            background: #ff0000; 
+            width: 60%; 
+            height: 60%; 
+            top: 20%; 
+            left: 20%; 
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(1px, 1px) rotate(0deg); }
+            25% { transform: translate(-3px, 0px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            75% { transform: translate(3px, 1px) rotate(0deg); }
+        }
+
+        /* Grid & Cards */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 1.5rem; 
+        }
+        
+        .card { 
+            border: 1px solid #e0e0e0; 
+            padding: 1.5rem; 
+            transition: border-color 0.2s;
+        }
+        .card:hover { border-color: var(--border); }
+        
+        .card-label { 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            color: var(--muted); 
+            margin-bottom: 0.5rem; 
+            display: block; 
+        }
+        
+        .card-value { font-size: 1.5rem; font-weight: 700; }
+
+        /* Attendance Tab */
+        .split-view { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+        @media (max-width: 768px) { .split-view { grid-template-columns: 1fr; } }
+        
+        .video-wrapper { 
+            width: 100%; 
+            background: #000; 
+            aspect-ratio: 4/3; 
+            position: relative; 
+        }
+        .video-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        .roster-item { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 1rem 0; 
+            border-bottom: 1px solid #e0e0e0; 
+            text-transform: capitalize; 
+        }
+
+        /* AI Status Box */
+        .ai-box { 
+            margin-top: 2rem; 
+            border: 2px solid var(--border); 
+            padding: 2rem; 
+            text-align: center; 
+        }
+        
+        .status-text { 
+            font-style: italic; 
+            color: var(--muted); 
+            margin-bottom: 1rem; 
+            min-height: 24px; 
+        }
+        
+        .btn-ai { 
+            background: var(--text); 
+            color: var(--bg); 
+            border: none; 
+            padding: 1rem 2rem; 
+            font-size: 1rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s;
+        }
+        .btn-ai:hover { opacity: 0.85; }
+        .btn-ai.active { 
+            background: transparent; 
+            color: var(--text); 
+            border: 2px solid var(--text); 
+        }
+        .btn-ai.error { 
+            background: var(--error); 
+            border-color: var(--error); 
+            color: #fff; 
+        }
+        .btn-ai.success {
+            background: var(--success);
+            border-color: var(--success);
+            color: #fff;
+        }
+
+        /* Mic Status Indicator */
+        .mic-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        
+        .mic-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--muted);
+            transition: background 0.3s;
+        }
+        
+        .mic-dot.active { 
+            background: var(--success); 
+            animation: pulse 1.5s infinite;
+        }
+        .mic-dot.error { background: var(--error); }
+        .mic-dot.warning { background: var(--warning); }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        /* Waveform Visualization */
+        .waveform {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            height: 30px;
+            margin: 1rem 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .waveform.active { opacity: 1; }
+        
+        .waveform-bar {
+            width: 4px;
+            height: 8px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: height 0.1s;
+        }
+
+        /* Form Styles */
+        input, button { font-family: inherit; }
+        
+        input[type="text"], 
+        input[type="file"] { 
+            border: 1px solid #e0e0e0; 
+            padding: 0.8rem; 
+            font-size: 1rem; 
+            width: 100%; 
+            box-sizing: border-box; 
+            margin-bottom: 1rem; 
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--border);
+        }
+        
+        .btn-submit { 
+            background: var(--text); 
+            color: var(--bg); 
+            border: none; 
+            padding: 0.8rem; 
+            width: 100%; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: opacity 0.2s;
+        }
+        .btn-submit:hover { opacity: 0.85; }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>AURA</h1>
+            <span style="font-size: 0.8rem; font-weight: 600;">IES COLLEGE OF ENGINEERING</span>
+        </header>
+
+        <nav>
+            <button class="tab-link active" onclick="openTab('home')">Home</button>
+            <button class="tab-link" onclick="openTab('attendance')">Attendance</button>
+        </nav>
+
+        <!-- TAB 1: HOME -->
+        <div id="home" class="tab-content active">
+            
+            <!-- THE EYE -->
+            <div class="eye-container">
+                <div class="eye" id="aura-eye">
+                    <div class="pupil" id="aura-pupil"></div>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top:-20px; margin-bottom: 20px; font-weight: bold; text-transform: uppercase;" id="mood-text">IDLE</div>
+
+            <div class="grid">
+                <div class="card"><span class="card-label">Room Temp</span><div class="card-value" id="val-temp">--°C</div></div>
+                <div class="card"><span class="card-label">Humidity</span><div class="card-value" id="val-hum">--%</div></div>
+                <div class="card"><span class="card-label">Air Quality</span><div class="card-value" id="val-aqi">-- AQI</div></div>
+                <div class="card"><span class="card-label">Core Temp</span><div class="card-value" id="val-cpu">--°C</div></div>
+            </div>
+
+            <div class="ai-box">
+                <div class="status-text" id="ai-status">Click below to initialize voice system</div>
+                
+                <!-- Waveform Visualization -->
+                <div class="waveform" id="waveform">
+                    <div class="waveform-bar"></div>
+                    <div class="waveform-bar"></div>
+                    <div class="waveform-bar"></div>
+                    <div class="waveform-bar"></div>
+                    <div class="waveform-bar"></div>
+                </div>
+                
+                <button class="btn-ai" id="btn-ai" onclick="initializeVoice()">Initialize Voice</button>
+                
+                <div class="mic-status">
+                    <div class="mic-dot" id="mic-dot"></div>
+                    <span id="mic-text">Microphone inactive</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <h3>Enrollment</h3>
+                <form onsubmit="enroll(event)">
+                    <input type="text" id="input-name" placeholder="Student Name" required>
+                    <input type="file" id="input-img" accept="image/*" required>
+                    <button type="submit" class="btn-submit">Register Face</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- TAB 2: ATTENDANCE -->
+        <div id="attendance" class="tab-content">
+            <div class="split-view">
+                <div class="video-wrapper">
+                    <img src="/video_feed" alt="Feed">
+                </div>
+                <div>
+                    <h3>Roster</h3>
+                    <div id="roster-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- STATE ---
+        let recognition = null;
+        let synthesis = window.speechSynthesis;
+        let isSystemActive = false;
+        let isAwake = false;
+        let restartAttempts = 0;
+        const MAX_RESTART_ATTEMPTS = 5;
+        let silenceTimer = null;
+        let waveformInterval = null;
+
+        // DOM Elements
+        const eye = document.getElementById('aura-eye');
+        const pupil = document.getElementById('aura-pupil');
+        const moodText = document.getElementById('mood-text');
+        const aiStatus = document.getElementById('ai-status');
+        const btnAi = document.getElementById('btn-ai');
+        const micDot = document.getElementById('mic-dot');
+        const micText = document.getElementById('mic-text');
+        const waveform = document.getElementById('waveform');
+
+        // --- BROWSER COMPATIBILITY CHECK ---
+        function checkCompatibility() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            if (!SpeechRecognition) {
+                return { 
+                    supported: false, 
+                    message: 'Voice recognition not supported. Use Chrome, Edge, or Safari.' 
+                };
+            }
+            
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                return { 
+                    supported: false, 
+                    message: 'Media devices not supported. Use HTTPS or localhost.' 
+                };
+            }
+            
+            return { supported: true };
+        }
+
+        // --- MICROPHONE PERMISSION ---
+        async function requestMicPermission() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                stream.getTracks().forEach(track => track.stop());
+                return { granted: true };
+            } catch (err) {
+                console.error('Mic permission error:', err);
+                if (err.name === 'NotAllowedError') {
+                    return { 
+                        granted: false, 
+                        message: 'Microphone access denied. Click the lock icon in your address bar to enable it.' 
+                    };
+                } else if (err.name === 'NotFoundError') {
+                    return { 
+                        granted: false, 
+                        message: 'No microphone found. Please connect a microphone.' 
+                    };
+                }
+                return { 
+                    granted: false, 
+                    message: `Microphone error: ${err.message}` 
+                };
+            }
+        }
+
+        // --- INITIALIZE VOICE SYSTEM ---
+        async function initializeVoice() {
+            if (isSystemActive) {
+                shutdownVoice();
+                return;
+            }
+
+            // Check compatibility
+            const compat = checkCompatibility();
+            if (!compat.supported) {
+                showError(compat.message);
+                return;
+            }
+
+            // Update UI
+            btnAi.textContent = 'Requesting Permission...';
+            micDot.className = 'mic-dot warning';
+            micText.textContent = 'Requesting microphone access...';
+
+            // Request permission
+            const permission = await requestMicPermission();
+            if (!permission.granted) {
+                showError(permission.message);
+                return;
+            }
+
+            // Initialize recognition
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+            recognition.maxAlternatives = 1;
+
+            // Event handlers
+            recognition.onstart = handleRecognitionStart;
+            recognition.onend = handleRecognitionEnd;
+            recognition.onerror = handleRecognitionError;
+            recognition.onresult = handleRecognitionResult;
+
+            // Start listening
+            try {
+                recognition.start();
+                isSystemActive = true;
+            } catch (e) {
+                console.error('Start error:', e);
+                showError('Failed to start voice recognition. Please refresh the page.');
+            }
+        }
+
+        function shutdownVoice() {
+            isSystemActive = false;
+            isAwake = false;
+            restartAttempts = 0;
+            
+            if (recognition) {
+                recognition.onstart = null;
+                recognition.onend = null;
+                recognition.onerror = null;
+                recognition.onresult = null;
+                recognition.stop();
+                recognition = null;
+            }
+            
+            if (silenceTimer) {
+                clearTimeout(silenceTimer);
+                silenceTimer = null;
+            }
+            
+            stopWaveform();
+            
+            btnAi.textContent = 'Initialize Voice';
+            btnAi.className = 'btn-ai';
+            micDot.className = 'mic-dot';
+            micText.textContent = 'Microphone inactive';
+            aiStatus.textContent = 'Click below to initialize voice system';
+        }
+
+        // --- RECOGNITION HANDLERS ---
+        function handleRecognitionStart() {
+            console.log('Recognition started');
+            restartAttempts = 0;
+            
+            btnAi.textContent = 'Listening for Wake Word...';
+            btnAi.className = 'btn-ai active';
+            micDot.className = 'mic-dot active';
+            micText.textContent = isAwake ? 'Listening for commands...' : 'Listening for wake word...';
+            aiStatus.textContent = isAwake ? 'I am listening. How can I help?' : 'Say "Aura", "Hey", or "Hello" to activate.';
+            
+            startWaveform();
+        }
+
+        function handleRecognitionEnd() {
+            console.log('Recognition ended');
+            stopWaveform();
+            
+            if (!isSystemActive) return;
+            
+            // Attempt to restart if we should be active
+            if (restartAttempts < MAX_RESTART_ATTEMPTS) {
+                restartAttempts++;
+                console.log(`Restarting... attempt ${restartAttempts}`);
+                micText.textContent = `Reconnecting (${restartAttempts}/${MAX_RESTART_ATTEMPTS})...`;
+                micDot.className = 'mic-dot warning';
+                
+                setTimeout(() => {
+                    if (isSystemActive && recognition) {
+                        try {
+                            recognition.start();
+                        } catch (e) {
+                            console.error('Restart failed:', e);
+                        }
+                    }
+                }, 500);
+            } else {
+                showError('Voice connection lost. Please click Initialize again.');
+                shutdownVoice();
+            }
+        }
+
+        function handleRecognitionError(event) {
+            console.error('Recognition error:', event.error);
+            
+            const errorMessages = {
+                'no-speech': 'No speech detected. Still listening...',
+                'audio-capture': 'No microphone found.',
+                'not-allowed': 'Microphone access was denied.',
+                'network': 'Network error. Check your connection.',
+                'aborted': 'Recognition was aborted.',
+                'language-not-supported': 'Language not supported.',
+                'service-not-allowed': 'Speech service not allowed.'
+            };
+            
+            const message = errorMessages[event.error] || `Error: ${event.error}`;
+            
+            if (event.error === 'no-speech') {
+                // This is normal - just keep listening
+                micText.textContent = 'Still listening...';
+                return;
+            }
+            
+            if (event.error === 'aborted') {
+                // Usually happens during restart, ignore
+                return;
+            }
+            
+            if (event.error === 'not-allowed' || event.error === 'audio-capture') {
+                showError(message);
+                shutdownVoice();
+                return;
+            }
+            
+            // For other errors, just log and continue
+            micText.textContent = message;
+            micDot.className = 'mic-dot warning';
+        }
+
+        function handleRecognitionResult(event) {
+            const last = event.results.length - 1;
+            const result = event.results[last];
+            const transcript = result[0].transcript.toLowerCase().trim();
+            const isFinal = result.isFinal;
+            
+            console.log(`Heard (${isFinal ? 'final' : 'interim'}):`, transcript);
+            
+            // Show what was heard
+            aiStatus.textContent = `Heard: "${transcript}"`;
+            
+            if (!isFinal) return;
+            
+            // Reset silence timer
+            resetSilenceTimer();
+            
+            // Check for wake word or process command
+            if (!isAwake) {
+                const wakeWords = ['aura', 'hey', 'hello', 'ara', 'ora'];
+                const hasWakeWord = wakeWords.some(word => transcript.includes(word));
+                
+                if (hasWakeWord) {
+                    activateAura();
+                }
+            } else {
+                processCommand(transcript);
+            }
+        }
+
+        // --- WAKE WORD ACTIVATION ---
+        function activateAura() {
+            isAwake = true;
+            restartAttempts = 0; // Reset attempts on successful activation
+            
+            aiStatus.textContent = 'I am listening. How can I help?';
+            micText.textContent = 'AWAKE - Listening for commands...';
+            
+            // Visual feedback
+            eye.style.borderColor = '#22c55e';
+            
+            // Speak response
+            speak('Yes?');
+            
+            // Set timeout to go back to sleep after 10 seconds of silence
+            resetSilenceTimer();
+        }
+
+        function resetSilenceTimer() {
+            if (silenceTimer) {
+                clearTimeout(silenceTimer);
+            }
+            
+            if (isAwake) {
+                silenceTimer = setTimeout(() => {
+                    if (isAwake) {
+                        isAwake = false;
+                        micText.textContent = 'Listening for wake word...';
+                        aiStatus.textContent = 'Going to sleep. Say "Aura" to wake me.';
+                        eye.style.borderColor = '#000';
+                    }
+                }, 10000);
+            }
+        }
+
+        // --- AI PROCESSING ---
+        async function processCommand(text) {
+            aiStatus.textContent = `Processing: "${text}"`;
+            
+            // Fetch context
+            let ctx = { names: [], count: 0 };
+            try {
+                const res = await fetch('/api/context');
+                if (res.ok) {
+                    ctx = await res.json();
+                }
+            } catch (e) {
+                console.error('Context fetch error:', e);
+            }
+
+            const systemPrompt = `You are AURA, an AI robot created by Justin at IES College of Engineering.
+You have emotions and a physical body (an eye on the screen).
+Current Situation:
+- Visible People: ${ctx.names.join(', ') || 'None'}
+- Crowd Count: ${ctx.count}
+
+Instructions:
+- Be brief and conversational.
+- If asked about status, mention visible people and sensor data.
+- If crowd count is high, express mild stress.
+- If "Hari" is visible, express joy.`;
+
+            try {
+                const response = await puter.ai.chat([
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: text }
+                ], { model: 'gpt-4o-mini' });
+
+                const reply = response.message.content;
+                speak(reply);
+            } catch (err) {
+                console.error('AI error:', err);
+                speak("My neural link is experiencing interference. Please try again.");
+            }
+        }
+
+        function speak(text) {
+            aiStatus.textContent = `AURA: "${text}"`;
+            
+            // Cancel any ongoing speech
+            synthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            
+            utterance.onend = () => {
+                if (isAwake) {
+                    aiStatus.textContent = 'Listening...';
+                    resetSilenceTimer();
+                }
+            };
+            
+            synthesis.speak(utterance);
+        }
+
+        // --- UI HELPERS ---
+        function showError(message) {
+            btnAi.textContent = 'Error - Click to Retry';
+            btnAi.className = 'btn-ai error';
+            micDot.className = 'mic-dot error';
+            micText.textContent = message;
+            aiStatus.textContent = message;
+        }
+
+        function startWaveform() {
+            waveform.classList.add('active');
+            const bars = waveform.querySelectorAll('.waveform-bar');
+            
+            waveformInterval = setInterval(() => {
+                bars.forEach(bar => {
+                    const height = Math.random() * 20 + 5;
+                    bar.style.height = `${height}px`;
+                });
+            }, 100);
+        }
+
+        function stopWaveform() {
+            waveform.classList.remove('active');
+            if (waveformInterval) {
+                clearInterval(waveformInterval);
+                waveformInterval = null;
+            }
+        }
+
+        // --- ENVIRONMENT UPDATE ---
+        function updateEnvironment() {
+            fetch('/api/sensors')
+                .then(r => r.json())
+                .then(d => {
+                    document.getElementById('val-temp').textContent = d.temp_str || '--°C';
+                    document.getElementById('val-hum').textContent = d.hum_str || '--%';
+                    document.getElementById('val-aqi').textContent = `${parseInt(d.aqi) || '--'} AQI`;
+                    document.getElementById('val-cpu').textContent = d.cpu || '--°C';
+                })
+                .catch(e => console.error('Sensor fetch error:', e));
+
+            fetch('/api/context')
+                .then(r => r.json())
+                .then(d => {
+                    // Eye tracking
+                    const moveX = ((d.x_pos || 0.5) - 0.5) * 40;
+                    pupil.style.transform = `translateX(${moveX}px)`;
+
+                    // Emotions
+                    const names = (d.names || []).map(n => n.toLowerCase());
+                    const count = d.count || 0;
+
+                    eye.classList.remove('panic', 'happy');
+
+                    if (names.includes('hari')) {
+                        eye.classList.add('happy');
+                        moodText.textContent = 'HAPPY (OWNER DETECTED)';
+                        moodText.style.color = '#d63384';
+                        
+                        if (!sessionStorage.getItem('greeted_hari')) {
+                            speak('Hari! My creator! I am overwhelmed with joy!');
+                            sessionStorage.setItem('greeted_hari', 'true');
+                        }
+                    } else if (count >= 4) {
+                        eye.classList.add('panic');
+                        moodText.textContent = 'PANIC (CROWD DETECTED)';
+                        moodText.style.color = '#ff0000';
+                        
+                        if (!sessionStorage.getItem('warned_crowd')) {
+                            speak('Alert! Too many humans! I am feeling anxious!');
+                            sessionStorage.setItem('warned_crowd', 'true');
+                        }
+                    } else {
+                        moodText.textContent = 'TRACKING';
+                        moodText.style.color = '#000';
+                        sessionStorage.removeItem('greeted_hari');
+                        sessionStorage.removeItem('warned_crowd');
+                    }
+                })
+                .catch(e => console.error('Context fetch error:', e));
+
+            fetch('/api/status')
+                .then(r => r.json())
+                .then(d => {
+                    const el = document.getElementById('roster-container');
+                    el.innerHTML = '';
+                    for (const [name, status] of Object.entries(d || {})) {
+                        el.innerHTML += `
+                            <div class="roster-item">
+                                <span>${name}</span>
+                                <span style="color:${status === 'Present' ? '#000' : '#888'}">${status}</span>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(e => console.error('Status fetch error:', e));
+        }
+
+        // --- ENROLLMENT ---
+        function enroll(e) {
+            e.preventDefault();
+            const name = document.getElementById('input-name').value;
+            const img = document.getElementById('input-img').files[0];
+            
+            if (!name || !img) {
+                alert('Please provide both name and image.');
+                return;
+            }
+            
+            const fd = new FormData();
+            fd.append('name', name);
+            fd.append('image', img);
+            
+            const btn = e.target.querySelector('.btn-submit');
+            const originalText = btn.textContent;
+            btn.textContent = 'Registering...';
+            btn.disabled = true;
+            
+            fetch('/api/add_student', { method: 'POST', body: fd })
+                .then(r => r.json())
+                .then(d => {
+                    if (d.status === 'success') {
+                        speak(`${name} has been registered.`);
+                        document.getElementById('input-name').value = '';
+                        document.getElementById('input-img').value = '';
+                    } else {
+                        alert(d.msg || 'Registration failed.');
+                    }
+                })
+                .catch(e => {
+                    console.error('Enrollment error:', e);
+                    alert('Connection error. Please try again.');
+                })
+                .finally(() => {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                });
+        }
+
+        // --- TAB NAVIGATION ---
+        function openTab(id) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // --- INITIALIZATION ---
+        setInterval(updateEnvironment, 500);
+        updateEnvironment();
+    </script>
+</body>
+</html>

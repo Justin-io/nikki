@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HOPE Admin Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #e0e0e0; padding: 40px; margin: 0; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 10px; color: #fff; }
+        table { width: 100%; max-width: 800px; margin-top: 20px; border-collapse: collapse; background: #1e1e1e; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: #2a2a2a; color: #888; text-transform: uppercase; font-size: 14px; }
+        .status-present { color: #00ff00; font-weight: bold; }
+        .status-absent { color: #ff3333; }
+    </style>
+</head>
+<body>
+    <h1>Data Science Dept - Live Attendance</h1>
+    <table id="attendanceTable">
+        <thead>
+            <tr>
+                <th>Student / Faculty Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            </tbody>
+    </table>
+
+    <script>
+        function updateAttendance() {
+            fetch('/api/status')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('#attendanceTable tbody');
+                    tbody.innerHTML = ''; // Clear current rows
+                    
+                    for (const [name, status] of Object.entries(data)) {
+                        const tr = document.createElement('tr');
+                        const statusClass = status === 'Present' ? 'status-present' : 'status-absent';
+                        
+                        tr.innerHTML = `
+                            <td>${name}</td>
+                            <td class="${statusClass}">${status}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    }
+                });
+        }
+        
+        // Poll the server every 2 seconds for fresh data
+        setInterval(updateAttendance, 2000);
+        updateAttendance(); // Run immediately on load
+    </script>
+</body>
+</html>
