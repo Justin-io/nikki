@@ -2,7 +2,6 @@ import os, time, logging, threading, pickle, random, subprocess, gc, numpy as np
 from collections import deque
 import cv2, face_recognition
 from flask import Flask, render_template, Response, jsonify, request
-from picamera2 import Picamera2
 from PIL import Image
 
 # --- CONFIGURATION ---
@@ -53,17 +52,43 @@ if os.path.exists(FACES_FILE):
             attendance_log = {n: "Absent" for n in known_names}
     except: pass
 
-# --- CAMERA INITIALIZATION (SAFE) ---
+# --- ROBUST CAMERA INITIALIZATION ---
 picam2 = None
+usb_cam = None
+camera_type = "None"
+
+# 1. Try Pi Camera (CSI) First
 try:
-    logger.info("Attempting to initialize camera...")
+    from picamera2 import Picamera2
+    logger.info("Attempting Pi Camera (CSI) initialization...")
     picam2 = Picamera2()
     picam2.configure(picam2.create_preview_configuration(main={"size": (640, 480), "format": "RGB888"}))
     picam2.start()
-    logger.info("Camera initialized successfully.")
+    camera_type = "CSI"
+    logger.info("SUCCESS: Pi Camera (CSI) initialized.")
 except Exception as e:
-    logger.error(f"Camera initialization failed: {e}")
-    logger.warning("Running without camera. Video feed will show placeholder.")
+    logger.warning(f"Pi Camera failed: {e}")
+    picam2 = None
+
+# 2. Fallback to USB Camera if Pi Camera failed
+if not picam2:
+    try:
+        logger.info("Attempting USB Camera fallback...")
+        usb_cam = cv2.VideoCapture(0)
+        if not usb_cam.isOpened():
+            raise RuntimeError("Cannot open USB camera at index 0")
+        
+        usb_cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+        usb_cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+        usb_cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        camera_type = "USB"
+        logger.info("SUCCESS: USB Camera initialized.")
+    except Exception as e:
+        logger.error(f"USB Camera failed: {e}")
+        usb_cam = None
+
+if not picam2 and not usb_cam:
+    logger.error("CRITICAL: No camera available. Running in Mock Mode.")
 
 # --- BACKGROUND LOOPS ---
 def sensor_loop():
@@ -102,8 +127,7 @@ frame_counter = 0
 def gen_frames():
     global last_locations, last_names, frame_counter, scene_data
     
-    # If camera failed to start, provide a placeholder image
-    if not picam2:
+    if not picam2 and not usb_cam:
         while True:
             frame = np.zeros((480, 640, 3), dtype=np.uint8)
             cv2.putText(frame, "Camera Unavailable", (150, 240), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
@@ -113,7 +137,17 @@ def gen_frames():
 
     while True:
         try:
-            frame = picam2.capture_array()
+            frame = None
+            
+            if picam2:
+                frame = picam2.capture_array()
+            elif usb_cam:
+                ret_val, frame = usb_cam.read()
+                if not ret_val or frame is None:
+                    time.sleep(0.1)
+                    continue
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            
             frame_counter += 1
             
             if frame_counter % 5 == 0:
@@ -155,6 +189,7 @@ def gen_frames():
 
             ret, buf = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
             yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + buf.tobytes() + b'\r\n')
+            
         except Exception as e:
             logger.error(f"Frame generation error: {e}")
             time.sleep(0.1)
@@ -184,11 +219,37 @@ def api_status():
 def api_context():
     with data_lock: return jsonify(scene_data)
 
+# --- REALISTIC TTS ENDPOINT (Google TTS) ---
+@app.route('/api/speak', methods=['POST'])
+def api_speak():
+    data = request.get_json()
+    text = data.get('text', '')
+    if text:
+        def speak_thread():
+            tmp_file = f"/tmp/aura_speech_{time.time()}.mp3"
+            try:
+                from gtts import gTTS
+                tts = gTTS(text=text, lang='en', slow=False)
+                tts.save(tmp_file)
+                subprocess.call(['mpg123', tmp_file], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            except Exception as e:
+                logger.warning(f"gTTS failed, falling back to espeak. Error: {e}")
+                subprocess.call(['espeak', '-ven+f5', '-s150', text], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            finally:
+                if os.path.exists(tmp_file):
+                    try: os.remove(tmp_file)
+                    except: pass
+        
+        threading.Thread(target=speak_thread, daemon=True).start()
+        return jsonify({"status": "speaking"})
+    return jsonify({"status": "error", "msg": "No text"}), 400
+
+@app.route('/api/add_student', methods=['POST'])
 @app.route('/api/add_student', methods=['POST'])
 def add_student():
+    # existing upload-based enrollment (webcam or file input)
     if 'image' not in request.files:
         return jsonify({"status": "error", "msg": "No image file provided"}), 400
-    
     file = request.files['image']
     if file.filename == '':
         return jsonify({"status": "error", "msg": "No selected file"}), 400
@@ -199,36 +260,65 @@ def add_student():
 
     temp = f"tmp_{time.time()}.jpg"
     try:
-        # FIX: thumbnail returns None, must be called separately
-        pil_img = Image.open(file.stream).convert('RGB')
+        file.save(temp)
+        pil_img = Image.open(temp).convert('RGB')
         pil_img.thumbnail((500, 500))
         pil_img.save(temp)
-        
         img = face_recognition.load_image_file(temp)
-        
-        with face_lock: 
+        with face_lock:
             encs = face_recognition.face_encodings(img)
-        
         if os.path.exists(temp): os.remove(temp)
-        
-        if not encs: 
-            return jsonify({"status": "error", "msg": "No face detected"})
-        
+        if not encs:
+            return jsonify({"status": "error", "msg": "No face detected in the image"})
         with data_lock:
             known_names.append(name)
             known_encodings.append(encs[0])
             attendance_log[name] = "Absent"
-            
-            with open(FACES_FILE, "wb") as f: 
+            with open(FACES_FILE, "wb") as f:
                 pickle.dump({"encodings": known_encodings, "names": known_names}, f)
-        
         logger.info(f"Registered: {name}")
         return jsonify({"status": "success"})
-        
     except Exception as e:
         logger.error(f"Enrollment error: {e}")
-        if os.path.exists(temp): os.remove(temp)
+        if os.path.exists(temp):
+            try: os.remove(temp)
+            except: pass
         return jsonify({"status": "error", "msg": str(e)})
 
+
+@app.route('/api/add_student_from_path', methods=['POST'])
+def add_student_from_path():
+    data = request.get_json() or {}
+    name = data.get('name', '').lower()
+    path = data.get('path', '')
+    if not name:
+        return jsonify({"status": "error", "msg": "No name provided"}), 400
+    if not path:
+        return jsonify({"status": "error", "msg": "No path provided"}), 400
+    if not os.path.isfile(path):
+        return jsonify({"status": "error", "msg": "File does not exist"}), 400
+
+    try:
+        img = face_recognition.load_image_file(path)
+        with face_lock:
+            encs = face_recognition.face_encodings(img)
+        if not encs:
+            return jsonify({"status": "error", "msg": "No face detected in the image"})
+        with data_lock:
+            known_names.append(name)
+            known_encodings.append(encs[0])
+            attendance_log[name] = "Absent"
+            with open(FACES_FILE, "wb") as f:
+                pickle.dump({"encodings": known_encodings, "names": known_names}, f)
+        logger.info(f"Registered from path: {name} ({path})")
+        return jsonify({"status": "success"})
+    except Exception as e:
+        logger.error(f"Enrollment path error: {e}")
+        return jsonify({"status": "error", "msg": str(e)})
+@app.route('/enroll_frame')
+def enroll_frame():
+    return render_template('enroll_frame.html')
+
+        
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, threaded=True)

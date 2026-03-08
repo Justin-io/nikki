@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AURA | Sentient OS</title>
-    <script src="https://js.puter.com/v2/"></script>
     <style>
         :root { 
-            --bg: #ffffff; 
-            --text: #000000; 
-            --border: #000000; 
+            --bg: #f4f4f9; 
+            --text: #1a1a1a; 
+            --border: #e0e0e0; 
             --muted: #888888;
             --success: #22c55e;
             --error: #ef4444;
-            --warning: #f59e0b;
+            --accent: #0055ff;
+            --surface: #ffffff;
         }
         
         * { box-sizing: border-box; }
@@ -24,139 +24,257 @@
             color: var(--text); 
             margin: 0; 
             line-height: 1.5; 
+            overflow: hidden; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
-        
-        header { 
-            border-bottom: 2px solid var(--border); 
-            padding-bottom: 1rem; 
-            margin-bottom: 2rem; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 80px; 
+            background: linear-gradient(180deg, #ffffff 0%, #f4f4f9 100%);
+        }
+
+        /* --- BOTTOM NAVIGATION --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            padding: 0.5rem 0;
+            z-index: 100;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
         }
         
-        h1 { font-size: 2rem; font-weight: 700; margin: 0; text-transform: uppercase; letter-spacing: -1px; }
-        
-        /* Tabs */
-        nav { display: flex; gap: 1rem; border-bottom: 1px solid #e0e0e0; margin-bottom: 2rem; }
-        .tab-link { 
-            background: none; 
-            border: none; 
-            font-size: 1rem; 
-            font-weight: 600; 
-            padding: 1rem 0; 
-            cursor: pointer; 
-            color: var(--muted); 
-            border-bottom: 2px solid transparent; 
-            margin-bottom: -1px; 
-            transition: color 0.2s, border-color 0.2s;
-        }
-        .tab-link:hover { color: var(--text); }
-        .tab-link.active { color: var(--text); border-bottom-color: var(--border); }
-        .tab-content { display: none; }
+        .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
+        .nav-item:hover { color: var(--text); }
+        .nav-item.active { color: var(--accent); }
+
+        .tab-content { display: none; animation: fadeIn 0.3s ease; padding: 1rem; }
         .tab-content.active { display: block; }
 
-        /* The Eye */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- DUAL EYE DESIGN (White Theme) --- */
         .eye-container { 
-            width: 200px; 
-            height: 200px; 
-            margin: 0 auto 2rem; 
-            position: relative; 
+            width: 100%; 
+            height: 75vh;
             display: flex; 
             justify-content: center; 
             align-items: center; 
-        }
-        
-        .eye { 
-            width: 100%; 
-            height: 100%; 
-            background: #fff; 
-            border: 4px solid #000; 
-            border-radius: 50%; 
-            position: relative; 
-            overflow: hidden; 
-            transition: all 0.2s ease; 
-        }
-        
-        .pupil { 
-            width: 50%; 
-            height: 50%; 
-            background: #000; 
-            border-radius: 50%; 
-            position: absolute; 
-            top: 25%; 
-            left: 25%; 
-            transition: transform 0.1s linear; 
-        }
-        
-        .pupil::after { 
-            content: ''; 
-            position: absolute; 
-            width: 30%; 
-            height: 30%; 
-            background: #fff; 
-            border-radius: 50%; 
-            top: 20%; 
-            left: 20%; 
+            gap: 80px; 
+            position: relative;
         }
 
-        /* Emotions */
-        .eye.happy { 
-            border-radius: 50% 50% 40% 40%; 
-            border-bottom-width: 6px; 
-            border-color: #000; 
+        .eye-socket {
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, #2a2a2a 0%, #000000 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2), inset 0 0 20px rgba(0,0,0,0.8);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid #1a1a1a;
+            transition: all 0.2s;
         }
-        .eye.happy .pupil { background: #d63384; }
+
+        .eyelid {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            background: #000;
+            z-index: 10;
+            transition: all 0.15s cubic-bezier(0.25, 0.1, 0.25, 1);
+            transform-origin: center;
+        }
+        .eyelid.top { top: 0; border-radius: 0 0 50% 50%; transform: translateY(-100%); }
+        .eyelid.bottom { bottom: 0; border-radius: 50% 50% 0 0; transform: translateY(100%); }
         
-        .eye.panic { 
-            animation: shake 0.1s infinite; 
-            border-color: #ff0000; 
-            border-width: 6px; 
-        }
-        .eye.panic .pupil { 
-            background: #ff0000; 
-            width: 60%; 
-            height: 60%; 
-            top: 20%; 
-            left: 20%; 
+        .eye-socket.active .eyelid.top { transform: translateY(-90%); }
+        .eye-socket.active .eyelid.bottom { transform: translateY(90%); }
+
+        .eyeball {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle at 30% 30%, #ffffff 0%, #dddddd 100%);
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translate(1px, 1px) rotate(0deg); }
-            25% { transform: translate(-3px, 0px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            75% { transform: translate(3px, 1px) rotate(0deg); }
+        .iris-group {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 0.08s linear;
         }
 
-        /* Grid & Cards */
+        .iris {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #00ccff 0%, #0055aa 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 180, 255, 0.5);
+            position: relative;
+            border: 3px solid rgba(0,0,0,0.2);
+        }
+        
+        .pupil {
+            position: absolute;
+            width: 40%;
+            height: 40%;
+            background: #000;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .reflection {
+            position: absolute;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            z-index: 5;
+        }
+        .ref-1 { width: 15%; height: 15%; top: 20%; left: 25%; }
+        .ref-2 { width: 6%; height: 6%; top: 45%; left: 60%; opacity: 0.6; }
+
+        /* --- ENHANCED EMOTIONS --- */
+        
+        /* Happy */
+        .eye-socket.happy .eyelid.top { transform: translateY(-85%) rotate(-5deg) scaleY(0.7); }
+        .eye-socket.happy .eyelid.bottom { transform: translateY(85%) rotate(5deg) scaleY(0.7); }
+        .eye-socket.happy .iris { background: radial-gradient(circle, #ff69b4 0%, #8b008b 100%); box-shadow: 0 0 20px #ff69b4; }
+
+        /* Panic */
+        .eye-socket.panic { animation: socketShake 0.1s infinite; }
+        .eye-socket.panic .eyelid.top { transform: translateY(-98%); }
+        .eye-socket.panic .eyelid.bottom { transform: translateY(98%); }
+        .eye-socket.panic .iris { background: radial-gradient(circle, #ff0000 0%, #4d0000 100%); box-shadow: 0 0 30px #ff0000; }
+        
+        /* Thinking */
+        .eye-socket.thinking .iris-group { animation: thinkingMove 2s infinite alternate; }
+        @keyframes thinkingMove { 
+            0% { transform: translate(calc(-50% + 10px), calc(-50% - 5px)); } 
+            100% { transform: translate(calc(-50% - 10px), calc(-50% - 5px)); } 
+        }
+
+        /* Talking */
+        .eye-socket.talking { animation: talkPulse 0.3s infinite; }
+        .eye-socket.talking .eyelid.top { transform: translateY(-88%); }
+        @keyframes talkPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+
+        /* Angry */
+        .eye-socket.angry .eyelid.top { transform: translateY(-80%) rotate(10deg) scaleY(1.2); }
+        .eye-socket.angry .eyelid.bottom { transform: translateY(80%) rotate(-10deg) scaleY(1.2); }
+        .eye-socket.angry .iris { background: radial-gradient(circle, #ff3300 0%, #800000 100%); box-shadow: 0 0 20px #ff3300; }
+
+        /* Sad */
+        .eye-socket.sad .eyelid.top { transform: translateY(-70%); }
+        .eye-socket.sad .eyelid.bottom { transform: translateY(80%); }
+        .eye-socket.sad .iris { background: radial-gradient(circle, #6666ff 0%, #000066 100%); opacity: 0.8; }
+
+        /* Surprised */
+        .eye-socket.surprised .eyelid.top { transform: translateY(-100%); }
+        .eye-socket.surprised .eyelid.bottom { transform: translateY(100%); }
+        .eye-socket.surprised .iris { background: radial-gradient(circle, #ffffff 0%, #cccccc 100%); border: 4px solid #000; }
+        .eye-socket.surprised .pupil { width: 60%; height: 60%; }
+
+        @keyframes socketShake { 0%, 100% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } }
+
+        .mood-display {
+            text-align: center;
+            margin-top: -20px;
+            margin-bottom: 20px;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .mood-display span { color: var(--accent); font-weight: bold; }
+
+        /* --- SYSTEM TAB --- */
         .grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 1.5rem; 
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+            gap: 1rem; 
+            margin-bottom: 2rem;
         }
         
         .card { 
-            border: 1px solid #e0e0e0; 
-            padding: 1.5rem; 
-            transition: border-color 0.2s;
+            background: var(--surface);
+            border: 1px solid var(--border); 
+            padding: 1rem; 
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        .card:hover { border-color: var(--border); }
-        
-        .card-label { 
-            font-size: 0.75rem; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            color: var(--muted); 
-            margin-bottom: 0.5rem; 
-            display: block; 
-        }
-        
-        .card-value { font-size: 1.5rem; font-weight: 700; }
+        .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .card-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 0.5rem; display: block; }
+        .card-value { font-size: 1.2rem; font-weight: 700; color: var(--text); }
 
-        /* Attendance Tab */
-        .split-view { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+        .ai-box { 
+            border: 1px solid var(--border); 
+            padding: 1.5rem; 
+            text-align: center; 
+            background: var(--surface);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .status-text { font-style: italic; color: var(--muted); margin-bottom: 1rem; min-height: 24px; font-size: 0.9rem; }
+        
+        .btn-ai { 
+            background: var(--accent); 
+            color: #fff; 
+            border: none; 
+            padding: 0.8rem 1.5rem; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            text-transform: uppercase; 
+            width: 100%;
+            border-radius: 4px;
+        }
+        .btn-ai:hover { opacity: 0.9; }
+        .btn-ai.active { background: var(--text); }
+        .btn-ai.error { background: var(--error); }
+
+        .mic-status { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1rem; font-size: 0.8rem; color: var(--muted); }
+        .mic-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); transition: background 0.3s; }
+        .mic-dot.active { background: var(--success); box-shadow: 0 0 10px var(--success); }
+        .mic-dot.error { background: var(--error); }
+
+        /* --- ATTENDANCE TAB --- */
+        .split-view { display: grid; grid-template-columns: 1.5fr 1fr; gap: 1rem; }
         @media (max-width: 768px) { .split-view { grid-template-columns: 1fr; } }
         
         .video-wrapper { 
@@ -164,508 +282,347 @@
             background: #000; 
             aspect-ratio: 4/3; 
             position: relative; 
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
         }
         .video-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+
         .roster-item { 
             display: flex; 
             justify-content: space-between; 
-            padding: 1rem 0; 
-            border-bottom: 1px solid #e0e0e0; 
+            padding: 0.5rem 0; 
+            border-bottom: 1px solid var(--border); 
             text-transform: capitalize; 
+            font-size: 0.9rem;
         }
 
-        /* AI Status Box */
-        .ai-box { 
-            margin-top: 2rem; 
-            border: 2px solid var(--border); 
-            padding: 2rem; 
-            text-align: center; 
-        }
-        
-        .status-text { 
-            font-style: italic; 
-            color: var(--muted); 
-            margin-bottom: 1rem; 
-            min-height: 24px; 
-        }
-        
-        .btn-ai { 
-            background: var(--text); 
-            color: var(--bg); 
-            border: none; 
-            padding: 1rem 2rem; 
-            font-size: 1rem; 
-            font-weight: 600; 
-            cursor: pointer; 
-            transition: all 0.2s;
-        }
-        .btn-ai:hover { opacity: 0.85; }
-        .btn-ai.active { 
-            background: transparent; 
-            color: var(--text); 
-            border: 2px solid var(--text); 
-        }
-        .btn-ai.error { 
-            background: var(--error); 
-            border-color: var(--error); 
-            color: #fff; 
-        }
-        .btn-ai.success {
-            background: var(--success);
-            border-color: var(--success);
-            color: #fff;
-        }
-
-        /* Mic Status Indicator */
-        .mic-status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            font-size: 0.85rem;
-            color: var(--muted);
-        }
-        
-        .mic-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--muted);
-            transition: background 0.3s;
-        }
-        
-        .mic-dot.active { 
-            background: var(--success); 
-            animation: pulse 1.5s infinite;
-        }
-        .mic-dot.error { background: var(--error); }
-        .mic-dot.warning { background: var(--warning); }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-        }
-
-        /* Waveform Visualization */
-        .waveform {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            height: 30px;
-            margin: 1rem 0;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .waveform.active { opacity: 1; }
-        
-        .waveform-bar {
-            width: 4px;
-            height: 8px;
-            background: var(--text);
-            border-radius: 2px;
-            transition: height 0.1s;
-        }
-
-        /* Form Styles */
         input, button { font-family: inherit; }
-        
-        input[type="text"], 
-        input[type="file"] { 
-            border: 1px solid #e0e0e0; 
+        input[type="text"] { 
+            background: var(--surface);
+            border: 1px solid var(--border); 
             padding: 0.8rem; 
-            font-size: 1rem; 
+            font-size: 0.9rem; 
             width: 100%; 
-            box-sizing: border-box; 
+            color: var(--text);
             margin-bottom: 1rem; 
-            transition: border-color 0.2s;
+            border-radius: 4px;
         }
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--border);
-        }
+        input[type="text"]:focus { outline: none; border-color: var(--accent); }
         
         .btn-submit { 
-            background: var(--text); 
-            color: var(--bg); 
+            background: var(--accent); 
+            color: #fff; 
             border: none; 
             padding: 0.8rem; 
             width: 100%; 
-            font-weight: 600; 
+            font-weight: 700; 
             cursor: pointer; 
+            text-transform: uppercase;
+            border-radius: 4px;
             transition: opacity 0.2s;
         }
-        .btn-submit:hover { opacity: 0.85; }
+        .btn-submit:hover { opacity: 0.9; }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* Reduced Motion */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
+        /* Webcam Capture Styles */
+        #cam-preview {
+            width: 100%;
+            height: auto;
+            background: #000;
+            border-radius: 4px;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .capture-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn-capture {
+            flex: 1;
+            background: var(--text);
+            color: var(--surface);
+            border: none;
+            padding: 0.8rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 600;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>AURA</h1>
-            <span style="font-size: 0.8rem; font-weight: 600;">IES COLLEGE OF ENGINEERING</span>
-        </header>
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="openTab('home')">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><circle cx="12" cy="12" r="5"/></svg>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="openTab('system')">
+            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            <span>System</span>
+        </button>
+        <button class="nav-item" onclick="openTab('attendance')">
+            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            <span>Attendance</span>
+        </button>
+        <button class="nav-item" onclick="openTab('enroll')">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>Enroll</span>
+        </button>
+    </nav>
 
-        <nav>
-            <button class="tab-link active" onclick="openTab('home')">Home</button>
-            <button class="tab-link" onclick="openTab('attendance')">Attendance</button>
-        </nav>
-
+    <div class="main-content">
+        
         <!-- TAB 1: HOME -->
         <div id="home" class="tab-content active">
-            
-            <!-- THE EYE -->
             <div class="eye-container">
-                <div class="eye" id="aura-eye">
-                    <div class="pupil" id="aura-pupil"></div>
+                <div class="eye-socket active" id="eye-left">
+                    <div class="eyelid top"></div>
+                    <div class="eyelid bottom"></div>
+                    <div class="eyeball">
+                        <div class="iris-group">
+                            <div class="iris"><div class="pupil"></div></div>
+                            <div class="reflection ref-1"></div>
+                            <div class="reflection ref-2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="eye-socket active" id="eye-right">
+                    <div class="eyelid top"></div>
+                    <div class="eyelid bottom"></div>
+                    <div class="eyeball">
+                        <div class="iris-group">
+                            <div class="iris"><div class="pupil"></div></div>
+                            <div class="reflection ref-1"></div>
+                            <div class="reflection ref-2"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div style="text-align:center; margin-top:-20px; margin-bottom: 20px; font-weight: bold; text-transform: uppercase;" id="mood-text">IDLE</div>
+            <div class="mood-display" id="mood-text">System Online // <span>IDLE</span></div>
+        </div>
 
+        <!-- TAB 2: SYSTEM -->
+        <div id="system" class="tab-content">
             <div class="grid">
                 <div class="card"><span class="card-label">Room Temp</span><div class="card-value" id="val-temp">--°C</div></div>
                 <div class="card"><span class="card-label">Humidity</span><div class="card-value" id="val-hum">--%</div></div>
                 <div class="card"><span class="card-label">Air Quality</span><div class="card-value" id="val-aqi">-- AQI</div></div>
                 <div class="card"><span class="card-label">Core Temp</span><div class="card-value" id="val-cpu">--°C</div></div>
             </div>
-
             <div class="ai-box">
-                <div class="status-text" id="ai-status">Click below to initialize voice system</div>
-                
-                <!-- Waveform Visualization -->
-                <div class="waveform" id="waveform">
-                    <div class="waveform-bar"></div>
-                    <div class="waveform-bar"></div>
-                    <div class="waveform-bar"></div>
-                    <div class="waveform-bar"></div>
-                    <div class="waveform-bar"></div>
-                </div>
-                
+                <div class="status-text" id="ai-status">Voice system offline</div>
                 <button class="btn-ai" id="btn-ai" onclick="initializeVoice()">Initialize Voice</button>
-                
                 <div class="mic-status">
                     <div class="mic-dot" id="mic-dot"></div>
                     <span id="mic-text">Microphone inactive</span>
                 </div>
             </div>
+        </div>
 
-            <div style="margin-top: 2rem;">
-                <h3>Enrollment</h3>
-                <form onsubmit="enroll(event)">
+        <!-- TAB 3: ATTENDANCE -->
+        <div id="attendance" class="tab-content">
+            <div class="split-view">
+                <div>
+                    <div class="section-title">Live Feed</div>
+                    <div class="video-wrapper">
+                        <img src="/video_feed" alt="Feed">
+                    </div>
+                </div>
+                <div>
+                    <div class="section-title">Roster</div>
+                    <div id="roster-container" style="max-height: 150px; overflow-y: auto; margin-bottom: 1.5rem;"></div>
+                    
+                    <div class="section-title">Enrollment</div>
+                    <!-- Removed <form> to fix capture bug. Using pure JS -->
                     <input type="text" id="input-name" placeholder="Student Name" required>
-                    <input type="file" id="input-img" accept="image/*" required>
-                    <button type="submit" class="btn-submit">Register Face</button>
-                </form>
+                    
+                    <!-- new file upload option -->
+                    <input type="file" id="file-input" accept="image/*" style="display:block; margin:0.5rem 0;">
+                    <button class="btn-submit" id="btn-upload" onclick="uploadAndEnroll()">Upload &amp; Register</button>
+                    <div style="font-size:0.85rem; color:#666; margin-top:0.5rem;">
+                        Or invoke <code>/api/add_student_from_path</code> (POST JSON: {"name":"...","path":"/absolute/or/relative/file.jpg"}) to register an image already on the server.
+                    </div>
+
+                    <video id="cam-preview" autoplay playsinline></video>
+                    <canvas id="capture-canvas" style="display:none;"></canvas>
+
+                    <div class="capture-controls">
+                        <button class="btn-capture" id="btn-cam-toggle" onclick="toggleCam()">Start Camera</button>
+                        <button class="btn-submit" id="btn-enroll" onclick="captureAndEnroll()" disabled>Capture &amp; Register</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- TAB 2: ATTENDANCE -->
-        <div id="attendance" class="tab-content">
-            <div class="split-view">
-                <div class="video-wrapper">
-                    <img src="/video_feed" alt="Feed">
-                </div>
-                <div>
-                    <h3>Roster</h3>
-                    <div id="roster-container"></div>
-                </div>
-            </div>
+        <!-- TAB 4: LIVE ENROLLMENT -->
+        <div id="enroll" class="tab-content">
+            <div class="section-title">Add Student (Live)</div>
+            <button class="btn-submit" id="btn-open-enroll" onclick="toggleEnrollIframe()">Open Camera Interface</button>
+            <iframe id="enroll-iframe" src="/enroll_frame" allow="camera; microphone" style="width:100%;height:400px;display:none;border:1px solid #444;margin-top:1rem;"></iframe>
         </div>
     </div>
 
     <script>
+        // --- CONFIGURATION ---
+        const GROQ_API_KEY = "YOUR_GROQ_API_KEY_HERE"; 
+        const GROQ_MODEL = "llama-3.1-8b-instant"; 
+
         // --- STATE ---
         let recognition = null;
-        let synthesis = window.speechSynthesis;
         let isSystemActive = false;
         let isAwake = false;
         let restartAttempts = 0;
         const MAX_RESTART_ATTEMPTS = 5;
         let silenceTimer = null;
-        let waveformInterval = null;
+        let blinkInterval = null;
+        let currentStream = null; 
 
         // DOM Elements
-        const eye = document.getElementById('aura-eye');
-        const pupil = document.getElementById('aura-pupil');
+        const eyes = document.querySelectorAll('.eye-socket');
+        const irisGroups = document.querySelectorAll('.iris-group');
         const moodText = document.getElementById('mood-text');
         const aiStatus = document.getElementById('ai-status');
         const btnAi = document.getElementById('btn-ai');
         const micDot = document.getElementById('mic-dot');
         const micText = document.getElementById('mic-text');
-        const waveform = document.getElementById('waveform');
 
-        // --- BROWSER COMPATIBILITY CHECK ---
+        // --- EYE ANIMATION LOGIC ---
+        function startBlinking() {
+            if(blinkInterval) clearInterval(blinkInterval);
+            
+            blinkInterval = setInterval(() => {
+                const delay = Math.random() * 4000 + 2000;
+                setTimeout(() => {
+                    const specialStates = ['happy', 'panic', 'angry', 'sad', 'surprised', 'talking'];
+                    const shouldBlink = !Array.from(eyes).some(e => specialStates.some(s => e.classList.contains(s)));
+                    
+                    if (shouldBlink) {
+                        eyes.forEach(eye => eye.classList.remove('active'));
+                        setTimeout(() => eyes.forEach(eye => eye.classList.add('active')), 150);
+                    }
+                }, delay);
+            }, 4000);
+        }
+        startBlinking();
+
+        function setEyesClass(className) {
+            eyes.forEach(eye => {
+                eye.classList.remove('happy', 'panic', 'thinking', 'talking', 'angry', 'sad', 'surprised');
+                if(className) eye.classList.add(className);
+            });
+        }
+
+        // --- VOICE SYSTEM ---
         function checkCompatibility() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            
-            if (!SpeechRecognition) {
-                return { 
-                    supported: false, 
-                    message: 'Voice recognition not supported. Use Chrome, Edge, or Safari.' 
-                };
-            }
-            
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                return { 
-                    supported: false, 
-                    message: 'Media devices not supported. Use HTTPS or localhost.' 
-                };
-            }
-            
+            if (!SpeechRecognition) return { supported: false, message: 'Voice recognition not supported.' };
             return { supported: true };
         }
 
-        // --- MICROPHONE PERMISSION ---
         async function requestMicPermission() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 stream.getTracks().forEach(track => track.stop());
                 return { granted: true };
             } catch (err) {
-                console.error('Mic permission error:', err);
-                if (err.name === 'NotAllowedError') {
-                    return { 
-                        granted: false, 
-                        message: 'Microphone access denied. Click the lock icon in your address bar to enable it.' 
-                    };
-                } else if (err.name === 'NotFoundError') {
-                    return { 
-                        granted: false, 
-                        message: 'No microphone found. Please connect a microphone.' 
-                    };
-                }
-                return { 
-                    granted: false, 
-                    message: `Microphone error: ${err.message}` 
-                };
+                return { granted: false, message: 'Mic access denied.' };
             }
         }
 
-        // --- INITIALIZE VOICE SYSTEM ---
         async function initializeVoice() {
-            if (isSystemActive) {
-                shutdownVoice();
-                return;
-            }
-
-            // Check compatibility
+            if (isSystemActive) { shutdownVoice(); return; }
             const compat = checkCompatibility();
-            if (!compat.supported) {
-                showError(compat.message);
-                return;
-            }
+            if (!compat.supported) { showError(compat.message); return; }
 
-            // Update UI
             btnAi.textContent = 'Requesting Permission...';
-            micDot.className = 'mic-dot warning';
-            micText.textContent = 'Requesting microphone access...';
-
-            // Request permission
             const permission = await requestMicPermission();
-            if (!permission.granted) {
-                showError(permission.message);
-                return;
-            }
+            if (!permission.granted) { showError(permission.message); return; }
 
-            // Initialize recognition
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognition = new SpeechRecognition();
             recognition.continuous = true;
             recognition.interimResults = true;
             recognition.lang = 'en-US';
-            recognition.maxAlternatives = 1;
-
-            // Event handlers
+            
             recognition.onstart = handleRecognitionStart;
             recognition.onend = handleRecognitionEnd;
             recognition.onerror = handleRecognitionError;
             recognition.onresult = handleRecognitionResult;
 
-            // Start listening
-            try {
-                recognition.start();
-                isSystemActive = true;
-            } catch (e) {
-                console.error('Start error:', e);
-                showError('Failed to start voice recognition. Please refresh the page.');
-            }
+            try { recognition.start(); isSystemActive = true; } 
+            catch (e) { showError('Failed to start.'); }
         }
 
         function shutdownVoice() {
-            isSystemActive = false;
-            isAwake = false;
-            restartAttempts = 0;
-            
-            if (recognition) {
-                recognition.onstart = null;
-                recognition.onend = null;
-                recognition.onerror = null;
-                recognition.onresult = null;
-                recognition.stop();
-                recognition = null;
-            }
-            
-            if (silenceTimer) {
-                clearTimeout(silenceTimer);
-                silenceTimer = null;
-            }
-            
-            stopWaveform();
-            
+            isSystemActive = false; isAwake = false;
+            if (recognition) { recognition.stop(); recognition = null; }
+            if (silenceTimer) clearTimeout(silenceTimer);
             btnAi.textContent = 'Initialize Voice';
             btnAi.className = 'btn-ai';
             micDot.className = 'mic-dot';
-            micText.textContent = 'Microphone inactive';
-            aiStatus.textContent = 'Click below to initialize voice system';
+            aiStatus.textContent = 'Voice system offline';
+            setEyesClass(null);
         }
 
-        // --- RECOGNITION HANDLERS ---
         function handleRecognitionStart() {
-            console.log('Recognition started');
             restartAttempts = 0;
-            
-            btnAi.textContent = 'Listening for Wake Word...';
+            btnAi.textContent = 'Listening...';
             btnAi.className = 'btn-ai active';
             micDot.className = 'mic-dot active';
-            micText.textContent = isAwake ? 'Listening for commands...' : 'Listening for wake word...';
-            aiStatus.textContent = isAwake ? 'I am listening. How can I help?' : 'Say "Aura", "Hey", or "Hello" to activate.';
-            
-            startWaveform();
+            micText.textContent = 'Listening for wake word...';
+            aiStatus.textContent = 'Say "Aura" to wake.';
         }
 
         function handleRecognitionEnd() {
-            console.log('Recognition ended');
-            stopWaveform();
-            
             if (!isSystemActive) return;
-            
-            // Attempt to restart if we should be active
             if (restartAttempts < MAX_RESTART_ATTEMPTS) {
                 restartAttempts++;
-                console.log(`Restarting... attempt ${restartAttempts}`);
-                micText.textContent = `Reconnecting (${restartAttempts}/${MAX_RESTART_ATTEMPTS})...`;
-                micDot.className = 'mic-dot warning';
-                
-                setTimeout(() => {
-                    if (isSystemActive && recognition) {
-                        try {
-                            recognition.start();
-                        } catch (e) {
-                            console.error('Restart failed:', e);
-                        }
-                    }
-                }, 500);
-            } else {
-                showError('Voice connection lost. Please click Initialize again.');
-                shutdownVoice();
-            }
+                setTimeout(() => { if(isSystemActive && recognition) recognition.start(); }, 500);
+            } else { showError('Connection lost.'); shutdownVoice(); }
         }
 
         function handleRecognitionError(event) {
-            console.error('Recognition error:', event.error);
-            
-            const errorMessages = {
-                'no-speech': 'No speech detected. Still listening...',
-                'audio-capture': 'No microphone found.',
-                'not-allowed': 'Microphone access was denied.',
-                'network': 'Network error. Check your connection.',
-                'aborted': 'Recognition was aborted.',
-                'language-not-supported': 'Language not supported.',
-                'service-not-allowed': 'Speech service not allowed.'
-            };
-            
-            const message = errorMessages[event.error] || `Error: ${event.error}`;
-            
-            if (event.error === 'no-speech') {
-                // This is normal - just keep listening
-                micText.textContent = 'Still listening...';
-                return;
-            }
-            
-            if (event.error === 'aborted') {
-                // Usually happens during restart, ignore
-                return;
-            }
-            
-            if (event.error === 'not-allowed' || event.error === 'audio-capture') {
-                showError(message);
-                shutdownVoice();
-                return;
-            }
-            
-            // For other errors, just log and continue
-            micText.textContent = message;
-            micDot.className = 'mic-dot warning';
+            if (event.error === 'no-speech') return;
+            if (event.error === 'not-allowed') { showError('Mic denied.'); shutdownVoice(); }
         }
 
         function handleRecognitionResult(event) {
             const last = event.results.length - 1;
-            const result = event.results[last];
-            const transcript = result[0].transcript.toLowerCase().trim();
-            const isFinal = result.isFinal;
+            const transcript = event.results[last][0].transcript.toLowerCase().trim();
+            const isFinal = event.results[last].isFinal;
             
-            console.log(`Heard (${isFinal ? 'final' : 'interim'}):`, transcript);
-            
-            // Show what was heard
             aiStatus.textContent = `Heard: "${transcript}"`;
-            
             if (!isFinal) return;
-            
-            // Reset silence timer
+
             resetSilenceTimer();
             
-            // Check for wake word or process command
             if (!isAwake) {
-                const wakeWords = ['aura', 'hey', 'hello', 'ara', 'ora'];
-                const hasWakeWord = wakeWords.some(word => transcript.includes(word));
-                
-                if (hasWakeWord) {
-                    activateAura();
-                }
+                if (['aura', 'hey', 'hello'].some(w => transcript.includes(w))) activateAura();
             } else {
                 processCommand(transcript);
             }
         }
 
-        // --- WAKE WORD ACTIVATION ---
         function activateAura() {
             isAwake = true;
-            restartAttempts = 0; // Reset attempts on successful activation
-            
-            aiStatus.textContent = 'I am listening. How can I help?';
-            micText.textContent = 'AWAKE - Listening for commands...';
-            
-            // Visual feedback
-            eye.style.borderColor = '#22c55e';
-            
-            // Speak response
+            aiStatus.textContent = 'I am listening.';
+            eyes.forEach(e => e.style.boxShadow = '0 0 30px rgba(0, 102, 255, 0.4)');
             speak('Yes?');
-            
-            // Set timeout to go back to sleep after 10 seconds of silence
             resetSilenceTimer();
         }
 
         function resetSilenceTimer() {
-            if (silenceTimer) {
-                clearTimeout(silenceTimer);
-            }
-            
+            if (silenceTimer) clearTimeout(silenceTimer);
             if (isAwake) {
                 silenceTimer = setTimeout(() => {
                     if (isAwake) {
                         isAwake = false;
-                        micText.textContent = 'Listening for wake word...';
-                        aiStatus.textContent = 'Going to sleep. Say "Aura" to wake me.';
-                        eye.style.borderColor = '#000';
+                        eyes.forEach(e => e.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)');
                     }
                 }, 10000);
             }
@@ -673,213 +630,288 @@
 
         // --- AI PROCESSING ---
         async function processCommand(text) {
-            aiStatus.textContent = `Processing: "${text}"`;
-            
-            // Fetch context
+            aiStatus.textContent = `Processing...`;
+            setEyesClass('thinking');
+
             let ctx = { names: [], count: 0 };
             try {
                 const res = await fetch('/api/context');
-                if (res.ok) {
-                    ctx = await res.json();
-                }
-            } catch (e) {
-                console.error('Context fetch error:', e);
+                if (res.ok) ctx = await res.json();
+            } catch (e) { console.error("Context error", e); }
+
+            const systemPrompt = `You are AURA. Be extremely brief. Situation: People: ${ctx.names.join(', ') || 'None'}.`;
+
+            if (GROQ_API_KEY === "YOUR_GROQ_API_KEY_HERE") {
+                speak("Please insert your Groq API key.");
+                return;
             }
-
-            const systemPrompt = `You are AURA, an AI robot created by Justin at IES College of Engineering.
-You have emotions and a physical body (an eye on the screen).
-Current Situation:
-- Visible People: ${ctx.names.join(', ') || 'None'}
-- Crowd Count: ${ctx.count}
-
-Instructions:
-- Be brief and conversational.
-- If asked about status, mention visible people and sensor data.
-- If crowd count is high, express mild stress.
-- If "Hari" is visible, express joy.`;
 
             try {
-                const response = await puter.ai.chat([
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: text }
-                ], { model: 'gpt-4o-mini' });
+                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${GROQ_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: GROQ_MODEL,
+                        messages: [
+                            { role: "system", content: systemPrompt },
+                            { role: "user", content: text }
+                        ],
+                        temperature: 0.5,
+                        max_tokens: 30
+                    })
+                });
 
-                const reply = response.message.content;
-                speak(reply);
+                const data = await response.json();
+                if (data.choices && data.choices.length > 0) {
+                    const reply = data.choices[0].message.content;
+                    speak(reply);
+                } else { speak("Error."); }
             } catch (err) {
-                console.error('AI error:', err);
-                speak("My neural link is experiencing interference. Please try again.");
+                console.error("Groq Error:", err);
+                speak("Connection error.");
+            } finally {
+                setEyesClass(null);
             }
         }
 
+        // --- SPEAK & EMOTION ---
         function speak(text) {
             aiStatus.textContent = `AURA: "${text}"`;
-            
-            // Cancel any ongoing speech
-            synthesis.cancel();
-            
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 1.0;
-            utterance.pitch = 1.0;
-            
-            utterance.onend = () => {
-                if (isAwake) {
-                    aiStatus.textContent = 'Listening...';
-                    resetSilenceTimer();
-                }
-            };
-            
-            synthesis.speak(utterance);
+            setEyesClass('talking');
+
+            fetch('/api/speak', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: text })
+            }).catch(e => console.error(e))
+            .finally(() => {
+                const duration = text.length * 70; 
+                setTimeout(() => setEyesClass(null), duration);
+            });
         }
 
-        // --- UI HELPERS ---
-        function showError(message) {
-            btnAi.textContent = 'Error - Click to Retry';
+        function showError(msg) {
+            btnAi.textContent = 'Error';
             btnAi.className = 'btn-ai error';
-            micDot.className = 'mic-dot error';
-            micText.textContent = message;
-            aiStatus.textContent = message;
+            micText.textContent = msg;
         }
 
-        function startWaveform() {
-            waveform.classList.add('active');
-            const bars = waveform.querySelectorAll('.waveform-bar');
-            
-            waveformInterval = setInterval(() => {
-                bars.forEach(bar => {
-                    const height = Math.random() * 20 + 5;
-                    bar.style.height = `${height}px`;
-                });
-            }, 100);
-        }
+        // --- ENVIRONMENT & TRACKING ---
+        function updateEnvironment() {
+            fetch('/api/sensors').then(r=>r.json()).then(d => {
+                document.getElementById('val-temp').textContent = d.temp_str;
+                document.getElementById('val-hum').textContent = d.hum_str;
+                document.getElementById('val-aqi').textContent = `${parseInt(d.aqi)} AQI`;
+                document.getElementById('val-cpu').textContent = d.cpu;
+            });
 
-        function stopWaveform() {
-            waveform.classList.remove('active');
-            if (waveformInterval) {
-                clearInterval(waveformInterval);
-                waveformInterval = null;
+            fetch('/api/context').then(r=>r.json()).then(d => {
+                const count = d.count || 0;
+                
+                if (count > 0) {
+                    const moveX = ((d.x_pos || 0.5) - 0.5) * 50; 
+                    irisGroups.forEach(ig => {
+                        ig.style.transform = `translate(calc(-50% + ${moveX}px), -50%)`;
+                    });
+                } else {
+                    const randomX = (Math.random() * 40) - 20; 
+                    const randomY = (Math.random() * 10) - 5;
+                    irisGroups.forEach(ig => {
+                        ig.style.transform = `translate(calc(-50% + ${randomX}px), calc(-50% + ${randomY}px))`;
+                    });
+                }
+
+                const names = (d.names || []).map(n => n.toLowerCase());
+                const isBusy = Array.from(eyes).some(e => e.classList.contains('talking') || e.classList.contains('thinking'));
+                if(isBusy) return;
+
+                setEyesClass(null);
+                
+                if (names.includes('hari')) {
+                    setEyesClass('happy');
+                    moodText.innerHTML = "Identity Confirmed // <span>HAPPY</span>";
+                    if (!sessionStorage.getItem('greeted_hari')) {
+                        speak('Hari! My creator!');
+                        sessionStorage.setItem('greeted_hari', 'true');
+                    }
+                } else if (count >= 4) {
+                    setEyesClass('panic');
+                    moodText.innerHTML = "Warning // <span>PANIC</span>";
+                } else {
+                    moodText.innerHTML = `Tracking // <span>${count} Subject(s)</span>`;
+                    sessionStorage.removeItem('greeted_hari');
+                }
+            });
+
+            fetch('/api/status').then(r=>r.json()).then(d => {
+                const el = document.getElementById('roster-container');
+                el.innerHTML = '';
+                for (const [name, status] of Object.entries(d || {})) {
+                    el.innerHTML += `<div class="roster-item"><span>${name}</span><span style="color:${status === 'Present' ? 'var(--accent)' : 'var(--muted)'}">${status}</span></div>`;
+                }
+            });
+        }
+        // --- WEBCAM ENROLLMENT (FIXED) ---
+        const video = document.getElementById('cam-preview');
+        const canvas = document.getElementById('capture-canvas');
+        const btnCam = document.getElementById('btn-cam-toggle');
+        const btnEnroll = document.getElementById('btn-enroll');
+        const fileInput = document.getElementById('file-input');
+
+        // if user selects a file, disable camera enrollment controls to avoid confusion
+        fileInput.addEventListener('change', () => {
+            const hasFile = fileInput.files && fileInput.files.length > 0;
+            btnCam.disabled = hasFile;
+            btnEnroll.disabled = hasFile;
+            if (hasFile && currentStream) {
+                // stop camera if running
+                currentStream.getTracks().forEach(t => t.stop());
+                currentStream = null;
+                video.srcObject = null;
+                btnCam.textContent = "Start Camera";
+            }
+        });
+
+        async function toggleCam() {
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+                btnCam.textContent = "Start Camera";
+                btnEnroll.disabled = true;
+                currentStream = null;
+            } else {
+                try {
+                    currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+                    video.srcObject = currentStream;
+                    btnCam.textContent = "Stop Camera";
+                    // Enable capture only after video has metadata (dimensions)
+                    video.onloadedmetadata = () => {
+                        btnEnroll.disabled = false;
+                    };
+                } catch (err) {
+                    alert("Camera access denied for enrollment.");
+                }
             }
         }
 
-        // --- ENVIRONMENT UPDATE ---
-        function updateEnvironment() {
-            fetch('/api/sensors')
-                .then(r => r.json())
-                .then(d => {
-                    document.getElementById('val-temp').textContent = d.temp_str || '--°C';
-                    document.getElementById('val-hum').textContent = d.hum_str || '--%';
-                    document.getElementById('val-aqi').textContent = `${parseInt(d.aqi) || '--'} AQI`;
-                    document.getElementById('val-cpu').textContent = d.cpu || '--°C';
-                })
-                .catch(e => console.error('Sensor fetch error:', e));
+        async function uploadAndEnroll() {
+            const name = document.getElementById('input-name').value;
+            const fileInput = document.getElementById('file-input');
+            if(!name) { alert("Please enter a name first."); return; }
+            if(!fileInput.files || fileInput.files.length === 0) { alert("Please select an image file."); return; }
 
-            fetch('/api/context')
-                .then(r => r.json())
-                .then(d => {
-                    // Eye tracking
-                    const moveX = ((d.x_pos || 0.5) - 0.5) * 40;
-                    pupil.style.transform = `translateX(${moveX}px)`;
+            const file = fileInput.files[0];
+            const fd = new FormData();
+            fd.append('name', name);
+            fd.append('image', file, file.name);
 
-                    // Emotions
-                    const names = (d.names || []).map(n => n.toLowerCase());
-                    const count = d.count || 0;
+            const btn = document.getElementById('btn-upload');
+            btn.disabled = true;
+            btn.textContent = "Registering...";
+            try {
+                const response = await fetch('/api/add_student', { method: 'POST', body: fd });
+                const d = await response.json();
+                if (d.status === 'success') {
+                    speak(`${name} registered successfully.`);
+                    document.getElementById('input-name').value = '';
+                    fileInput.value = '';
+                } else {
+                    alert(d.msg || "Registration failed.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Network error during registration.");
+            } finally {
+                btn.textContent = "Upload & Register";
+                btn.disabled = false;
+            }
+        }
 
-                    eye.classList.remove('panic', 'happy');
+        async function captureAndEnroll() {
+            const name = document.getElementById('input-name').value;
+            if(!name) { alert("Please enter a name first."); return; }
+            
+            // Check if video is ready and has valid dimensions
+            if (video.readyState !== video.HAVE_ENOUGH_DATA || video.videoWidth === 0) {
+                alert("Camera is not ready. Please wait or restart.");
+                return;
+            }
 
-                    if (names.includes('hari')) {
-                        eye.classList.add('happy');
-                        moodText.textContent = 'HAPPY (OWNER DETECTED)';
-                        moodText.style.color = '#d63384';
-                        
-                        if (!sessionStorage.getItem('greeted_hari')) {
-                            speak('Hari! My creator! I am overwhelmed with joy!');
-                            sessionStorage.setItem('greeted_hari', 'true');
-                        }
-                    } else if (count >= 4) {
-                        eye.classList.add('panic');
-                        moodText.textContent = 'PANIC (CROWD DETECTED)';
-                        moodText.style.color = '#ff0000';
-                        
-                        if (!sessionStorage.getItem('warned_crowd')) {
-                            speak('Alert! Too many humans! I am feeling anxious!');
-                            sessionStorage.setItem('warned_crowd', 'true');
-                        }
-                    } else {
-                        moodText.textContent = 'TRACKING';
-                        moodText.style.color = '#000';
-                        sessionStorage.removeItem('greeted_hari');
-                        sessionStorage.removeItem('warned_crowd');
+            // Draw frame to canvas
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Convert to Blob
+            canvas.toBlob(async (blob) => {
+                if(!blob) {
+                    alert("Failed to capture image.");
+                    return;
+                }
+
+                const fd = new FormData();
+                fd.append('name', name);
+                // The filename 'capture.jpg' helps Flask identify the file type
+                fd.append('image', blob, 'capture.jpg'); 
+
+                btnEnroll.disabled = true;
+                btnEnroll.textContent = "Registering...";
+
+                try {
+                    const response = await fetch('/api/add_student', { method: 'POST', body: fd });
+                    const d = await response.json();
+
+                    if (d.status === 'success') {
+                        speak(`${name} registered successfully.`);
+                        document.getElementById('input-name').value = '';
+                    } else { 
+                        alert(d.msg || "Registration failed."); 
                     }
-                })
-                .catch(e => console.error('Context fetch error:', e));
+                } catch (err) {
+                    console.error(err);
+                    alert("Network error during registration.");
+                } finally {
+                    btnEnroll.textContent = "Capture & Register";
+                    btnEnroll.disabled = false;
+                }
+            }, 'image/jpeg');
+        }
+        function openTab(id) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.closest('.nav-item').classList.add('active');
+        }
 
-            fetch('/api/status')
-                .then(r => r.json())
-                .then(d => {
+        function toggleEnrollIframe() {
+            const frame = document.getElementById('enroll-iframe');
+            if (frame.style.display === 'none') {
+                frame.style.display = 'block';
+            } else {
+                frame.style.display = 'none';
+            }
+        }
+
+        // Close iframe and refresh roster when iframe signals success
+        window.addEventListener('message', (ev) => {
+            if (ev.data === 'enroll-success') {
+                const frame = document.getElementById('enroll-iframe');
+                frame.style.display = 'none';
+                // refresh roster list
+                fetch('/api/status').then(r => r.json()).then(d => {
                     const el = document.getElementById('roster-container');
                     el.innerHTML = '';
                     for (const [name, status] of Object.entries(d || {})) {
-                        el.innerHTML += `
-                            <div class="roster-item">
-                                <span>${name}</span>
-                                <span style="color:${status === 'Present' ? '#000' : '#888'}">${status}</span>
-                            </div>
-                        `;
+                        el.innerHTML += `<div class="roster-item"><span>${name}</span><span style="color:${status === 'Present' ? 'var(--accent)' : 'var(--muted)'}">${status}</span></div>`;
                     }
-                })
-                .catch(e => console.error('Status fetch error:', e));
-        }
-
-        // --- ENROLLMENT ---
-        function enroll(e) {
-            e.preventDefault();
-            const name = document.getElementById('input-name').value;
-            const img = document.getElementById('input-img').files[0];
-            
-            if (!name || !img) {
-                alert('Please provide both name and image.');
-                return;
-            }
-            
-            const fd = new FormData();
-            fd.append('name', name);
-            fd.append('image', img);
-            
-            const btn = e.target.querySelector('.btn-submit');
-            const originalText = btn.textContent;
-            btn.textContent = 'Registering...';
-            btn.disabled = true;
-            
-            fetch('/api/add_student', { method: 'POST', body: fd })
-                .then(r => r.json())
-                .then(d => {
-                    if (d.status === 'success') {
-                        speak(`${name} has been registered.`);
-                        document.getElementById('input-name').value = '';
-                        document.getElementById('input-img').value = '';
-                    } else {
-                        alert(d.msg || 'Registration failed.');
-                    }
-                })
-                .catch(e => {
-                    console.error('Enrollment error:', e);
-                    alert('Connection error. Please try again.');
-                })
-                .finally(() => {
-                    btn.textContent = originalText;
-                    btn.disabled = false;
                 });
-        }
+            }
+        });
 
-        // --- TAB NAVIGATION ---
-        function openTab(id) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        // --- INITIALIZATION ---
         setInterval(updateEnvironment, 500);
         updateEnvironment();
     </script>

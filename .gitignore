@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Virtual environments
+env/
+venv/
+.venv/
+.Python
+.env
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Test and cache
+.pytest_cache/
+
+# OS files
+.DS_Store
+
+# Large or sensitive
+known_faces/

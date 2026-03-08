@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Enrollment</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #0d0d0d; color: #e0e0e0; margin: 0; padding: 1rem; }
+        input, button { font-size: 1rem; }
+        #cam-preview {
+            width: 100%;
+            height: auto;
+            background: #000;
+            border-radius: 4px;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .capture-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn-capture {
+            flex: 1;
+            background: var(--text, #e0e0e0);
+            color: var(--surface, #0d0d0d);
+            border: none;
+            padding: 0.8rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 600;
+            border-radius: 4px;
+        }
+        .btn-submit {
+            background: var(--accent, #00ff00);
+            color: var(--surface, #0d0d0d);
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <div style="max-width:500px; margin:auto;">
+        <h2>Capture Student Photo</h2>
+        <input type="text" id="input-name" placeholder="Student Name" style="width:100%; margin-bottom:0.5rem;" required>
+        <video id="cam-preview" autoplay playsinline></video>
+        <canvas id="capture-canvas" style="display:none;"></canvas>
+        <div class="capture-controls">
+            <button class="btn-capture" id="btn-cam-toggle" onclick="toggleCam()">Start Camera</button>
+            <button class="btn-submit" id="btn-enroll" onclick="captureAndEnroll()" disabled>Capture & Register</button>
+        </div>
+        <div id="status-msg" style="margin-top:1rem; color:#0f0;"></div>
+    </div>
+
+    <script>
+        let currentStream = null;
+        const video = document.getElementById('cam-preview');
+        const canvas = document.getElementById('capture-canvas');
+        const btnCam = document.getElementById('btn-cam-toggle');
+        const btnEnroll = document.getElementById('btn-enroll');
+        const statusMsg = document.getElementById('status-msg');
+
+        async function toggleCam() {
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+                btnCam.textContent = "Start Camera";
+                btnEnroll.disabled = true;
+                currentStream = null;
+            } else {
+                try {
+                    currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+                    video.srcObject = currentStream;
+                    btnCam.textContent = "Stop Camera";
+                    video.onloadedmetadata = () => {
+                        btnEnroll.disabled = false;
+                    };
+                } catch (err) {
+                    alert("Camera access denied for enrollment.");
+                }
+            }
+        }
+
+        async function captureAndEnroll() {
+            const name = document.getElementById('input-name').value;
+            if(!name) { alert("Please enter a name first."); return; }
+            if (video.readyState !== video.HAVE_ENOUGH_DATA || video.videoWidth === 0) {
+                alert("Camera is not ready. Please wait or restart.");
+                return;
+            }
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            canvas.toBlob(async (blob) => {
+                if(!blob) { alert("Failed to capture image."); return; }
+                const fd = new FormData();
+                fd.append('name', name);
+                fd.append('image', blob, 'capture.jpg');
+                btnEnroll.disabled = true;
+                btnEnroll.textContent = "Registering...";
+                try {
+                    const response = await fetch('/api/add_student', { method: 'POST', body: fd });
+                    const d = await response.json();
+                    if (d.status === 'success') {
+                        statusMsg.textContent = `${name} registered.`;
+                        // notify parent to update roster and close iframe
+                        window.parent.postMessage('enroll-success', '*');
+                        document.getElementById('input-name').value = '';
+                    } else {
+                        alert(d.msg || "Registration failed.");
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("Network error during registration.");
+                } finally {
+                    btnEnroll.textContent = "Capture & Register";
+                    btnEnroll.disabled = false;
+                }
+            }, 'image/jpeg');
+        }
+    </script>
+</body>
+</html>
