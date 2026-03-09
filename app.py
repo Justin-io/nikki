@@ -9,18 +9,37 @@ import requests
 def cleanup_background():
     try:
         current_pid = os.getpid()
-        # Kill other python processes running app.py
-        cmd = "ps aux | grep 'app.py' | grep -v grep | awk '{print $2}'"
-        pids = subprocess.check_output(cmd, shell=True).decode().split()
-        for pid in pids:
-            if int(pid) != current_pid:
-                subprocess.call(['kill', '-9', pid])
+        # 1. Kill any process on Port 5000
+        try:
+            cmd_port = "lsof -t -i:5000"
+            pids_port = subprocess.check_output(cmd_port, shell=True).decode().split()
+            for pid in pids_port:
+                if int(pid) != current_pid:
+                    subprocess.call(['kill', '-9', pid])
+                    logger.info(f"Killed process {pid} on port 5000")
+        except: pass
+
+        # 2. Kill other python processes running app.py
+        try:
+            cmd_py = "ps aux | grep 'app.py' | grep -v grep | awk '{print $2}'"
+            pids_py = subprocess.check_output(cmd_py, shell=True).decode().split()
+            for pid in pids_py:
+                if int(pid) != current_pid:
+                    subprocess.call(['kill', '-9', pid])
+        except: pass
         
-        # Kill camera processes
-        subprocess.call(['pkill', '-9', 'libcamera'], stderr=subprocess.DEVNULL)
-        subprocess.call(['pkill', '-9', 'camera-stream'], stderr=subprocess.DEVNULL)
-        time.sleep(1)
-    except: pass
+        # 3. Release Camera Locks
+        # Kill common camera-using processes
+        camera_procs = ['libcamera', 'camera-stream', 'vlc', 'ffmpeg', 'motion']
+        for proc in camera_procs:
+            subprocess.call(['pkill', '-9', proc], stderr=subprocess.DEVNULL)
+        
+        # Free up /dev/video* if possible
+        # Some systems keep a lock file; we just wait a bit for hardware to reset
+        time.sleep(2)
+        logger.info("Background cleanup complete.")
+    except Exception as e:
+        logger.warning(f"Cleanup error: {e}")
 
 cleanup_background()
 
@@ -109,20 +128,24 @@ except Exception as e:
 
 # 2. Fallback to USB Camera if Pi Camera failed
 if not picam2:
-    try:
-        logger.info("Attempting USB Camera fallback...")
-        usb_cam = cv2.VideoCapture(0)
-        if not usb_cam.isOpened():
-            raise RuntimeError("Cannot open USB camera at index 0")
-        
-        usb_cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
-        usb_cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        usb_cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-        camera_type = "USB"
-        logger.info("SUCCESS: USB Camera initialized.")
-    except Exception as e:
-        logger.error(f"USB Camera failed: {e}")
-        usb_cam = None
+    for attempt in range(3):
+        try:
+            logger.info(f"Attempting USB Camera fallback (Attempt {attempt+1})...")
+            # Using V4L2 backend often helps on Linux/Raspberry Pi
+            usb_cam = cv2.VideoCapture(0, cv2.CAP_V4L2)
+            if usb_cam.isOpened():
+                usb_cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+                usb_cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+                usb_cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+                camera_type = "USB"
+                logger.info("SUCCESS: USB Camera initialized.")
+                break
+            else:
+                usb_cam = None
+                time.sleep(1)
+        except Exception as e:
+            logger.warning(f"USB Camera Attempt {attempt+1} failed: {e}")
+            time.sleep(1)
 
 if not picam2 and not usb_cam:
     logger.error("CRITICAL: No camera available. Running in Mock Mode.")
