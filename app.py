@@ -364,29 +364,38 @@ def api_status():
 def api_context():
     with data_lock: return jsonify(scene_data)
 
-# --- NEXT-GEN TTS ENGINE (Edge-TTS + mpv Streaming) ---
+# --- ADAPTIVE TTS ENGINE (Edge-TTS) ---
 def run_speak(text):
     if not text: return
     try:
-        # Sanitize for shell
         safe_text = text.replace('"', '\\"').replace('$', '\\$').replace('`', '\\`')
         
-        # STREAMING: Edge-TTS -> mpv (Real-time human voice)
-        # Bypasses local audio routing issues by using mpv's robust output
-        cmd = f'edge-tts --voice {VOICE_NAME} --text "{safe_text}" --write-media - | mpv --no-terminal -'
+        # Auto-detect best player
+        player_cmd = "mpg123 -Q -" # Default
+        for p, cmd in [("mpg123", "mpg123 -Q -"), ("mpv", "mpv --no-terminal -"), ("play", "play -q -")]:
+            if subprocess.run(f"command -v {p}", shell=True, capture_output=True).returncode == 0:
+                player_cmd = cmd
+                break
+
+        # LIVE STREAM: Cloud Engine -> Player
+        cmd = f'edge-tts --voice {VOICE_NAME} --text "{safe_text}" --write-media - | {player_cmd}'
         
         logger.info(f"Speaking: {text}")
-        subprocess.run(cmd, shell=True, check=True)
+        subprocess.run(cmd, shell=True)
         
     except Exception as e:
-        logger.error(f"TTS Engine Failure: {e}")
+        logger.error(f"TTS Failure: {e}")
 
 @app.route('/api/speak', methods=['POST'])
 def api_speak():
     data = request.get_json()
     text = data.get('text', '')
     if text:
-        threading.Thread(target=run_speak, args=(text,), daemon=True).start()
+        # Mini sleep to prevent audio device lock-up on rapid calls
+        def speak_with_delay():
+            time.sleep(0.1)
+            run_speak(text)
+        threading.Thread(target=speak_with_delay, daemon=True).start()
         return jsonify({"status": "speaking"})
     return jsonify({"status": "error", "msg": "No text"}), 400
 

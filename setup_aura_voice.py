@@ -1,36 +1,56 @@
 import os
 import sys
 import subprocess
+import time
 
-def setup_aura_edge_tts():
+def check_player():
+    for player in ["mpg123", "mpv", "play", "aplay"]:
+        if subprocess.run(f"command -v {player}", shell=True, capture_output=True).returncode == 0:
+            return player
+    return None
+
+def setup_aura_vocal():
     print("\n" + "="*50)
-    print("      AURA AI: NEXT-GEN LIVE TTS (Edge-TTS)")
+    print("      AURA AI: MULTI-ENGINE VOCAL SETUP")
     print("="*50)
     
-    # 1. Install edge-tts
-    print("[*] Installing high-fidelity voice engine...")
+    # 1. Install edge-tts (Premium Cloud Engine)
+    print("[*] Installing Edge-TTS...")
     try:
         subprocess.check_call([sys.executable, "-m", "pip", "install", "edge-tts"])
-        print("[+] Engine installed.")
-    except Exception as e:
-        print(f"[!] Installation failed: {e}")
+    except: pass
+
+    # 2. Find a Player
+    player = check_player()
+    if not player:
+        print("[!] NO AUDIO PLAYER FOUND. Please install one:")
+        print("sudo apt update && sudo apt install mpg123 aplay mpv -y")
         return
 
-    # 2. Verify Audio Output
-    print("[*] Checking audio hardware...")
-    try:
-        # Test with mpv (which we confirmed is on the system)
-        test_txt = "Aura core initialized. Live vocal system is now online."
-        # Use a high-quality human voice: en-US-AvaNeural
-        test_cmd = f'edge-tts --voice en-US-AvaNeural --text "{test_txt}" --write-media - | mpv -'
-        print(f"[*] Executing live test: {test_cmd}")
-        subprocess.run(test_cmd, shell=True)
-    except Exception as e:
-        print(f"[!] Test failed: {e}")
+    print(f"[*] Using Audio Player: {player}")
 
-    print("\n--- SETUP COMPLETE ---")
-    print("AURA is now configured for ultra-realistic human speech.")
-    print("Run Nikki: python3 app.py")
+    # 3. LIVE TEST (Edge-TTS)
+    print("\n" + "-"*30)
+    print("   LIVE STREAM TEST")
+    print("-"*30)
+    
+    test_text = "Aura vocal system test. If you hear this, everything is working perfectly."
+    
+    # Construct streaming command based on player
+    if player == "mpg123":
+        cmd = f'edge-tts --voice en-US-AvaNeural --text "{test_text}" --write-media - | mpg123 -Q -'
+    elif player == "mpv":
+        cmd = f'edge-tts --voice en-US-AvaNeural --text "{test_text}" --write-media - | mpv --no-terminal -'
+    else:
+        # Fallback to local file test if direct pipe is tricky
+        cmd = f'edge-tts --voice en-US-AvaNeural --text "{test_text}" --write-media test.mp3 && {player} test.mp3'
+
+    print(f"[*] Executing: {cmd}")
+    subprocess.run(cmd, shell=True)
+    
+    print("\n--- NEXT STEP ---")
+    print("If you heard the voice, run: python3 app.py")
+    print("If you heard NOTHING, check your volume or run 'aplay -l' to check cards.")
 
 if __name__ == "__main__":
-    setup_aura_edge_tts()
+    setup_aura_vocal()
