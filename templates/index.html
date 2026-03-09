@@ -1164,19 +1164,22 @@
 
                 setEyesClass(null);
 
+                // --- UNIVERSAL GREETING LOGIC ---
+                names.forEach(name => {
+                    if (name !== 'unknown' && !sessionStorage.getItem('greeted_' + name)) {
+                        speak(`Hello ${name}, welcome back!`);
+                        sessionStorage.setItem('greeted_' + name, 'true');
+                    }
+                });
+
                 if (names.includes('hari')) {
                     setEyesClass('happy');
                     moodText.innerHTML = "Identity Confirmed // <span>HAPPY</span>";
-                    if (!sessionStorage.getItem('greeted_hari')) {
-                        speak('Hari! My creator!');
-                        sessionStorage.setItem('greeted_hari', 'true');
-                    }
                 } else if (count >= 4) {
                     setEyesClass('panic');
                     moodText.innerHTML = "Warning // <span>PANIC</span>";
                 } else {
                     moodText.innerHTML = `Tracking // <span>${count} Subject(s)</span>`;
-                    sessionStorage.removeItem('greeted_hari');
                 }
             });
 

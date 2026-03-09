@@ -186,11 +186,91 @@ def sensor_loop():
 threading.Thread(target=sensor_loop, daemon=True).start()
 
 # --- VISION ENGINE ---
+# --- VISION ENGINE (Threaded) ---
+latest_frame = None
+vision_lock = threading.Lock() # Lock for the raw frame buffer
 last_locations, last_names = [], []
 frame_counter = 0
 
+def vision_worker():
+    global last_locations, last_names, latest_frame, scene_data, enroll_mode, enroll_name, attendance_enabled
+    
+    logger.info("Vision Worker Thread Started.")
+    while True:
+        try:
+            with vision_lock:
+                if latest_frame is None:
+                    time.sleep(0.01)
+                    continue
+                # Copy the latest frame for processing to release the lock quickly
+                frame = latest_frame.copy()
+            
+            # 1. Processing (RGB)
+            rgb_small = cv2.resize(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), (0,0), fx=0.5, fy=0.5)
+            
+            with face_lock:
+                locs = face_recognition.face_locations(rgb_small, model="hog")
+                
+                # Auto-exposure fallback if no faces
+                if not locs:
+                    img_yuv = cv2.cvtColor(rgb_small, cv2.COLOR_RGB2YUV)
+                    img_yuv[:,:,0] = cv2.equalizeHist(img_yuv[:,:,0])
+                    rgb_small = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB)
+                    locs = face_recognition.face_locations(rgb_small, model="hog")
+                
+                encs = face_recognition.face_encodings(rgb_small, locs)
+            
+            names = []
+            x_vals = []
+            
+            for (t, r, b, l), enc in zip(locs, encs):
+                if enroll_mode and enroll_name:
+                    name = enroll_name.lower()
+                    with data_lock:
+                        if name not in known_names:
+                            known_names.append(name)
+                            known_encodings.append(enc)
+                            attendance_log[name] = "Present"
+                            with open(FACES_FILE, "wb") as f:
+                                pickle.dump({"encodings": known_encodings, "names": known_names}, f)
+                            logger.info(f"Auto-Registered: {name}")
+                            enroll_mode = False
+                            enroll_name = ""
+                            attendance_enabled = True
+                    names.append(name)
+                    continue
+
+                name = "Unknown"
+                if known_encodings and attendance_enabled:
+                    with face_lock:
+                        matches = face_recognition.compare_faces(known_encodings, enc, 0.6)
+                    if any(matches):
+                        dist = face_recognition.face_distance(known_encodings, enc)
+                        name = known_names[np.argmin(dist)]
+                        with data_lock: attendance_log[name] = "Present"
+                        logger.info(f"Vision Thread Found: {name}")
+                
+                names.append(name)
+                x_vals.append((l + r) / 2 / 320)
+
+            # Update shared state
+            last_locations = [(t*2, r*2, b*2, l*2) for t,r,b,l in locs]
+            last_names = names
+            
+            with data_lock:
+                scene_data["names"] = names
+                scene_data["count"] = len(names)
+                scene_data["x_pos"] = np.mean(x_vals) if x_vals else 0.5
+            
+            time.sleep(0.1) # Throttle worker to save CPU
+        except Exception as e:
+            logger.error(f"Vision Worker Error: {e}")
+            time.sleep(1)
+
+threading.Thread(target=vision_worker, daemon=True).start()
+
 def gen_frames():
-    global last_locations, last_names, frame_counter, scene_data
+    global last_locations, last_names, latest_frame
     
     if not picam2 and not usb_cam:
         while True:
@@ -203,104 +283,33 @@ def gen_frames():
     while True:
         try:
             bgr_frame = None
-            
             if picam2:
-                # Picamera2 returns RGB by default if configured as such
-                rgb_frame = picam2.capture_array()
-                bgr_frame = cv2.cvtColor(rgb_frame, cv2.COLOR_RGB2BGR)
+                rgb = picam2.capture_array()
+                bgr_frame = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
             elif usb_cam:
-                # VideoCapture returns BGR
-                ret_val, bgr_frame = usb_cam.read()
-                if not ret_val or bgr_frame is None:
-                    time.sleep(0.1)
-                    continue
+                ret, bgr_frame = usb_cam.read()
             
-            if bgr_frame is None: 
+            if bgr_frame is None:
+                time.sleep(0.01)
                 continue
-
-            frame_counter += 1
             
-            if frame_counter % 3 == 0: # Check more frequently (every 3 frames)
-                # Prepare detection frame (RGB)
-                detection_rgb = cv2.cvtColor(bgr_frame, cv2.COLOR_BGR2RGB)
-                small = cv2.resize(detection_rgb, (0,0), fx=0.5, fy=0.5)
-                
-                with face_lock:
-                    locs = face_recognition.face_locations(small, model="hog")
-                    
-                    # ENHANCEMENT: If no faces, try histogram equalization
-                    if not locs:
-                        img_yuv = cv2.cvtColor(small, cv2.COLOR_RGB2YUV)
-                        img_yuv[:,:,0] = cv2.equalizeHist(img_yuv[:,:,0])
-                        small_eq = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB)
-                        locs = face_recognition.face_locations(small_eq, model="hog")
-                        if locs:
-                            small = small_eq # Use the equalized frame for encodings too
-                    
-                    encs = face_recognition.face_encodings(small, locs)
-                
-                names = []
-                x_positions = []
-                
-                if locs:
-                    logger.debug(f"Detected {len(locs)} faces.")
+            # Push to vision worker
+            with vision_lock:
+                latest_frame = bgr_frame
 
-                for (t, r, b, l), enc in zip(locs, encs):
-                    if enroll_mode and enroll_name:
-                        # AUTO ENROLLMENT LOGIC
-                        with data_lock:
-                            name = enroll_name.lower()
-                            if name not in known_names:
-                                known_names.append(name)
-                                known_encodings.append(enc)
-                                attendance_log[name] = "Present"
-                                with open(FACES_FILE, "wb") as f:
-                                    pickle.dump({"encodings": known_encodings, "names": known_names}, f)
-                                logger.info(f"Auto-Registered: {name}")
-                                enroll_mode = False
-                                enroll_name = ""
-                                attendance_enabled = True
-                            else: pass
-                        names.append(name)
-                        continue
-
-                    name = "Unknown"
-                    center_x = (l + r) / 2 / 320 # normalized center x
-                    x_positions.append(center_x)
-
-                    if known_encodings and attendance_enabled:
-                        with face_lock:
-                            # Use 0.6 tolerance (default is often better)
-                            matches = face_recognition.compare_faces(known_encodings, enc, 0.6)
-                        if any(matches):
-                            dist = face_recognition.face_distance(known_encodings, enc)
-                            name = known_names[np.argmin(dist)]
-                            with data_lock: 
-                                attendance_log[name] = "Present"
-                            logger.info(f"Subject Identified: {name}")
-                    names.append(name)
-                
-                last_locations = [(t*2, r*2, b*2, l*2) for t,r,b,l in locs]
-                last_names = names
-
-                with data_lock:
-                    scene_data["names"] = names
-                    scene_data["count"] = len(names)
-                    scene_data["x_pos"] = np.mean(x_positions) if x_positions else 0.5
-            
-            # --- DRAWING (On BGR Frame) ---
+            # --- RENDER OVERLAYS (Fluid) ---
+            # We use the LATEST available results from the worker
             for (t,r,b,l), name in zip(last_locations, last_names):
                 color = (0, 255, 0) if name != "Unknown" else (255, 255, 255)
                 cv2.rectangle(bgr_frame, (l,t), (r,b), color, 2)
                 cv2.rectangle(bgr_frame, (l,b-30), (r,b), color, -1)
-                cv2.putText(bgr_frame, name, (l+6, b-6), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,0), 2)
+                cv2.putText(bgr_frame, name, (l+6, b-6), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0,0,0), 2)
 
             ret, buf = cv2.imencode('.jpg', bgr_frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
             yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + buf.tobytes() + b'\r\n')
             
         except Exception as e:
-            logger.error(f"Frame generation error: {e}")
-            time.sleep(1)
+            logger.error(f"Streaming Error: {e}")
             time.sleep(0.1)
 
 # --- ROUTES ---
