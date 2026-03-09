@@ -60,11 +60,26 @@ def load_env():
                     os.environ[k.strip()] = v.strip()
         logger.info("Environment variables loaded.")
 
+# --- CONFIG ---
 load_env()
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL = "llama-3.1-8b-instant"
-# Use absolute path for Pi OS reliability
-PIPER_MODEL = os.path.join(os.path.dirname(os.path.abspath(__file__)), "en_US-amy-medium.onnx")
+
+# Piper Discovery Logic
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PIPER_MODEL = os.path.join(BASE_DIR, "en_US-amy-medium.onnx")
+
+# Find piper binary
+PIPER_BIN = "piper"
+possible_bins = [
+    os.path.join(BASE_DIR, "piper", "piper"),
+    os.path.join(BASE_DIR, "piper"),
+    "piper" 
+]
+for pb in possible_bins:
+    if os.path.exists(pb) or subprocess.run(f"command -v {pb}", shell=True, capture_output=True).returncode == 0:
+        PIPER_BIN = pb
+        break
 
 # --- THREAD SAFE STATE ---
 data_lock = threading.Lock()
@@ -362,25 +377,33 @@ def api_status():
 def api_context():
     with data_lock: return jsonify(scene_data)
 
-# --- OPTIMIZED PIPER TTS (Direct raw audio pipeline) ---
+# --- ROBUST PIPER TTS ENGINE ---
+def run_speak(text):
+    try:
+        if not text: return
+        safe_text = text.replace('"', '\\"').replace('$', '\\$').replace('`', '\\`')
+        
+        # Verify Model
+        if not os.path.exists(PIPER_MODEL):
+            logger.error(f"TTS Error: Model not found at {PIPER_MODEL}")
+            return
+
+        # Execute pipe command
+        # This pipes directly to aplay for zero-latency
+        cmd = f'echo "{safe_text}" | {PIPER_BIN} --model "{PIPER_MODEL}" --output-raw | aplay -r 22050 -f S16_LE -t raw -'
+        res = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+        
+        if res.returncode != 0:
+            logger.error(f"Piper Engine Error: {res.stderr}")
+    except Exception as e:
+        logger.error(f"Unexpected Speak Error: {e}")
+
 @app.route('/api/speak', methods=['POST'])
 def api_speak():
     data = request.get_json()
     text = data.get('text', '')
     if text:
-        def speak_thread():
-            try:
-                # Security: Sanitize text for shell command
-                safe_text = text.replace('"', '\\"').replace('$', '\\$').replace('`', '\\`')
-                
-                # We use 'piper' (assumes it's in path)
-                # m_path is absolute from PIPER_MODEL
-                cmd = f'echo "{safe_text}" | piper --model "{PIPER_MODEL}" --output-raw | aplay -r 22050 -f S16_LE -t raw -'
-                subprocess.run(cmd, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            except Exception as e:
-                logger.error(f"Piper TTS Engine Error: {e}")
-        
-        threading.Thread(target=speak_thread, daemon=True).start()
+        threading.Thread(target=run_speak, args=(text,), daemon=True).start()
         return jsonify({"status": "speaking"})
     return jsonify({"status": "error", "msg": "No text"}), 400
 
@@ -559,6 +582,21 @@ def enroll_frame():
 
         
 if __name__ == "__main__":
-    print('--- AURA ONLINE ---')
-    threading.Thread(target=lambda: (time.sleep(1), subprocess.run(f'echo "System online." | piper --model "{PIPER_MODEL}" --output-raw | aplay -r 22050 -f S16_LE -t raw -', shell=True)), daemon=True).start()
+    print("\n" + "="*50)
+    print("      AURA AI: CORE INITIALIZATION")
+    print("="*50)
+    print(f"[*] Voice Binary: {PIPER_BIN}")
+    print(f"[*] Voice Model:  {PIPER_MODEL}")
+    
+    model_exists = os.path.exists(PIPER_MODEL)
+    print(f"[*] Model Found:  {'[OK]' if model_exists else '[MISSING!]'}")
+    
+    def boot_greet():
+        time.sleep(2)
+        if model_exists:
+            run_speak("AURA system online and core ready.")
+        else:
+            print("[ERROR] Cannot speak: Model file missing.")
+        
+    threading.Thread(target=boot_greet, daemon=True).start()
     app.run(host='0.0.0.0', port=5000, threaded=True)

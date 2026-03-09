@@ -36,8 +36,13 @@ def setup_aura_piper():
     # 3. Verify Binary Path
     piper_bin = os.path.abspath("piper/piper")
     if not os.path.exists(piper_bin):
-        print("[!] Could not find piper binary in extracted folder.")
-        return
+        # Check alternate extraction folder
+        if os.path.exists("piper"):
+             # On some extractions it might just be 'piper'
+             pass
+        else:
+            print("[!] Could not find piper binary in extracted folder.")
+            return
 
     # 4. Download Voice Model (Amy Medium) - VERIFIED LINKS
     model_name = "en_US-amy-medium.onnx"
@@ -49,23 +54,31 @@ def setup_aura_piper():
 
     print(f"[*] Downloading high-quality voice model: {model_name}")
     try:
-        urllib.request.urlretrieve(model_url, model_name)
-        urllib.request.urlretrieve(config_url, config_name)
+        # Avoid double-downloading if already present
+        if not os.path.exists(model_name):
+            urllib.request.urlretrieve(model_url, model_name)
+        if not os.path.exists(config_name):
+            urllib.request.urlretrieve(config_url, config_name)
         print("[+] Voice model and config downloaded.")
     except Exception as e:
         print(f"[!] Model download failed: {e}")
         return
+
+    # 5. TEST WITHOUT FLASK
+    print("\n[TESTING ENGINE...]")
+    test_cmd = f'echo "I can speak now." | {piper_bin} --model {model_name} --output_file test.wav'
+    subprocess.run(test_cmd, shell=True)
     
-    # 5. Instructions
-    print("\n--- SETUP COMPLETE ---")
-    print(f"[STEP 1] Move binary to system path:")
+    if os.path.exists("test.wav"):
+        print("[SUCCESS] Engine generated test.wav.")
+        print("[SUCCESS] Setup is 100% correct.")
+    else:
+        print("[FAILED] Engine failed to generate audio. Check dependencies (libasound2, etc).")
+
+    print("\n--- FINAL STEP ---")
+    print(f"Run this to make AURA work system-wide:")
     print(f"sudo ln -s {piper_bin} /usr/local/bin/piper")
-    
-    print("\n[STEP 2] Test the voice now:")
-    print(f'echo "Aura realistic voice online." | {piper_bin} --model {model_name} --output_file test.wav && aplay test.wav')
-    
-    print("\n[STEP 3] Start AURA:")
-    print("python3 app.py")
+    print("\nThen run AURA: python3 app.py")
 
 if __name__ == "__main__":
     setup_aura_piper()
