@@ -601,6 +601,25 @@
             color: var(--muted);
             margin-bottom: 2rem;
         }
+
+        #webcam-container canvas {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        #label-container .roster-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        #label-container .roster-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script
@@ -639,6 +658,13 @@
                     d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
             </svg>
             <span>Enroll</span>
+        </button>
+        <button class="nav-item" onclick="openTab('vision-lab')">
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+            </svg>
+            <span>Vision Lab</span>
         </button>
     </nav>
 
@@ -775,6 +801,23 @@
             onclick="cancelLiveEnroll()">Cancel</button>
     </div>
 
+    <!-- TAB 5: VISION LAB -->
+    <div id="vision-lab" class="tab-content">
+        <div class="section-title">Teachable Machine Vision Lab</div>
+        <div class="card" style="margin-bottom: 2rem;">
+            <p style="color:var(--muted); margin-bottom: 1rem;">Launch a local webcam classifier using your TM model.
+            </p>
+            <button class="btn-submit" id="btn-lab-start" onclick="initLab()">Start Vision Engine</button>
+        </div>
+
+        <div class="split-view">
+            <div id="webcam-container" class="video-wrapper" style="min-height: 200px; background: #000;"></div>
+            <div id="label-container" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <div style="color:var(--muted); font-style: italic;">Engine labels will appear here...</div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // --- CONFIGURATION ---
         const GROQ_API_KEY = "YOUR_GROQ_API_KEY_HERE";
@@ -792,7 +835,7 @@
 
         // --- TEACHABLE MACHINE CONFIG ---
         let tmModel, tmMaxPredictions;
-        const TM_MODEL_URL = ""; // PASTE YOUR URL HERE
+        const TM_MODEL_URL = "https://teachablemachine.withgoogle.com/models/ExZ7zRHBA/";
 
         async function initTM() {
             if (!TM_MODEL_URL) return;
@@ -805,6 +848,62 @@
                 startTMProfiling();
             } catch (e) {
                 console.error("TM Load Failed", e);
+            }
+        }
+
+        // Lab specific logic
+        let labWebcam, labLabelContainer;
+        async function initLab() {
+            const modelURL = TM_MODEL_URL + "model.json";
+            const metadataURL = TM_MODEL_URL + "metadata.json";
+
+            const btn = document.getElementById('btn-lab-start');
+            btn.disabled = true;
+            btn.textContent = "Loading Model...";
+
+            try {
+                const model = await tmImage.load(modelURL, metadataURL);
+                const maxPredictions = model.getTotalClasses();
+
+                const flip = true;
+                labWebcam = new tmImage.Webcam(400, 300, flip);
+                await labWebcam.setup();
+                await labWebcam.play();
+                window.requestAnimationFrame(loopLab);
+
+                document.getElementById("webcam-container").innerHTML = "";
+                document.getElementById("webcam-container").appendChild(labWebcam.canvas);
+                labLabelContainer = document.getElementById("label-container");
+                labLabelContainer.innerHTML = "";
+                for (let i = 0; i < maxPredictions; i++) {
+                    labLabelContainer.appendChild(document.createElement("div"));
+                }
+                btn.textContent = "Engine Running";
+            } catch (e) {
+                alert("Lab initialization failed. Check camera permissions.");
+                btn.disabled = false;
+                btn.textContent = "Start Vision Engine";
+            }
+        }
+
+        async function loopLab() {
+            labWebcam.update();
+            await predictLab();
+            window.requestAnimationFrame(loopLab);
+        }
+
+        async function predictLab() {
+            if (!labWebcam || !tmModel) return;
+            const prediction = await tmModel.predict(labWebcam.canvas);
+            for (let i = 0; i < tmMaxPredictions; i++) {
+                const p = prediction[i];
+                const classPrediction = `<div class="roster-item"><span>${p.className}</span><span>${(p.probability * 100).toFixed(0)}%</span></div>`;
+                labLabelContainer.childNodes[i].innerHTML = classPrediction;
+
+                // bridge to attendance if high confidence
+                if (p.probability > 0.95 && p.className.toLowerCase() !== "background") {
+                    notifyBackendPresence(p.className.toLowerCase());
+                }
             }
         }
 
@@ -1297,6 +1396,7 @@
 
         setInterval(updateEnvironment, 500);
         updateEnvironment();
+        if (TM_MODEL_URL) initTM();
     </script>
 </body>
 
