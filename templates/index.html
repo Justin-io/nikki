@@ -718,6 +718,15 @@
                 <div class="card"><span class="card-label">Core Temp</span>
                     <div class="card-value" id="val-cpu">--°C</div>
                 </div>
+                <div class="card" style="grid-column: span 2;">
+                    <span class="card-label">Remote Access Link</span>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                        <div class="card-value" style="font-size: 0.9rem; color: var(--accent); margin: 0;"
+                            id="val-link">http://...:5000</div>
+                        <button onclick="copyLink()" class="btn-ai"
+                            style="padding: 4px 8px; font-size: 0.7rem; width: auto; margin: 0; min-width: 60px;">Copy</button>
+                    </div>
+                </div>
             </div>
             <div class="ai-box">
                 <div class="status-text" id="ai-status">Voice system offline</div>
@@ -1133,6 +1142,16 @@
             micText.textContent = msg;
         }
 
+        function copyLink() {
+            const link = document.getElementById('val-link').textContent;
+            navigator.clipboard.writeText(link).then(() => {
+                const btn = event.target;
+                const oldText = btn.textContent;
+                btn.textContent = "Copied!";
+                setTimeout(() => btn.textContent = oldText, 2000);
+            });
+        }
+
         // --- ENVIRONMENT & TRACKING ---
         function updateEnvironment() {
             fetch('/api/sensors').then(r => r.json()).then(d => {
@@ -1140,6 +1159,7 @@
                 document.getElementById('val-hum').textContent = d.hum_str;
                 document.getElementById('val-aqi').textContent = `${parseInt(d.aqi)} AQI`;
                 document.getElementById('val-cpu').textContent = d.cpu;
+                document.getElementById('val-link').textContent = `http://${d.ip}:5000`;
             });
 
             fetch('/api/context').then(r => r.json()).then(d => {

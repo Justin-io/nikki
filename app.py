@@ -174,11 +174,22 @@ def sensor_loop():
                 if ssid: sys_n = ssid
             except: pass
 
+            def get_local_ip():
+                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                try:
+                    s.connect(('10.255.255.255', 1))
+                    ip = s.getsockname()[0]
+                except:
+                    ip = '127.0.0.1'
+                finally:
+                    s.close()
+                return ip
+
             with data_lock:
                 if t: sensor_cache["temp"] = t
                 if h: sensor_cache["hum"] = h
                 if mq135: sensor_cache["aqi"] = abs(mq135.value / 32767.0 * 100)
-                sensor_cache.update({"cpu": sys_t, "ram": sys_r, "net": sys_n})
+                sensor_cache.update({"cpu": sys_t, "ram": sys_r, "net": sys_n, "ip": get_local_ip()})
                 sensor_cache["bat"] = max(0, 100.0 - ((time.time()-SERVER_START)/60*0.05))
         except: pass
         time.sleep(2)
