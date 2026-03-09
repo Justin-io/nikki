@@ -7,26 +7,26 @@
     <title>AURA | Sentient OS</title>
     <style>
         :root {
-            --bg: #f4f4f9;
-            --text: #1a1a1a;
-            --border: #e0e0e0;
-            --muted: #888888;
-            --success: #22c55e;
-            --error: #ef4444;
-            --accent: #0055ff;
-            --surface: #ffffff;
+            --bg: #000000;
+            --text: #ffffff;
+            --border: rgba(255, 255, 255, 0.1);
+            --muted: #666666;
+            --success: #00ffaa;
+            --error: #ff3366;
+            --accent: #00f2ff;
+            --surface: #111111;
         }
 
         * {
             box-sizing: border-box;
+            outline: none;
         }
 
         body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-family: 'Outfit', 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
             margin: 0;
-            line-height: 1.5;
             overflow: hidden;
             height: 100vh;
             display: flex;
@@ -36,54 +36,90 @@
         .main-content {
             flex: 1;
             overflow-y: auto;
-            padding-bottom: 80px;
-            background: linear-gradient(180deg, #ffffff 0%, #f4f4f9 100%);
+            background: #000;
+            position: relative;
         }
 
-        /* --- BOTTOM NAVIGATION --- */
-        .bottom-nav {
+        /* --- FAB NAVIGATION --- */
+        .fab {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid var(--border);
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 50%;
             display: flex;
             justify-content: center;
-            padding: 0.5rem 0;
-            z-index: 100;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            color: #000;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: rgba(20, 20, 20, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .bottom-nav.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
         }
 
         .nav-item {
             background: none;
             border: none;
             color: var(--muted);
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            padding: 15px 25px;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 15px;
+            border-radius: 12px;
+            white-space: nowrap;
         }
 
         .nav-item svg {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             fill: currentColor;
         }
 
         .nav-item:hover {
-            color: var(--text);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
         }
 
         .nav-item.active {
             color: var(--accent);
+            background: rgba(0, 242, 255, 0.1);
         }
 
         .tab-content {
@@ -106,123 +142,147 @@
             }
         }
 
-        /* --- DUAL EYE DESIGN (White Theme) --- */
+        /* --- REALISTIC EYE DESIGN --- */
         .eye-container {
             width: 100%;
-            height: 75vh;
+            height: 80vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 80px;
-            position: relative;
+            gap: 100px;
+            background: #000;
         }
 
         .eye-socket {
-            width: 220px;
-            height: 220px;
-            background: radial-gradient(circle, #2a2a2a 0%, #000000 100%);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.8);
+            width: 280px;
+            height: 180px;
+            /* Almond shape */
+            background: #000;
+            border-radius: 50% / 100% 100% 0 0;
+            /* Base ocular structure */
             position: relative;
             overflow: hidden;
-            border: 4px solid #1a1a1a;
-            transition: all 0.2s;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 50px rgba(0, 242, 255, 0.05);
+        }
+
+        /* Almond shape clipping */
+        .eye-socket::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: inset 0 0 20px #000;
+            z-index: 20;
+            pointer-events: none;
         }
 
         .eyelid {
             position: absolute;
             width: 100%;
-            height: 50%;
+            height: 100%;
             background: #000;
-            z-index: 10;
-            transition: all 0.15s cubic-bezier(0.25, 0.1, 0.25, 1);
-            transform-origin: center;
+            z-index: 30;
+            transition: transform 0.1s ease-out;
         }
 
         .eyelid.top {
             top: 0;
-            border-radius: 0 0 50% 50%;
             transform: translateY(-100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .eyelid.bottom {
             bottom: 0;
-            border-radius: 50% 50% 0 0;
             transform: translateY(100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .eye-socket.active .eyelid.top {
-            transform: translateY(-90%);
+        /* Blinking class for JS trigger */
+        .blinking .eyelid.top {
+            transform: translateY(-10%) !important;
         }
 
-        .eye-socket.active .eyelid.bottom {
-            transform: translateY(90%);
+        .blinking .eyelid.bottom {
+            transform: translateY(10%) !important;
         }
 
         .eyeball {
-            width: 180px;
-            height: 180px;
-            background: radial-gradient(circle at 30% 30%, #ffffff 0%, #dddddd 100%);
-            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 100%);
             position: relative;
-            overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .iris-group {
             position: absolute;
-            width: 90px;
-            height: 90px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            transition: transform 0.08s linear;
+            width: 130px;
+            height: 130px;
+            transition: transform 0.15s cubic-bezier(0.1, 0.5, 0.1, 1);
         }
 
         .iris {
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 50%, #00ccff 0%, #0055aa 100%);
+            background: radial-gradient(circle, #00f2ff 0%, #0050ff 40%, #001030 100%);
             border-radius: 50%;
-            box-shadow: 0 0 15px rgba(0, 180, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.5);
             position: relative;
-            border: 3px solid rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .iris::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-conic-gradient(from 0deg, transparent 0, transparent 10deg, rgba(255, 255, 255, 0.05) 15deg);
+            opacity: 0.4;
         }
 
         .pupil {
             position: absolute;
-            width: 40%;
-            height: 40%;
+            width: 45px;
+            height: 45px;
             background: #000;
             border-radius: 50%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #000;
+            z-index: 2;
+            transition: width 0.3s, height 0.3s;
         }
 
         .reflection {
             position: absolute;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 50%;
             z-index: 5;
+            filter: blur(1px);
         }
 
         .ref-1 {
-            width: 15%;
-            height: 15%;
-            top: 20%;
-            left: 25%;
+            width: 12px;
+            height: 12px;
+            top: 30%;
+            left: 30%;
         }
 
         .ref-2 {
-            width: 6%;
-            height: 6%;
-            top: 45%;
-            left: 60%;
-            opacity: 0.6;
+            width: 5px;
+            height: 5px;
+            top: 50%;
+            left: 65%;
+            opacity: 0.4;
         }
 
         /* --- ENHANCED EMOTIONS --- */
@@ -628,13 +688,16 @@
 
 <body>
 
-    <!-- BOTTOM NAVIGATION -->
-    <nav class="bottom-nav">
+    <!-- FAB & NAVIGATION -->
+    <button class="fab" onclick="toggleNav()">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+        </svg>
+    </button>
+    <nav class="bottom-nav" id="main-nav">
         <button class="nav-item active" onclick="openTab('home')">
             <svg viewBox="0 0 24 24">
-                <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-                <circle cx="12" cy="12" r="5" />
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
             </svg>
             <span>Home</span>
         </button>
@@ -648,7 +711,7 @@
         <button class="nav-item" onclick="openTab('attendance')">
             <svg viewBox="0 0 24 24">
                 <path
-                    d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                    d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />
             </svg>
             <span>Attendance</span>
         </button>
@@ -832,10 +895,6 @@
     </div>
 
     <script>
-        // --- CONFIGURATION ---
-        const GROQ_API_KEY = "YOUR_GROQ_API_KEY_HERE";
-        const GROQ_MODEL = "llama-3.1-8b-instant";
-
         // --- STATE ---
         let recognition = null;
         let isSystemActive = false;
@@ -1396,28 +1455,28 @@
             });
         }
 
-        function toggleEnrollIframe() {
-            const frame = document.getElementById('enroll-iframe');
-            if (frame.style.display === 'none') {
-                frame.style.display = 'block';
-            } else {
-                frame.style.display = 'none';
-            }
+        function toggleNav() {
+            document.getElementById('main-nav').classList.toggle('active');
         }
 
-        // Close iframe and refresh roster when iframe signals success
-        window.addEventListener('message', (ev) => {
-            if (ev.data === 'enroll-success') {
-                const frame = document.getElementById('enroll-iframe');
-                frame.style.display = 'none';
-                // refresh roster list
-                fetch('/api/status').then(r => r.json()).then(d => {
-                    const el = document.getElementById('roster-container');
-                    el.innerHTML = '';
-                    for (const [name, status] of Object.entries(d || {})) {
-                        el.innerHTML += `<div class="roster-item"><span>${name}</span><span style="color:${status === 'Present' ? 'var(--accent)' : 'var(--muted)'}">${status}</span></div>`;
-                    }
-                });
+        // Realistic Random Blinking
+        function triggerBlink() {
+            eyes.forEach(eye => eye.classList.add('blinking'));
+            setTimeout(() => {
+                eyes.forEach(eye => eye.classList.remove('blinking'));
+            }, 150);
+
+            // Random interval for next blink (between 2 and 6 seconds)
+            setTimeout(triggerBlink, Math.random() * 4000 + 2000);
+        }
+        triggerBlink();
+
+        // Close nav on outside click
+        document.addEventListener('click', (e) => {
+            const nav = document.getElementById('main-nav');
+            const fab = document.querySelector('.fab');
+            if (!nav.contains(e.target) && !fab.contains(e.target)) {
+                nav.classList.remove('active');
             }
         });
 
