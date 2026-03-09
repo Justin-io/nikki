@@ -55,14 +55,14 @@ def setup_aura_piper():
     except Exception as e:
         print(f"[!] Model download failed: {e}")
         return
-
+    
     # 5. Instructions
     print("\n--- SETUP COMPLETE ---")
     print(f"[STEP 1] Move binary to system path:")
     print(f"sudo ln -s {piper_bin} /usr/local/bin/piper")
     
     print("\n[STEP 2] Test the voice now:")
-    print(f'echo "Aura realistic voice engine online." | {piper_bin} --model {model_name} --output_file test.wav && aplay test.wav')
+    print(f'echo "Aura realistic voice online." | {piper_bin} --model {model_name} --output_file test.wav && aplay test.wav')
     
     print("\n[STEP 3] Start AURA:")
     print("python3 app.py")

@@ -63,7 +63,8 @@ def load_env():
 load_env()
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL = "llama-3.1-8b-instant"
-PIPER_MODEL = "en_US-amy-medium.onnx" # Realistic English Voice model
+# Use absolute path for Pi OS reliability
+PIPER_MODEL = os.path.join(os.path.dirname(os.path.abspath(__file__)), "en_US-amy-medium.onnx")
 
 # --- THREAD SAFE STATE ---
 data_lock = threading.Lock()
@@ -361,7 +362,7 @@ def api_status():
 def api_context():
     with data_lock: return jsonify(scene_data)
 
-# --- OPTIMIZED PIPER TTS (No file-system overhead) ---
+# --- OPTIMIZED PIPER TTS (Direct raw audio pipeline) ---
 @app.route('/api/speak', methods=['POST'])
 def api_speak():
     data = request.get_json()
@@ -369,13 +370,15 @@ def api_speak():
     if text:
         def speak_thread():
             try:
-                # Use subshells to pipe directly into aplay
-                # Standard Piper sample rate is 22050 Hz
-                # This is much faster as it bypasses SSD/SD card writes
-                cmd = f'echo "{text}" | piper --model {PIPER_MODEL} --output-raw | aplay -r 22050 -f S16_LE -t raw -'
+                # Security: Sanitize text for shell command
+                safe_text = text.replace('"', '\\"').replace('$', '\\$').replace('`', '\\`')
+                
+                # We use 'piper' (assumes it's in path)
+                # m_path is absolute from PIPER_MODEL
+                cmd = f'echo "{safe_text}" | piper --model "{PIPER_MODEL}" --output-raw | aplay -r 22050 -f S16_LE -t raw -'
                 subprocess.run(cmd, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             except Exception as e:
-                logger.error(f"Piper TTS failed: {e}")
+                logger.error(f"Piper TTS Engine Error: {e}")
         
         threading.Thread(target=speak_thread, daemon=True).start()
         return jsonify({"status": "speaking"})
@@ -556,4 +559,6 @@ def enroll_frame():
 
         
 if __name__ == "__main__":
+    print('--- AURA ONLINE ---')
+    threading.Thread(target=lambda: (time.sleep(1), subprocess.run(f'echo "System online." | piper --model "{PIPER_MODEL}" --output-raw | aplay -r 22050 -f S16_LE -t raw -', shell=True)), daemon=True).start()
     app.run(host='0.0.0.0', port=5000, threaded=True)
