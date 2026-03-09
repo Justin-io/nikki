@@ -64,7 +64,8 @@ def load_env():
 load_env()
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL = "llama-3.1-8b-instant"
-VOICE_NAME = "en-US-AvaNeural" # Premium human-quality voice
+VOICE_NAME = "en-US-AvaNeural"
+MPG123_PATH = "/usr/bin/mpg123" # Absolute path for reliability
 
 # --- THREAD SAFE STATE ---
 
@@ -364,38 +365,29 @@ def api_status():
 def api_context():
     with data_lock: return jsonify(scene_data)
 
-# --- ADAPTIVE TTS ENGINE (Edge-TTS) ---
+# --- BULLETPROOF LIVE TTS (Edge-TTS + Absolute Path Player) ---
 def run_speak(text):
     if not text: return
     try:
+        # Sanitize text
         safe_text = text.replace('"', '\\"').replace('$', '\\$').replace('`', '\\`')
         
-        # Auto-detect best player
-        player_cmd = "mpg123 -Q -" # Default
-        for p, cmd in [("mpg123", "mpg123 -Q -"), ("mpv", "mpv --no-terminal -"), ("play", "play -q -")]:
-            if subprocess.run(f"command -v {p}", shell=True, capture_output=True).returncode == 0:
-                player_cmd = cmd
-                break
-
-        # LIVE STREAM: Cloud Engine -> Player
-        cmd = f'edge-tts --voice {VOICE_NAME} --text "{safe_text}" --write-media - | {player_cmd}'
+        # Real-time Streaming Pipe: Cloud AI -> Local Absolute Player
+        # We use -Q (quiet) to prevent console spam
+        cmd = f'edge-tts --voice {VOICE_NAME} --text "{safe_text}" --write-media - | {MPG123_PATH} -Q -'
         
-        logger.info(f"Speaking: {text}")
-        subprocess.run(cmd, shell=True)
+        logger.info(f"AURA Speaking: {text}")
+        subprocess.run(cmd, shell=True, check=True)
         
     except Exception as e:
-        logger.error(f"TTS Failure: {e}")
+        logger.error(f"Vocal Engine Error: {e}")
 
 @app.route('/api/speak', methods=['POST'])
 def api_speak():
     data = request.get_json()
     text = data.get('text', '')
     if text:
-        # Mini sleep to prevent audio device lock-up on rapid calls
-        def speak_with_delay():
-            time.sleep(0.1)
-            run_speak(text)
-        threading.Thread(target=speak_with_delay, daemon=True).start()
+        threading.Thread(target=run_speak, args=(text,), daemon=True).start()
         return jsonify({"status": "speaking"})
     return jsonify({"status": "error", "msg": "No text"}), 400
 
