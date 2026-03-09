@@ -1,0 +1,1399 @@
+sensors:1  Failed to load resource: net::ERR_CONNECTION_RESET
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_RESET
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_RESET
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_RESET
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_RESET
+(index):711  Uncaught (in promise) 
+video_feed:1  Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):704  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) 
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) 
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) 
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):704:13)
+(index):711  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):711:13)
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):749:13)
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):704:13)
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):711:13)
+(index):749  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):749:13)
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):704:13)
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):711:13)
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):749:13)
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):704:13)
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):711:13)
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):749:13)
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):704:13)
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):711:13)
+(index):749  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):749:13)
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):704:13)
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):711:13)
+(index):749  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):749:13)
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):704:13)
+(index):711  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):711:13)
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):749:13)
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):704:13)
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):711:13)
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):749:13)
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):704:13)
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):711:13)
+(index):749  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):749:13)
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):704:13)
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):711:13)
+(index):749  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):749:13)
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):704:13)
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):711:13)
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):749:13)
+sensors:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):704  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):704:13)
+context:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):711  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):711:13)
+status:1  Failed to load resource: net::ERR_CONNECTION_REFUSED
+(index):749  Uncaught (in promise) TypeError: Failed to fetch
+    at updateEnvironment ((index):749:13)
