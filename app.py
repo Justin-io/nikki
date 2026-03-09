@@ -3,6 +3,40 @@ from collections import deque
 import cv2, face_recognition
 from flask import Flask, render_template, Response, jsonify, request
 from PIL import Image
+import requests
+
+# --- PROCESS CLEANUP ---
+def cleanup_background():
+    try:
+        current_pid = os.getpid()
+        # Kill other python processes running app.py
+        cmd = "ps aux | grep 'app.py' | grep -v grep | awk '{print $2}'"
+        pids = subprocess.check_output(cmd, shell=True).decode().split()
+        for pid in pids:
+            if int(pid) != current_pid:
+                subprocess.call(['kill', '-9', pid])
+        
+        # Kill camera processes
+        subprocess.call(['pkill', '-9', 'libcamera'], stderr=subprocess.DEVNULL)
+        subprocess.call(['pkill', '-9', 'camera-stream'], stderr=subprocess.DEVNULL)
+        time.sleep(1)
+    except: pass
+
+cleanup_background()
+
+# --- LOAD ENV ---
+def load_env():
+    env_path = os.path.join(os.getcwd(), '.env')
+    if os.path.exists(env_path):
+        with open(env_path, 'r') as f:
+            for line in f:
+                if '=' in line and not line.startswith('#'):
+                    k, v = line.strip().split('=', 1)
+                    os.environ[k.strip()] = v.strip()
+
+load_env()
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+GROQ_MODEL = "llama-3.1-8b-instant"
 
 # --- CONFIGURATION ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
@@ -266,6 +300,46 @@ def api_speak():
         threading.Thread(target=speak_thread, daemon=True).start()
         return jsonify({"status": "speaking"})
     return jsonify({"status": "error", "msg": "No text"}), 400
+
+@app.route('/api/ai_process', methods=['POST'])
+def ai_process():
+    if not GROQ_API_KEY:
+        return jsonify({"status": "error", "msg": "API Key missing"}), 401
+    
+    data = request.get_json()
+    text = data.get('text', '')
+    
+    with data_lock:
+        names = scene_data.get("names", [])
+        
+    system_prompt = f"You are AURA. Be extremely brief. Situation: People: {', '.join(names) if names else 'None'}."
+
+    try:
+        response = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {GROQ_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": GROQ_MODEL,
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": text}
+                ],
+                "temperature": 0.5,
+                "max_tokens": 50
+            },
+            timeout=5
+        )
+        res_data = response.json()
+        if "choices" in res_data:
+            reply = res_data["choices"][0]["message"]["content"]
+            return jsonify({"status": "success", "reply": reply})
+        return jsonify({"status": "error", "msg": "Invalid response from AI"}), 500
+    except Exception as e:
+        logger.error(f"AI Error: {e}")
+        return jsonify({"status": "error", "msg": str(e)}), 500
 
 @app.route('/api/add_student', methods=['POST'])
 def add_student():
