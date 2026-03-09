@@ -46,8 +46,8 @@ def setup_piper():
     # 4. Download Voice Model (Amy Medium)
     model_name = "en_US-amy-medium.onnx"
     config_name = "en_US-amy-medium.onnx.json"
-    model_url = f"https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/US/amy/medium/{model_name}"
-    config_url = f"https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/US/amy/medium/{config_name}"
+    model_url = f"https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/amy/medium/{model_name}"
+    config_url = f"https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/amy/medium/{config_name}"
 
     print(f"[*] Downloading Voice Model: {model_name}")
     try:
