@@ -377,26 +377,26 @@ def api_status():
 def api_context():
     with data_lock: return jsonify(scene_data)
 
-# --- ROBUST PIPER TTS ENGINE ---
+# --- ROBUST PIPER TTS ENGINE (LIVE STREAMING) ---
 def run_speak(text):
+    if not text: return
     try:
-        if not text: return
+        # Sanitize for shell
         safe_text = text.replace('"', '\\"').replace('$', '\\$').replace('`', '\\`')
         
-        # Verify Model
         if not os.path.exists(PIPER_MODEL):
-            logger.error(f"TTS Error: Model not found at {PIPER_MODEL}")
+            logger.error(f"TTS ERROR: Model missing at {PIPER_MODEL}")
             return
 
-        # Execute pipe command
-        # This pipes directly to aplay for zero-latency
-        cmd = f'echo "{safe_text}" | {PIPER_BIN} --model "{PIPER_MODEL}" --output-raw | aplay -r 22050 -f S16_LE -t raw -'
-        res = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+        # LIVE PIPE: Piper -> Aplay (Real-time, zero disk I/O)
+        # Using -D default to ensure it hits the active speaker
+        cmd = f'echo "{safe_text}" | {PIPER_BIN} --model "{PIPER_MODEL}" --output-raw | aplay -r 22050 -f S16_LE -t raw'
         
-        if res.returncode != 0:
-            logger.error(f"Piper Engine Error: {res.stderr}")
+        logger.info(f"Speaking: {text}")
+        subprocess.run(cmd, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        
     except Exception as e:
-        logger.error(f"Unexpected Speak Error: {e}")
+        logger.error(f"TTS Engine Failure: {e}")
 
 @app.route('/api/speak', methods=['POST'])
 def api_speak():
