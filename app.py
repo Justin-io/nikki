@@ -226,6 +226,14 @@ def vision_worker():
             for (t, r, b, l), enc in zip(locs, encs):
                 if enroll_mode and enroll_name:
                     name = enroll_name.lower()
+                    # SAVE PHOTO TO DISK
+                    img_path = os.path.join("known_faces", f"{name}.jpg")
+                    try:
+                        cv2.imwrite(img_path, frame)
+                        logger.info(f"Photo Saved: {img_path}")
+                    except Exception as e:
+                        logger.error(f"Failed to save photo: {e}")
+
                     with data_lock:
                         if name not in known_names:
                             known_names.append(name)
