@@ -7,7 +7,7 @@ import requests
 
 # --- CONFIGURATION ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
-logger = logging.getLogger("AURA")
+logger = logging.getLogger("Nikki")
 app = Flask(__name__)
 SERVER_START = time.time()
 
@@ -63,6 +63,7 @@ def load_env():
 load_env()
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL = "llama-3.1-8b-instant"
+PIPER_MODEL = "en_US-amy-medium.onnx" # Path to your Piper model file
 
 # --- THREAD SAFE STATE ---
 data_lock = threading.Lock()
@@ -360,25 +361,27 @@ def api_status():
 def api_context():
     with data_lock: return jsonify(scene_data)
 
-# --- REALISTIC TTS ENDPOINT (Google TTS) ---
+# --- REALISTIC TTS ENDPOINT (Piper TTS) ---
 @app.route('/api/speak', methods=['POST'])
 def api_speak():
     data = request.get_json()
     text = data.get('text', '')
     if text:
         def speak_thread():
-            tmp_file = f"/tmp/aura_speech_{time.time()}.mp3"
+            tmp_wav = f"/tmp/aura_speech_{time.time()}.wav"
             try:
-                from gtts import gTTS
-                tts = gTTS(text=text, lang='en', slow=False)
-                tts.save(tmp_file)
-                subprocess.call(['mpg123', tmp_file], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                # Piper generates extremely realistic offline voice
+                # Ensure 'piper' is installed and PIPER_MODEL points to the .onnx file
+                cmd = f'echo "{text}" | piper --model {PIPER_MODEL} --output_file {tmp_wav}'
+                subprocess.run(cmd, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                subprocess.call(['aplay', tmp_wav], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             except Exception as e:
-                logger.warning(f"gTTS failed, falling back to espeak. Error: {e}")
+                logger.warning(f"Piper failed, falling back to espeak. Error: {e}")
+                # Secondary fallback: espeak (built-in to Pi OS)
                 subprocess.call(['espeak', '-ven+f5', '-s150', text], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             finally:
-                if os.path.exists(tmp_file):
-                    try: os.remove(tmp_file)
+                if os.path.exists(tmp_wav):
+                    try: os.remove(tmp_wav)
                     except: pass
         
         threading.Thread(target=speak_thread, daemon=True).start()
@@ -396,7 +399,7 @@ def ai_process():
     with data_lock:
         names = scene_data.get("names", [])
         
-    system_prompt = f"You are AURA. Be extremely brief. Situation: People: {', '.join(names) if names else 'None'}."
+    system_prompt = f"You are Nikki. Be extremely brief. Situation: People: {', '.join(names) if names else 'None'}."
 
     try:
         response = requests.post(

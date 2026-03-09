@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA | Sentient OS</title>
+    <title>Nikki | Sentient OS</title>
     <style>
         :root {
             --bg: #000000;
@@ -154,16 +154,41 @@
         }
 
         .eye-socket {
-            width: 280px;
-            height: 180px;
-            /* Almond shape */
+            width: 300px;
+            height: 220px;
             background: #000;
-            border-radius: 50% / 100% 100% 0 0;
-            /* Base ocular structure */
+            border-radius: 50% 50% 45% 45% / 100% 100% 30% 30%;
             position: relative;
             overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 0 50px rgba(0, 242, 255, 0.05);
+            border: 2px solid rgba(0, 242, 255, 0.1);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.1), inset 0 0 30px #000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: rotate(-2deg);
+            /* Micro-tilt for personality */
+        }
+
+        .eye-socket:last-child {
+            transform: rotate(2deg);
+        }
+
+        /* Blush effect */
+        .eye-socket::after {
+            content: '';
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 40px;
+            background: radial-gradient(ellipse, rgba(255, 50, 100, 0.4) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 25;
+            pointer-events: none;
+        }
+
+        .eye-socket.happy::after {
+            opacity: 1;
         }
 
         /* Almond shape clipping */
@@ -427,6 +452,26 @@
         .mood-display span {
             color: var(--accent);
             font-weight: bold;
+            text-shadow: 0 0 10px var(--accent);
+        }
+
+        /* --- THEME FIXES --- */
+        .btn-ai,
+        .btn-submit,
+        .btn-capture {
+            color: #000;
+            /* Dark text on light accent buttons */
+            font-weight: 700;
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+            background: rgba(0, 242, 255, 0.15);
+        }
+
+        .nav-item {
+            color: #fff;
+            /* Ensure nav text is white */
         }
 
         /* --- SYSTEM TAB --- */
@@ -870,7 +915,7 @@
 
     <!-- ENROLLMENT OVERLAY -->
     <div id="enroll-overlay">
-        <div class="enroll-msg">AURA | Enrollment Mode</div>
+        <div class="enroll-msg">Nikki | Enrollment Mode</div>
         <div class="enroll-sub" id="enroll-target-text">Waiting for face...</div>
         <img id="enroll-feed" src="/video_feed" alt="Feed">
         <button class="btn-submit" style="max-width: 200px; background: var(--error);"
@@ -1182,7 +1227,7 @@
 
         // --- SPEAK & EMOTION ---
         function speak(text) {
-            aiStatus.textContent = `AURA: "${text}"`;
+            aiStatus.textContent = `Nikki: "${text}"`;
             setEyesClass('talking');
 
             fetch('/api/speak', {
