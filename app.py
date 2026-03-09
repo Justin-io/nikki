@@ -64,22 +64,9 @@ def load_env():
 load_env()
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL = "llama-3.1-8b-instant"
+VOICE_NAME = "en-US-AvaNeural" # Premium human-quality voice
 
-# Piper Discovery Logic
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PIPER_MODEL = os.path.join(BASE_DIR, "en_US-amy-medium.onnx")
-
-# Find piper binary
-PIPER_BIN = "piper"
-possible_bins = [
-    os.path.join(BASE_DIR, "piper", "piper"),
-    os.path.join(BASE_DIR, "piper"),
-    "piper" 
-]
-for pb in possible_bins:
-    if os.path.exists(pb) or subprocess.run(f"command -v {pb}", shell=True, capture_output=True).returncode == 0:
-        PIPER_BIN = pb
-        break
+# --- THREAD SAFE STATE ---
 
 # --- THREAD SAFE STATE ---
 data_lock = threading.Lock()
@@ -377,23 +364,19 @@ def api_status():
 def api_context():
     with data_lock: return jsonify(scene_data)
 
-# --- ROBUST PIPER TTS ENGINE (LIVE STREAMING) ---
+# --- NEXT-GEN TTS ENGINE (Edge-TTS + mpv Streaming) ---
 def run_speak(text):
     if not text: return
     try:
         # Sanitize for shell
         safe_text = text.replace('"', '\\"').replace('$', '\\$').replace('`', '\\`')
         
-        if not os.path.exists(PIPER_MODEL):
-            logger.error(f"TTS ERROR: Model missing at {PIPER_MODEL}")
-            return
-
-        # LIVE PIPE: Piper -> Aplay (Real-time, zero disk I/O)
-        # Using -D default to ensure it hits the active speaker
-        cmd = f'echo "{safe_text}" | {PIPER_BIN} --model "{PIPER_MODEL}" --output-raw | aplay -r 22050 -f S16_LE -t raw'
+        # STREAMING: Edge-TTS -> mpv (Real-time human voice)
+        # Bypasses local audio routing issues by using mpv's robust output
+        cmd = f'edge-tts --voice {VOICE_NAME} --text "{safe_text}" --write-media - | mpv --no-terminal -'
         
         logger.info(f"Speaking: {text}")
-        subprocess.run(cmd, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(cmd, shell=True, check=True)
         
     except Exception as e:
         logger.error(f"TTS Engine Failure: {e}")
@@ -582,21 +565,15 @@ def enroll_frame():
 
         
 if __name__ == "__main__":
-    print("\n" + "="*50)
-    print("      AURA AI: CORE INITIALIZATION")
-    print("="*50)
-    print(f"[*] Voice Binary: {PIPER_BIN}")
-    print(f"[*] Voice Model:  {PIPER_MODEL}")
+    print("-" * 30)
+    print("AURA: LIVE VOCAL SYSTEM ONLINE")
+    print(f"VOICE: {VOICE_NAME}")
+    print("-" * 30)
+
+    # Vocal confirmation
+    def boot_speak():
+        time.sleep(1)
+        run_speak("AURA system online and vocal core initialized.")
     
-    model_exists = os.path.exists(PIPER_MODEL)
-    print(f"[*] Model Found:  {'[OK]' if model_exists else '[MISSING!]'}")
-    
-    def boot_greet():
-        time.sleep(2)
-        if model_exists:
-            run_speak("AURA system online and core ready.")
-        else:
-            print("[ERROR] Cannot speak: Model file missing.")
-        
-    threading.Thread(target=boot_greet, daemon=True).start()
+    threading.Thread(target=boot_speak, daemon=True).start()
     app.run(host='0.0.0.0', port=5000, threaded=True)
