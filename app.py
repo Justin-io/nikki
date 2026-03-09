@@ -80,6 +80,16 @@ scene_data = {"names": [], "count": 0, "x_pos": 0.5}
 attendance_enabled = True
 enroll_mode = False
 enroll_name = ""
+greeted_log = {} # name -> last_greet_time
+GREETING_TIMEOUT = 3600 # 1 hour cooldown for greetings
+GREETINGS = [
+    "Hello {name}, welcome back.",
+    "I see you, {name}.",
+    "System online. Greetings, {name}.",
+    "Access authorized. Hello {name}.",
+    "Welcome, {name}. How can I assist you today?",
+    "Subject recognized: {name}. Good to see you."
+]
 
 # --- HARDWARE (Mock Fallbacks) ---
 sensor_cache = {"cpu": "40°C", "ram": "30%", "net": "WiFi", "aqi": 45, "temp": 26.0, "hum": 60.0, "bat": 100.0}
@@ -276,6 +286,15 @@ def vision_worker():
                 
                 names.append(name)
                 x_vals.append((l + r) / 2 / 320)
+                
+                # --- PROACTIVE GREETING LOGIC ---
+                if name != "Unknown":
+                    now = time.time()
+                    if name not in greeted_log or (now - greeted_log[name]) > GREETING_TIMEOUT:
+                        greeted_log[name] = now
+                        msg = random.choice(GREETINGS).format(name=name)
+                        logger.info(f"Proactive Greeting for {name}")
+                        threading.Thread(target=run_speak, args=(msg,), daemon=True).start()
 
             # Update shared state
             last_locations = [(t*2, r*2, b*2, l*2) for t,r,b,l in locs]
