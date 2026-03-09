@@ -107,7 +107,11 @@ if os.path.exists(FACES_FILE):
             data = pickle.load(f)
             known_encodings, known_names = data["encodings"], data["names"]
             attendance_log = {n: "Absent" for n in known_names}
-    except: pass
+            logger.info(f"Loaded {len(known_encodings)} authorized faces from {FACES_FILE}")
+    except Exception as e:
+        logger.error(f"Failed to load faces file: {e}")
+else:
+    logger.warning(f"No face memory file found ({FACES_FILE}). Tracking will be 'Unknown' only.")
 
 # --- ROBUST CAMERA INITIALIZATION ---
 picam2 = None
@@ -198,29 +202,49 @@ def gen_frames():
 
     while True:
         try:
-            frame = None
+            bgr_frame = None
             
             if picam2:
-                frame = picam2.capture_array()
+                # Picamera2 returns RGB by default if configured as such
+                rgb_frame = picam2.capture_array()
+                bgr_frame = cv2.cvtColor(rgb_frame, cv2.COLOR_RGB2BGR)
             elif usb_cam:
-                ret_val, frame = usb_cam.read()
-                if not ret_val or frame is None:
+                # VideoCapture returns BGR
+                ret_val, bgr_frame = usb_cam.read()
+                if not ret_val or bgr_frame is None:
                     time.sleep(0.1)
                     continue
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             
+            if bgr_frame is None: 
+                continue
+
             frame_counter += 1
             
-            if frame_counter % 5 == 0:
-                small = cv2.resize(frame, (0,0), fx=0.5, fy=0.5)
+            if frame_counter % 3 == 0: # Check more frequently (every 3 frames)
+                # Prepare detection frame (RGB)
+                detection_rgb = cv2.cvtColor(bgr_frame, cv2.COLOR_BGR2RGB)
+                small = cv2.resize(detection_rgb, (0,0), fx=0.5, fy=0.5)
                 
                 with face_lock:
                     locs = face_recognition.face_locations(small, model="hog")
+                    
+                    # ENHANCEMENT: If no faces, try histogram equalization
+                    if not locs:
+                        img_yuv = cv2.cvtColor(small, cv2.COLOR_RGB2YUV)
+                        img_yuv[:,:,0] = cv2.equalizeHist(img_yuv[:,:,0])
+                        small_eq = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB)
+                        locs = face_recognition.face_locations(small_eq, model="hog")
+                        if locs:
+                            small = small_eq # Use the equalized frame for encodings too
+                    
                     encs = face_recognition.face_encodings(small, locs)
                 
                 names = []
                 x_positions = []
                 
+                if locs:
+                    logger.debug(f"Detected {len(locs)} faces.")
+
                 for (t, r, b, l), enc in zip(locs, encs):
                     if enroll_mode and enroll_name:
                         # AUTO ENROLLMENT LOGIC
@@ -236,23 +260,24 @@ def gen_frames():
                                 enroll_mode = False
                                 enroll_name = ""
                                 attendance_enabled = True
-                            else:
-                                # Update encoding if already exists? (Maybe later)
-                                pass
+                            else: pass
                         names.append(name)
                         continue
 
                     name = "Unknown"
-                    center_x = (l + r) / 2 / 320
+                    center_x = (l + r) / 2 / 320 # normalized center x
                     x_positions.append(center_x)
 
                     if known_encodings and attendance_enabled:
                         with face_lock:
-                            matches = face_recognition.compare_faces(known_encodings, enc, 0.5)
+                            # Use 0.6 tolerance (default is often better)
+                            matches = face_recognition.compare_faces(known_encodings, enc, 0.6)
                         if any(matches):
                             dist = face_recognition.face_distance(known_encodings, enc)
                             name = known_names[np.argmin(dist)]
-                            with data_lock: attendance_log[name] = "Present"
+                            with data_lock: 
+                                attendance_log[name] = "Present"
+                            logger.info(f"Subject Identified: {name}")
                     names.append(name)
                 
                 last_locations = [(t*2, r*2, b*2, l*2) for t,r,b,l in locs]
@@ -263,16 +288,19 @@ def gen_frames():
                     scene_data["count"] = len(names)
                     scene_data["x_pos"] = np.mean(x_positions) if x_positions else 0.5
             
+            # --- DRAWING (On BGR Frame) ---
             for (t,r,b,l), name in zip(last_locations, last_names):
-                cv2.rectangle(frame, (l,t), (r,b), (255, 255, 255), 2)
-                cv2.rectangle(frame, (l,b-30), (r,b), (255, 255, 255), -1)
-                cv2.putText(frame, name, (l+6, b-6), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,0), 2)
+                color = (0, 255, 0) if name != "Unknown" else (255, 255, 255)
+                cv2.rectangle(bgr_frame, (l,t), (r,b), color, 2)
+                cv2.rectangle(bgr_frame, (l,b-30), (r,b), color, -1)
+                cv2.putText(bgr_frame, name, (l+6, b-6), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,0), 2)
 
-            ret, buf = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
+            ret, buf = cv2.imencode('.jpg', bgr_frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
             yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + buf.tobytes() + b'\r\n')
             
         except Exception as e:
             logger.error(f"Frame generation error: {e}")
+            time.sleep(1)
             time.sleep(0.1)
 
 # --- ROUTES ---
@@ -364,6 +392,24 @@ def ai_process():
     except Exception as e:
         logger.error(f"AI Error: {e}")
         return jsonify({"status": "error", "msg": str(e)}), 500
+
+@app.route('/api/mark_present', methods=['POST'])
+def mark_present():
+    data = request.get_json() or {}
+    name = data.get('name', '').lower()
+    if not name:
+        return jsonify({"status": "error", "msg": "No name provided"}), 400
+    
+    with data_lock:
+        # If the person is already known (in known_names), or we just want to track them
+        # We'll allow any name to be marked present for now to support TM's dynamic labels
+        attendance_log[name] = "Present"
+        # If not in known list, let's add them so they show up in Roster headers even if no encoding exists
+        if name not in known_names:
+             known_names.append(name)
+             
+    logger.info(f"TM Fallback: {name} marked present.")
+    return jsonify({"status": "success"})
 
 @app.route('/api/add_student', methods=['POST'])
 def add_student():
