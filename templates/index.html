@@ -217,7 +217,8 @@
             background: #020202;
             /* Flesh tone base under shadow */
             z-index: 30;
-            transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.8s ease-in-out;
+            /* Smooth, slow opening */
         }
 
         .eyelid.top {
@@ -241,16 +242,16 @@
         .eye-socket.blinking .eyelid.top {
             transform: translateY(-20%) !important;
             /* Covers 80% of the eye */
-            transition-duration: 0.20s;
-            /* Slower, languid blink */
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 0.6s;
+            /* Very slow blink close */
+            transition-timing-function: ease-in-out;
         }
 
         .eye-socket.blinking .eyelid.bottom {
             transform: translateY(80%) !important;
             /* Rises 20% to meet top lid */
-            transition-duration: 0.20s;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 0.6s;
+            transition-timing-function: ease-in-out;
         }
 
         .eyeball {
@@ -1102,19 +1103,18 @@
         const micDot = document.getElementById('mic-dot');
         const micText = document.getElementById('mic-text');
 
-        // --- EYE ANIMATION LOGIC ---
         function triggerBlink() {
             eyes.forEach(eye => eye.classList.add('blinking'));
             setTimeout(() => {
                 eyes.forEach(eye => eye.classList.remove('blinking'));
-            }, 200); // Wait slightly longer before reopening
+            }, 800); // 0.6s close + 0.2s resting hold before reopening
         }
 
         function startBlinking() {
             if (blinkInterval) clearTimeout(blinkInterval);
 
-            // Humans blink roughly every 4-8 seconds
-            const nextBlink = Math.random() * 6000 + 4000;
+            // Large resting cadence for slow movement
+            const nextBlink = Math.random() * 8000 + 4000;
             blinkInterval = setTimeout(() => {
                 const specialStates = ['happy', 'panic', 'angry', 'sad', 'surprised', 'talking', 'thinking'];
                 const isBusy = Array.from(eyes).some(e => specialStates.some(s => e.classList.contains(s)));
