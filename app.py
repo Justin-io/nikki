@@ -373,8 +373,8 @@ def run_speak(text):
         safe_text = text.replace('"', '\\"').replace('$', '\\$').replace('`', '\\`')
         
         # Real-time Streaming Pipe: Cloud AI -> Local Absolute Player
-        # We use -Q (quiet) to prevent console spam
-        cmd = f'edge-tts --voice {VOICE_NAME} --text "{safe_text}" --write-media - | {MPG123_PATH} -Q -'
+        # We use -q (quiet) to prevent console spam
+        cmd = f'edge-tts --voice {VOICE_NAME} --text "{safe_text}" --write-media - | {MPG123_PATH} -q -'
         
         logger.info(f"AURA Speaking: {text}")
         subprocess.run(cmd, shell=True, check=True)

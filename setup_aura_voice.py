@@ -20,7 +20,7 @@ def setup_aura_pro():
         subprocess.run("sudo apt update && sudo apt install mpg123 -y", shell=True)
 
     test_text = "System online. Vocal core is now bulletproof."
-    test_cmd = f'edge-tts --voice en-US-AvaNeural --text "{test_text}" --write-media - | {PLAYER} -Q -'
+    test_cmd = f'edge-tts --voice en-US-AvaNeural --text "{test_text}" --write-media - | {PLAYER} -q -'
     
     print(f"[*] Executing Live Stream: {test_cmd}")
     subprocess.run(test_cmd, shell=True)
