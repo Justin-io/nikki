@@ -63,7 +63,7 @@ def load_env():
 load_env()
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL = "llama-3.1-8b-instant"
-PIPER_MODEL = "en_US-amy-medium.onnx" # Path to your Piper model file
+VOSK_TTS_MODEL = "vosk-model-tts-en-us-0.10" # Path to your Vosk TTS model directory
 
 # --- THREAD SAFE STATE ---
 data_lock = threading.Lock()
@@ -370,13 +370,13 @@ def api_speak():
         def speak_thread():
             tmp_wav = f"/tmp/aura_speech_{time.time()}.wav"
             try:
-                # Piper generates extremely realistic offline voice
-                # Ensure 'piper' is installed and PIPER_MODEL points to the .onnx file
-                cmd = f'echo "{text}" | piper --model {PIPER_MODEL} --output_file {tmp_wav}'
+                # Vosk TTS generates offline voice
+                # Ensure 'vosk-tts' is installed and VOSK_TTS_MODEL points to the model directory
+                cmd = f'vosk-tts --model {VOSK_TTS_MODEL} --input "{text}" --output {tmp_wav}'
                 subprocess.run(cmd, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 subprocess.call(['aplay', tmp_wav], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             except Exception as e:
-                logger.warning(f"Piper failed, falling back to espeak. Error: {e}")
+                logger.warning(f"Vosk TTS failed, falling back to espeak. Error: {e}")
                 # Secondary fallback: espeak (built-in to Pi OS)
                 subprocess.call(['espeak', '-ven+f5', '-s150', text], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             finally:
