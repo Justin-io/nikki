@@ -154,21 +154,20 @@
         }
 
         .eye-socket {
-            width: 300px;
-            height: 220px;
+            width: 320px;
+            height: 240px;
             background: #000;
             border-radius: 50% 50% 45% 45% / 100% 100% 30% 30%;
             position: relative;
             overflow: hidden;
-            border: 2px solid rgba(0, 242, 255, 0.1);
-            box-shadow: 0 0 40px rgba(0, 242, 255, 0.1), inset 0 0 30px #000;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: rotate(-2deg);
-            /* Micro-tilt for personality */
+            border: 1px solid rgba(0, 242, 255, 0.05);
+            box-shadow: 0 0 60px rgba(0, 0, 0, 1), inset 0 0 40px #000;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: rotate(-3deg);
         }
 
         .eye-socket:last-child {
-            transform: rotate(2deg);
+            transform: rotate(3deg);
         }
 
         /* Blush effect */
@@ -205,40 +204,42 @@
             pointer-events: none;
         }
 
+        /* Blinking Logic (Fast close, natural open) */
         .eyelid {
             position: absolute;
             width: 100%;
             height: 100%;
             background: #000;
             z-index: 30;
-            transition: transform 0.1s ease-out;
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .eyelid.top {
             top: 0;
             transform: translateY(-100%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 2px solid rgba(0, 242, 255, 0.3);
         }
 
         .eyelid.bottom {
             bottom: 0;
             transform: translateY(100%);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 2px solid rgba(0, 242, 255, 0.3);
         }
 
-        /* Blinking class for JS trigger */
-        .blinking .eyelid.top {
-            transform: translateY(-10%) !important;
+        .eye-socket.blinking .eyelid.top {
+            transform: translateY(0%) !important;
+            transition-duration: 0.08s;
         }
 
-        .blinking .eyelid.bottom {
-            transform: translateY(10%) !important;
+        .eye-socket.blinking .eyelid.bottom {
+            transform: translateY(0%) !important;
+            transition-duration: 0.08s;
         }
 
         .eyeball {
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 100%);
+            background: radial-gradient(circle at 50% 50%, #0a0a0a 0%, #000 100%);
             position: relative;
             display: flex;
             justify-content: center;
@@ -247,36 +248,65 @@
 
         .iris-group {
             position: absolute;
-            width: 130px;
-            height: 130px;
-            transition: transform 0.15s cubic-bezier(0.1, 0.5, 0.1, 1);
+            width: 140px;
+            height: 140px;
+            transition: transform 0.15s cubic-bezier(0.1, 0.8, 0.1, 1);
+            animation: saccade 10s infinite;
+        }
+
+        @keyframes saccade {
+
+            0%,
+            90%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            91% {
+                transform: translate(2px, -1px);
+            }
+
+            92% {
+                transform: translate(-1px, 2px);
+            }
+
+            93% {
+                transform: translate(0, 0);
+            }
         }
 
         .iris {
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, #00f2ff 0%, #0050ff 40%, #001030 100%);
+            background:
+                radial-gradient(circle, #00f2ff 0%, #0050ff 35%, #001030 100%),
+                repeating-conic-gradient(from 0deg, transparent 0, transparent 1deg, rgba(255, 255, 255, 0.02) 2deg);
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.5);
+            box-shadow:
+                0 0 50px rgba(0, 242, 255, 0.4),
+                inset 0 0 60px rgba(0, 0, 0, 0.9);
             position: relative;
             overflow: hidden;
         }
 
-        .iris::after {
+        /* Biological gloss reflection */
+        .iris::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-conic-gradient(from 0deg, transparent 0, transparent 10deg, rgba(255, 255, 255, 0.05) 15deg);
-            opacity: 0.4;
+            top: 10%;
+            left: 15%;
+            width: 40%;
+            height: 25%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 60%);
+            border-radius: 50% 100% 50% 100%;
+            filter: blur(2px);
+            z-index: 10;
         }
 
         .pupil {
             position: absolute;
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
             background: #000;
             border-radius: 50%;
             top: 50%;
@@ -284,7 +314,60 @@
             transform: translate(-50%, -50%);
             box-shadow: 0 0 10px #000;
             z-index: 2;
-            transition: width 0.3s, height 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Mood Dilation */
+        .eye-socket.happy .pupil {
+            width: 56px;
+            height: 56px;
+        }
+
+        .eye-socket.surprised .pupil {
+            width: 38px;
+            height: 38px;
+        }
+
+        /* Sentient Micro-animations */
+        @keyframes pupilPulse {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.15);
+            }
+        }
+
+        .eye-socket.talking .pupil {
+            animation: pupilPulse 1.5s infinite ease-in-out;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+        }
+
+        @keyframes thinkingLook {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%);
+            }
+
+            25% {
+                transform: translate(-45%, -55%);
+            }
+
+            50% {
+                transform: translate(-55%, -45%);
+            }
+
+            75% {
+                transform: translate(-48%, -52%);
+            }
+        }
+
+        .eye-socket.thinking .iris-group {
+            animation: thinkingLook 4s infinite ease-in-out;
         }
 
         .reflection {
@@ -767,13 +850,6 @@
             </svg>
             <span>Enroll</span>
         </button>
-        <button class="nav-item" onclick="openTab('vision-lab')">
-            <svg viewBox="0 0 24 24">
-                <path
-                    d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
-            </svg>
-            <span>Vision Lab</span>
-        </button>
     </nav>
 
     <div class="main-content">
@@ -864,22 +940,21 @@
                     <div id="roster-container" style="max-height: 150px; overflow-y: auto; margin-bottom: 1.5rem;">
                     </div>
 
-                    <!--
                     <div class="section-title">Enrollment</div>
-                    (Removed <form> to fix capture bug)
+                    <!-- Removed <form> to fix capture bug. Using pure JS -->
                     <input type="text" id="input-name" placeholder="Student Name" required>
 
-                    (new file upload option)
+                    <!-- new file upload option -->
                     <input type="file" id="file-input" accept="image/*" style="display:block; margin:0.5rem 0;">
                     <button class="btn-submit" id="btn-upload" onclick="uploadAndEnroll()">Upload &amp;
                         Register</button>
-                    -->
-                    <!-- <div style="font-size:0.85rem; color:#666; margin-top:0.5rem;">
+
+                    <div style="font-size:0.85rem; color:#666; margin-top:0.5rem;">
                         Or invoke <code>/api/add_student_from_path</code> (POST JSON:
                         {"name":"...","path":"/absolute/or/relative/file.jpg"}) to register an image already on the
                         server.
-                    </div> -->
-                    <!--
+                    </div>
+
                     <video id="cam-preview" autoplay playsinline></video>
                     <canvas id="capture-canvas" style="display:none;"></canvas>
 
@@ -888,7 +963,6 @@
                         <button class="btn-submit" id="btn-enroll" onclick="captureAndEnroll()" disabled>Capture &amp;
                             Register</button>
                     </div>
-                    -->
                 </div>
             </div>
         </div>
@@ -925,22 +999,6 @@
             onclick="cancelLiveEnroll()">Cancel</button>
     </div>
 
-    <!-- TAB 5: VISION LAB -->
-    <div id="vision-lab" class="tab-content">
-        <div class="section-title">Teachable Machine Vision Lab</div>
-        <div class="card" style="margin-bottom: 2rem;">
-            <p style="color:var(--muted); margin-bottom: 1rem;">Launch a local webcam classifier using your TM model.
-            </p>
-            <button class="btn-submit" id="btn-lab-start" onclick="initLab()">Start Vision Engine</button>
-        </div>
-
-        <div class="split-view">
-            <div id="webcam-container" class="video-wrapper" style="min-height: 200px; background: #000;"></div>
-            <div id="label-container" style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <div style="color:var(--muted); font-style: italic;">Engine labels will appear here...</div>
-            </div>
-        </div>
-    </div>
 
     <script>
         // --- STATE ---
@@ -971,61 +1029,6 @@
             }
         }
 
-        // Lab specific logic
-        let labWebcam, labLabelContainer;
-        async function initLab() {
-            const modelURL = TM_MODEL_URL + "model.json";
-            const metadataURL = TM_MODEL_URL + "metadata.json";
-
-            const btn = document.getElementById('btn-lab-start');
-            btn.disabled = true;
-            btn.textContent = "Loading Model...";
-
-            try {
-                const model = await tmImage.load(modelURL, metadataURL);
-                const maxPredictions = model.getTotalClasses();
-
-                const flip = true;
-                labWebcam = new tmImage.Webcam(400, 300, flip);
-                await labWebcam.setup();
-                await labWebcam.play();
-                window.requestAnimationFrame(loopLab);
-
-                document.getElementById("webcam-container").innerHTML = "";
-                document.getElementById("webcam-container").appendChild(labWebcam.canvas);
-                labLabelContainer = document.getElementById("label-container");
-                labLabelContainer.innerHTML = "";
-                for (let i = 0; i < maxPredictions; i++) {
-                    labLabelContainer.appendChild(document.createElement("div"));
-                }
-                btn.textContent = "Engine Running";
-            } catch (e) {
-                alert("Lab initialization failed. Check camera permissions.");
-                btn.disabled = false;
-                btn.textContent = "Start Vision Engine";
-            }
-        }
-
-        async function loopLab() {
-            labWebcam.update();
-            await predictLab();
-            window.requestAnimationFrame(loopLab);
-        }
-
-        async function predictLab() {
-            if (!labWebcam || !tmModel) return;
-            const prediction = await tmModel.predict(labWebcam.canvas);
-            for (let i = 0; i < tmMaxPredictions; i++) {
-                const p = prediction[i];
-                const classPrediction = `<div class="roster-item"><span>${p.className}</span><span>${(p.probability * 100).toFixed(0)}%</span></div>`;
-                labLabelContainer.childNodes[i].innerHTML = classPrediction;
-
-                // bridge to attendance if high confidence
-                if (p.probability > 0.95 && p.className.toLowerCase() !== "background") {
-                    notifyBackendPresence(p.className.toLowerCase());
-                }
-            }
-        }
 
         function startTMProfiling() {
             // Check every 2 seconds
@@ -1079,21 +1082,30 @@
         const micText = document.getElementById('mic-text');
 
         // --- EYE ANIMATION LOGIC ---
+        function triggerBlink() {
+            eyes.forEach(eye => eye.classList.add('blinking'));
+            setTimeout(() => {
+                eyes.forEach(eye => eye.classList.remove('blinking'));
+            }, 150);
+        }
+
         function startBlinking() {
-            if (blinkInterval) clearInterval(blinkInterval);
+            if (blinkInterval) clearTimeout(blinkInterval);
 
-            blinkInterval = setInterval(() => {
-                const delay = Math.random() * 4000 + 2000;
-                setTimeout(() => {
-                    const specialStates = ['happy', 'panic', 'angry', 'sad', 'surprised', 'talking'];
-                    const shouldBlink = !Array.from(eyes).some(e => specialStates.some(s => e.classList.contains(s)));
+            const nextBlink = Math.random() * 5000 + 2000; // Human blink cadence
+            blinkInterval = setTimeout(() => {
+                const specialStates = ['happy', 'panic', 'angry', 'sad', 'surprised', 'talking', 'thinking'];
+                const isBusy = Array.from(eyes).some(e => specialStates.some(s => e.classList.contains(s)));
 
-                    if (shouldBlink) {
-                        eyes.forEach(eye => eye.classList.remove('active'));
-                        setTimeout(() => eyes.forEach(eye => eye.classList.add('active')), 150);
+                if (!isBusy) {
+                    triggerBlink();
+                    // 10% chance of a realistic double-blink
+                    if (Math.random() < 0.10) {
+                        setTimeout(triggerBlink, 300);
                     }
-                }, delay);
-            }, 4000);
+                }
+                startBlinking();
+            }, nextBlink);
         }
         startBlinking();
 
@@ -1295,10 +1307,22 @@
 
                 setEyesClass(null);
 
-                // --- UNIVERSAL GREETING LOGIC ---
+                // --- SENTIENT RECOGNITION GREETINGS ---
+                const GREETINGS = [
+                    "Hello {name}, welcome back.",
+                    "I see you, {name}.",
+                    "System online. Good to see you, {name}.",
+                    "Access authorized. Greetings, {name}.",
+                    "Welcome, {name}. How can I assist you?",
+                    "Recognized: {name}. Initiating interaction protocols.",
+                    "{name} detected. You're looking well today."
+                ];
+
                 names.forEach(name => {
                     if (name !== 'unknown' && !sessionStorage.getItem('greeted_' + name)) {
-                        speak(`Hello ${name}, welcome back!`);
+                        const randomGreet = GREETINGS[Math.floor(Math.random() * GREETINGS.length)].replace('{name}', name);
+                        setEyesClass('happy'); // Dilate eyes on recognition
+                        setTimeout(() => speak(randomGreet), 500);
                         sessionStorage.setItem('greeted_' + name, 'true');
                     }
                 });
