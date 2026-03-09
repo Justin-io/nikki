@@ -5,19 +5,28 @@ from flask import Flask, render_template, Response, jsonify, request
 from PIL import Image
 import requests
 
+# --- CONFIGURATION ---
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
+logger = logging.getLogger("AURA")
+app = Flask(__name__)
+SERVER_START = time.time()
+
 # --- PROCESS CLEANUP ---
 def cleanup_background():
     try:
         current_pid = os.getpid()
         # 1. Kill any process on Port 5000
         try:
-            cmd_port = "lsof -t -i:5000"
-            pids_port = subprocess.check_output(cmd_port, shell=True).decode().split()
+            # We use subprocess.run for better control and timeout
+            cmd_port = ["lsof", "-t", "-i:5000"]
+            result = subprocess.run(cmd_port, capture_output=True, text=True)
+            pids_port = result.stdout.split()
             for pid in pids_port:
                 if int(pid) != current_pid:
                     subprocess.call(['kill', '-9', pid])
                     logger.info(f"Killed process {pid} on port 5000")
-        except: pass
+        except Exception as e:
+            logger.debug(f"Port cleanup skipped: {e}")
 
         # 2. Kill other python processes running app.py
         try:
@@ -29,13 +38,10 @@ def cleanup_background():
         except: pass
         
         # 3. Release Camera Locks
-        # Kill common camera-using processes
         camera_procs = ['libcamera', 'camera-stream', 'vlc', 'ffmpeg', 'motion']
         for proc in camera_procs:
             subprocess.call(['pkill', '-9', proc], stderr=subprocess.DEVNULL)
         
-        # Free up /dev/video* if possible
-        # Some systems keep a lock file; we just wait a bit for hardware to reset
         time.sleep(2)
         logger.info("Background cleanup complete.")
     except Exception as e:
@@ -52,16 +58,11 @@ def load_env():
                 if '=' in line and not line.startswith('#'):
                     k, v = line.strip().split('=', 1)
                     os.environ[k.strip()] = v.strip()
+        logger.info("Environment variables loaded.")
 
 load_env()
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL = "llama-3.1-8b-instant"
-
-# --- CONFIGURATION ---
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
-logger = logging.getLogger("AURA")
-app = Flask(__name__)
-SERVER_START = time.time()
 
 # --- THREAD SAFE STATE ---
 data_lock = threading.Lock()
