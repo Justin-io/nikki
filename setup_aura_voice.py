@@ -13,11 +13,11 @@ def setup_piper():
     print(f"[*] Detected Architecture: {arch}")
     
     if "aarch64" in arch:
-        url = "https://github.com/rhasspy/piper/releases/download/v1.2.0/piper_linux_aarch64.tar.gz"
+        url = "https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_aarch64.tar.gz"
     elif "armv7" in arch:
-        url = "https://github.com/rhasspy/piper/releases/download/v1.2.0/piper_linux_armv7l.tar.gz"
+        url = "https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_armv7l.tar.gz"
     elif "x86_64" in arch:
-        url = "https://github.com/rhasspy/piper/releases/download/v1.2.0/piper_linux_x86_64.tar.gz"
+        url = "https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz"
     else:
         print(f"[!] Unsupported architecture '{arch}'. Please install Piper manually.")
         return
