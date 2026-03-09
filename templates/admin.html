@@ -1,54 +1,305 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>HOPE Admin Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA | Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #e0e0e0; padding: 40px; margin: 0; }
-        h1 { border-bottom: 2px solid #333; padding-bottom: 10px; color: #fff; }
-        table { width: 100%; max-width: 800px; margin-top: 20px; border-collapse: collapse; background: #1e1e1e; border-radius: 8px; overflow: hidden; }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
-        th { background: #2a2a2a; color: #888; text-transform: uppercase; font-size: 14px; }
-        .status-present { color: #00ff00; font-weight: bold; }
-        .status-absent { color: #ff3333; }
+        :root {
+            --bg: #0a0a0c;
+            --accent: #00f2ff;
+            --secondary: #7000ff;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+            --muted: #888891;
+            --success: #00ffaa;
+            --error: #ff4466;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-label {
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .card-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .admin-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .table-section,
+        .diag-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            color: var(--muted);
+            font-size: 0.8rem;
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 15px 10px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-present {
+            background: rgba(0, 255, 170, 0.1);
+            color: var(--success);
+        }
+
+        .badge-absent {
+            background: rgba(255, 68, 102, 0.1);
+            color: var(--error);
+        }
+
+        .diag-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .diag-item:last-child {
+            border: none;
+        }
+
+        .diag-label {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .diag-value {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 900px) {
+            .admin-content {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <h1>Data Science Dept - Live Attendance</h1>
-    <table id="attendanceTable">
-        <thead>
-            <tr>
-                <th>Student / Faculty Name</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            </tbody>
-    </table>
+
+    <div class="header">
+        <h1>AURA ADMIN CONTROL</h1>
+        <div style="font-size: 0.8rem; color: var(--muted);" id="current-time">-- : -- : --</div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <span class="card-label">Total Registered</span>
+            <div class="card-value" id="stat-total">0</div>
+        </div>
+        <div class="card">
+            <span class="card-label">Active Presence</span>
+            <div class="card-value" id="stat-present" style="color: var(--success);">0</div>
+        </div>
+        <div class="card">
+            <span class="card-label">System Uptime</span>
+            <div class="card-value" id="stat-uptime">0 min</div>
+        </div>
+        <div class="card">
+            <span class="card-label">Network Status</span>
+            <div class="card-value" id="stat-net" style="font-size: 1rem;">Scanning...</div>
+        </div>
+    </div>
+
+    <div class="admin-content">
+        <div class="table-section">
+            <div class="section-title">Presence Overview</div>
+            <table id="attendanceTable">
+                <thead>
+                    <tr>
+                        <th>Subject Name</th>
+                        <th>Enrollment ID</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="diag-section">
+            <div class="section-title">System Diagnostics</div>
+            <div class="diag-item">
+                <span class="diag-label">Core Temperature</span>
+                <span class="diag-value" id="diag-cpu">--°C</span>
+            </div>
+            <div class="diag-item">
+                <span class="diag-label">Memory Usage</span>
+                <span class="diag-value" id="diag-ram">--%</span>
+            </div>
+            <div class="diag-item">
+                <span class="diag-label">Local IP</span>
+                <span class="diag-value" id="diag-ip">--.--.--.--</span>
+            </div>
+            <div class="diag-item">
+                <span class="diag-label">Air Quality Index</span>
+                <span class="diag-value" id="diag-aqi">-- AQI</span>
+            </div>
+            <div class="diag-item">
+                <span class="diag-label">Ambient Temp</span>
+                <span class="diag-value" id="diag-temp">--°C</span>
+            </div>
+            <div class="diag-item">
+                <span class="diag-label">Humidity</span>
+                <span class="diag-value" id="diag-hum">--%</span>
+            </div>
+        </div>
+    </div>
 
     <script>
-        function updateAttendance() {
+        const startTime = Date.now();
+
+        function updateAdmin() {
+            // Update Time
+            document.getElementById('current-time').textContent = new Date().toLocaleTimeString();
+
+            // Fetch Sensors
+            fetch('/api/sensors')
+                .then(r => r.json())
+                .then(d => {
+                    document.getElementById('diag-cpu').textContent = d.cpu;
+                    document.getElementById('diag-ram').textContent = d.ram;
+                    document.getElementById('diag-ip').textContent = d.ip;
+                    document.getElementById('diag-aqi').textContent = `${parseInt(d.aqi)} AQI`;
+                    document.getElementById('diag-temp').textContent = d.temp_str;
+                    document.getElementById('diag-hum').textContent = d.hum_str;
+                    document.getElementById('stat-net').textContent = d.net;
+
+                    const uptime = Math.floor((Date.now() - startTime) / 60000);
+                    document.getElementById('stat-uptime').textContent = `${uptime} min`;
+                });
+
+            // Fetch Attendance
             fetch('/api/status')
-                .then(response => response.json())
+                .then(r => r.json())
                 .then(data => {
                     const tbody = document.querySelector('#attendanceTable tbody');
-                    tbody.innerHTML = ''; // Clear current rows
-                    
+                    tbody.innerHTML = '';
+
+                    let total = 0;
+                    let present = 0;
+
                     for (const [name, status] of Object.entries(data)) {
+                        total++;
+                        if (status === 'Present') present++;
+
                         const tr = document.createElement('tr');
-                        const statusClass = status === 'Present' ? 'status-present' : 'status-absent';
-                        
+                        const badgeClass = status === 'Present' ? 'badge-present' : 'badge-absent';
+
                         tr.innerHTML = `
-                            <td>${name}</td>
-                            <td class="${statusClass}">${status}</td>
+                            <td>${name.toUpperCase()}</td>
+                            <td style="color:var(--muted); font-family: monospace; font-size:0.8rem;">SN-${name.substring(0, 3).toUpperCase()}</td>
+                            <td><span class="badge ${badgeClass}">${status}</span></td>
                         `;
                         tbody.appendChild(tr);
                     }
+
+                    document.getElementById('stat-total').textContent = total;
+                    document.getElementById('stat-present').textContent = present;
                 });
         }
-        
-        // Poll the server every 2 seconds for fresh data
-        setInterval(updateAttendance, 2000);
-        updateAttendance(); // Run immediately on load
+
+        setInterval(updateAdmin, 2000);
+        updateAdmin();
     </script>
 </body>
+
 </html>

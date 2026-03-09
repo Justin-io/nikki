@@ -730,7 +730,11 @@
             </div>
             <div class="ai-box">
                 <div class="status-text" id="ai-status">Voice system offline</div>
-                <button class="btn-ai" id="btn-ai" onclick="initializeVoice()">Initialize Voice</button>
+                <div style="display: flex; gap: 10px; justify-content: center; width: 100%;">
+                    <button class="btn-ai" id="btn-ai" onclick="initializeVoice()">Initialize Voice</button>
+                    <a href="/admin" target="_blank" class="btn-ai"
+                        style="text-decoration:none; padding: 12px 20px;">Admin Portal</a>
+                </div>
                 <div class="mic-status">
                     <div class="mic-dot" id="mic-dot"></div>
                     <span id="mic-text">Microphone inactive</span>
