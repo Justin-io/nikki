@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AURA | Sentient OS</title>
     <style>
-        :root { 
-            --bg: #f4f4f9; 
-            --text: #1a1a1a; 
-            --border: #e0e0e0; 
+        :root {
+            --bg: #f4f4f9;
+            --text: #1a1a1a;
+            --border: #e0e0e0;
             --muted: #888888;
             --success: #22c55e;
             --error: #ef4444;
             --accent: #0055ff;
             --surface: #ffffff;
         }
-        
-        * { box-sizing: border-box; }
-        
-        body { 
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            margin: 0; 
-            line-height: 1.5; 
-            overflow: hidden; 
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.5;
+            overflow: hidden;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -33,7 +36,7 @@
         .main-content {
             flex: 1;
             overflow-y: auto;
-            padding-bottom: 80px; 
+            padding-bottom: 80px;
             background: linear-gradient(180deg, #ffffff 0%, #f4f4f9 100%);
         }
 
@@ -50,7 +53,7 @@
             justify-content: center;
             padding: 0.5rem 0;
             z-index: 100;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
         }
 
         .nav-item {
@@ -68,24 +71,49 @@
             align-items: center;
             gap: 4px;
         }
-        
-        .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
-        .nav-item:hover { color: var(--text); }
-        .nav-item.active { color: var(--accent); }
 
-        .tab-content { display: none; animation: fadeIn 0.3s ease; padding: 1rem; }
-        .tab-content.active { display: block; }
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .nav-item:hover {
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+            padding: 1rem;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
 
         /* --- DUAL EYE DESIGN (White Theme) --- */
-        .eye-container { 
-            width: 100%; 
+        .eye-container {
+            width: 100%;
             height: 75vh;
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 80px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 80px;
             position: relative;
         }
 
@@ -97,7 +125,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2), inset 0 0 20px rgba(0,0,0,0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.8);
             position: relative;
             overflow: hidden;
             border: 4px solid #1a1a1a;
@@ -113,11 +141,26 @@
             transition: all 0.15s cubic-bezier(0.25, 0.1, 0.25, 1);
             transform-origin: center;
         }
-        .eyelid.top { top: 0; border-radius: 0 0 50% 50%; transform: translateY(-100%); }
-        .eyelid.bottom { bottom: 0; border-radius: 50% 50% 0 0; transform: translateY(100%); }
-        
-        .eye-socket.active .eyelid.top { transform: translateY(-90%); }
-        .eye-socket.active .eyelid.bottom { transform: translateY(90%); }
+
+        .eyelid.top {
+            top: 0;
+            border-radius: 0 0 50% 50%;
+            transform: translateY(-100%);
+        }
+
+        .eyelid.bottom {
+            bottom: 0;
+            border-radius: 50% 50% 0 0;
+            transform: translateY(100%);
+        }
+
+        .eye-socket.active .eyelid.top {
+            transform: translateY(-90%);
+        }
+
+        .eye-socket.active .eyelid.bottom {
+            transform: translateY(90%);
+        }
 
         .eyeball {
             width: 180px;
@@ -126,7 +169,7 @@
             border-radius: 50%;
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
         .iris-group {
@@ -146,9 +189,9 @@
             border-radius: 50%;
             box-shadow: 0 0 15px rgba(0, 180, 255, 0.5);
             position: relative;
-            border: 3px solid rgba(0,0,0,0.2);
+            border: 3px solid rgba(0, 0, 0, 0.2);
         }
-        
+
         .pupil {
             position: absolute;
             width: 40%;
@@ -162,55 +205,154 @@
 
         .reflection {
             position: absolute;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 50%;
             z-index: 5;
         }
-        .ref-1 { width: 15%; height: 15%; top: 20%; left: 25%; }
-        .ref-2 { width: 6%; height: 6%; top: 45%; left: 60%; opacity: 0.6; }
+
+        .ref-1 {
+            width: 15%;
+            height: 15%;
+            top: 20%;
+            left: 25%;
+        }
+
+        .ref-2 {
+            width: 6%;
+            height: 6%;
+            top: 45%;
+            left: 60%;
+            opacity: 0.6;
+        }
 
         /* --- ENHANCED EMOTIONS --- */
-        
+
         /* Happy */
-        .eye-socket.happy .eyelid.top { transform: translateY(-85%) rotate(-5deg) scaleY(0.7); }
-        .eye-socket.happy .eyelid.bottom { transform: translateY(85%) rotate(5deg) scaleY(0.7); }
-        .eye-socket.happy .iris { background: radial-gradient(circle, #ff69b4 0%, #8b008b 100%); box-shadow: 0 0 20px #ff69b4; }
+        .eye-socket.happy .eyelid.top {
+            transform: translateY(-85%) rotate(-5deg) scaleY(0.7);
+        }
+
+        .eye-socket.happy .eyelid.bottom {
+            transform: translateY(85%) rotate(5deg) scaleY(0.7);
+        }
+
+        .eye-socket.happy .iris {
+            background: radial-gradient(circle, #ff69b4 0%, #8b008b 100%);
+            box-shadow: 0 0 20px #ff69b4;
+        }
 
         /* Panic */
-        .eye-socket.panic { animation: socketShake 0.1s infinite; }
-        .eye-socket.panic .eyelid.top { transform: translateY(-98%); }
-        .eye-socket.panic .eyelid.bottom { transform: translateY(98%); }
-        .eye-socket.panic .iris { background: radial-gradient(circle, #ff0000 0%, #4d0000 100%); box-shadow: 0 0 30px #ff0000; }
-        
+        .eye-socket.panic {
+            animation: socketShake 0.1s infinite;
+        }
+
+        .eye-socket.panic .eyelid.top {
+            transform: translateY(-98%);
+        }
+
+        .eye-socket.panic .eyelid.bottom {
+            transform: translateY(98%);
+        }
+
+        .eye-socket.panic .iris {
+            background: radial-gradient(circle, #ff0000 0%, #4d0000 100%);
+            box-shadow: 0 0 30px #ff0000;
+        }
+
         /* Thinking */
-        .eye-socket.thinking .iris-group { animation: thinkingMove 2s infinite alternate; }
-        @keyframes thinkingMove { 
-            0% { transform: translate(calc(-50% + 10px), calc(-50% - 5px)); } 
-            100% { transform: translate(calc(-50% - 10px), calc(-50% - 5px)); } 
+        .eye-socket.thinking .iris-group {
+            animation: thinkingMove 2s infinite alternate;
+        }
+
+        @keyframes thinkingMove {
+            0% {
+                transform: translate(calc(-50% + 10px), calc(-50% - 5px));
+            }
+
+            100% {
+                transform: translate(calc(-50% - 10px), calc(-50% - 5px));
+            }
         }
 
         /* Talking */
-        .eye-socket.talking { animation: talkPulse 0.3s infinite; }
-        .eye-socket.talking .eyelid.top { transform: translateY(-88%); }
-        @keyframes talkPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        .eye-socket.talking {
+            animation: talkPulse 0.3s infinite;
+        }
+
+        .eye-socket.talking .eyelid.top {
+            transform: translateY(-88%);
+        }
+
+        @keyframes talkPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
 
         /* Angry */
-        .eye-socket.angry .eyelid.top { transform: translateY(-80%) rotate(10deg) scaleY(1.2); }
-        .eye-socket.angry .eyelid.bottom { transform: translateY(80%) rotate(-10deg) scaleY(1.2); }
-        .eye-socket.angry .iris { background: radial-gradient(circle, #ff3300 0%, #800000 100%); box-shadow: 0 0 20px #ff3300; }
+        .eye-socket.angry .eyelid.top {
+            transform: translateY(-80%) rotate(10deg) scaleY(1.2);
+        }
+
+        .eye-socket.angry .eyelid.bottom {
+            transform: translateY(80%) rotate(-10deg) scaleY(1.2);
+        }
+
+        .eye-socket.angry .iris {
+            background: radial-gradient(circle, #ff3300 0%, #800000 100%);
+            box-shadow: 0 0 20px #ff3300;
+        }
 
         /* Sad */
-        .eye-socket.sad .eyelid.top { transform: translateY(-70%); }
-        .eye-socket.sad .eyelid.bottom { transform: translateY(80%); }
-        .eye-socket.sad .iris { background: radial-gradient(circle, #6666ff 0%, #000066 100%); opacity: 0.8; }
+        .eye-socket.sad .eyelid.top {
+            transform: translateY(-70%);
+        }
+
+        .eye-socket.sad .eyelid.bottom {
+            transform: translateY(80%);
+        }
+
+        .eye-socket.sad .iris {
+            background: radial-gradient(circle, #6666ff 0%, #000066 100%);
+            opacity: 0.8;
+        }
 
         /* Surprised */
-        .eye-socket.surprised .eyelid.top { transform: translateY(-100%); }
-        .eye-socket.surprised .eyelid.bottom { transform: translateY(100%); }
-        .eye-socket.surprised .iris { background: radial-gradient(circle, #ffffff 0%, #cccccc 100%); border: 4px solid #000; }
-        .eye-socket.surprised .pupil { width: 60%; height: 60%; }
+        .eye-socket.surprised .eyelid.top {
+            transform: translateY(-100%);
+        }
 
-        @keyframes socketShake { 0%, 100% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } }
+        .eye-socket.surprised .eyelid.bottom {
+            transform: translateY(100%);
+        }
+
+        .eye-socket.surprised .iris {
+            background: radial-gradient(circle, #ffffff 0%, #cccccc 100%);
+            border: 4px solid #000;
+        }
+
+        .eye-socket.surprised .pupil {
+            width: 60%;
+            height: 60%;
+        }
+
+        @keyframes socketShake {
+
+            0%,
+            100% {
+                transform: translate(1px, 1px);
+            }
+
+            50% {
+                transform: translate(-1px, -1px);
+            }
+        }
 
         .mood-display {
             text-align: center;
@@ -221,162 +363,284 @@
             text-transform: uppercase;
             color: var(--muted);
         }
-        .mood-display span { color: var(--accent); font-weight: bold; }
+
+        .mood-display span {
+            color: var(--accent);
+            font-weight: bold;
+        }
 
         /* --- SYSTEM TAB --- */
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
-            gap: 1rem; 
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
             margin-bottom: 2rem;
         }
-        
-        .card { 
-            background: var(--surface);
-            border: 1px solid var(--border); 
-            padding: 1rem; 
-            transition: all 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .card:hover { border-color: var(--accent); transform: translateY(-2px); }
-        .card-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 0.5rem; display: block; }
-        .card-value { font-size: 1.2rem; font-weight: 700; color: var(--text); }
 
-        .ai-box { 
-            border: 1px solid var(--border); 
-            padding: 1.5rem; 
-            text-align: center; 
+        .card {
             background: var(--surface);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
-        .status-text { font-style: italic; color: var(--muted); margin-bottom: 1rem; min-height: 24px; font-size: 0.9rem; }
-        
-        .btn-ai { 
-            background: var(--accent); 
-            color: #fff; 
-            border: none; 
-            padding: 0.8rem 1.5rem; 
-            font-size: 0.9rem; 
-            font-weight: 600; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            text-transform: uppercase; 
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .card-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .card-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .ai-box {
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            text-align: center;
+            background: var(--surface);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .status-text {
+            font-style: italic;
+            color: var(--muted);
+            margin-bottom: 1rem;
+            min-height: 24px;
+            font-size: 0.9rem;
+        }
+
+        .btn-ai {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
             width: 100%;
             border-radius: 4px;
         }
-        .btn-ai:hover { opacity: 0.9; }
-        .btn-ai.active { background: var(--text); }
-        .btn-ai.error { background: var(--error); }
 
-        .mic-status { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1rem; font-size: 0.8rem; color: var(--muted); }
-        .mic-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); transition: background 0.3s; }
-        .mic-dot.active { background: var(--success); box-shadow: 0 0 10px var(--success); }
-        .mic-dot.error { background: var(--error); }
+        .btn-ai:hover {
+            opacity: 0.9;
+        }
+
+        .btn-ai.active {
+            background: var(--text);
+        }
+
+        .btn-ai.error {
+            background: var(--error);
+        }
+
+        .mic-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .mic-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--muted);
+            transition: background 0.3s;
+        }
+
+        .mic-dot.active {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        .mic-dot.error {
+            background: var(--error);
+        }
 
         /* --- ATTENDANCE TAB --- */
-        .split-view { display: grid; grid-template-columns: 1.5fr 1fr; gap: 1rem; }
-        @media (max-width: 768px) { .split-view { grid-template-columns: 1fr; } }
-        
-        .video-wrapper { 
-            width: 100%; 
-            background: #000; 
-            aspect-ratio: 4/3; 
-            position: relative; 
+        .split-view {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .split-view {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .video-wrapper {
+            width: 100%;
+            background: #000;
+            aspect-ratio: 4/3;
+            position: relative;
             border: 1px solid var(--border);
             border-radius: 4px;
             overflow: hidden;
         }
-        .video-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
 
-        .roster-item { 
-            display: flex; 
-            justify-content: space-between; 
-            padding: 0.5rem 0; 
-            border-bottom: 1px solid var(--border); 
-            text-transform: capitalize; 
+        .video-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .roster-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            text-transform: capitalize;
             font-size: 0.9rem;
         }
 
-        input, button { font-family: inherit; }
-        input[type="text"] { 
+        input,
+        button {
+            font-family: inherit;
+        }
+
+        input[type="text"] {
             background: var(--surface);
-            border: 1px solid var(--border); 
-            padding: 0.8rem; 
-            font-size: 0.9rem; 
-            width: 100%; 
+            border: 1px solid var(--border);
+            padding: 0.8rem;
+            font-size: 0.9rem;
+            width: 100%;
             color: var(--text);
-            margin-bottom: 1rem; 
+            margin-bottom: 1rem;
             border-radius: 4px;
         }
-        input[type="text"]:focus { outline: none; border-color: var(--accent); }
-        
-        .btn-submit { 
-            background: var(--accent); 
-            color: #fff; 
-            border: none; 
-            padding: 0.8rem; 
-            width: 100%; 
-            font-weight: 700; 
-            cursor: pointer; 
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .btn-submit {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 0.8rem;
+            width: 100%;
+            font-weight: 700;
+            cursor: pointer;
             text-transform: uppercase;
             border-radius: 4px;
             transition: opacity 0.2s;
         }
-        .btn-submit:hover { opacity: 0.9; }
-        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* Webcam Capture Styles */
-        #cam-preview {
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Enrollment Overlay */
+        #enroll-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: auto;
-            background: #000;
-            border-radius: 4px;
-            display: block;
-            margin-bottom: 1rem;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
         }
-        .capture-controls {
-            display: flex;
-            gap: 0.5rem;
+
+        #enroll-overlay img {
+            width: 80%;
+            max-width: 640px;
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            margin-bottom: 2rem;
         }
-        .btn-capture {
-            flex: 1;
-            background: var(--text);
-            color: var(--surface);
-            border: none;
-            padding: 0.8rem;
-            cursor: pointer;
+
+        .enroll-msg {
+            font-size: 1.5rem;
             text-transform: uppercase;
-            font-weight: 600;
-            border-radius: 4px;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .enroll-sub {
+            color: var(--muted);
+            margin-bottom: 2rem;
         }
     </style>
 </head>
+
 <body>
 
     <!-- BOTTOM NAVIGATION -->
     <nav class="bottom-nav">
         <button class="nav-item active" onclick="openTab('home')">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><circle cx="12" cy="12" r="5"/></svg>
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                <circle cx="12" cy="12" r="5" />
+            </svg>
             <span>Home</span>
         </button>
         <button class="nav-item" onclick="openTab('system')">
-            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+            </svg>
             <span>System</span>
         </button>
         <button class="nav-item" onclick="openTab('attendance')">
-            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+            </svg>
             <span>Attendance</span>
         </button>
         <button class="nav-item" onclick="openTab('enroll')">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
             <span>Enroll</span>
         </button>
     </nav>
 
     <div class="main-content">
-        
+
         <!-- TAB 1: HOME -->
         <div id="home" class="tab-content active">
             <div class="eye-container">
@@ -385,7 +649,9 @@
                     <div class="eyelid bottom"></div>
                     <div class="eyeball">
                         <div class="iris-group">
-                            <div class="iris"><div class="pupil"></div></div>
+                            <div class="iris">
+                                <div class="pupil"></div>
+                            </div>
                             <div class="reflection ref-1"></div>
                             <div class="reflection ref-2"></div>
                         </div>
@@ -396,7 +662,9 @@
                     <div class="eyelid bottom"></div>
                     <div class="eyeball">
                         <div class="iris-group">
-                            <div class="iris"><div class="pupil"></div></div>
+                            <div class="iris">
+                                <div class="pupil"></div>
+                            </div>
                             <div class="reflection ref-1"></div>
                             <div class="reflection ref-2"></div>
                         </div>
@@ -409,10 +677,18 @@
         <!-- TAB 2: SYSTEM -->
         <div id="system" class="tab-content">
             <div class="grid">
-                <div class="card"><span class="card-label">Room Temp</span><div class="card-value" id="val-temp">--°C</div></div>
-                <div class="card"><span class="card-label">Humidity</span><div class="card-value" id="val-hum">--%</div></div>
-                <div class="card"><span class="card-label">Air Quality</span><div class="card-value" id="val-aqi">-- AQI</div></div>
-                <div class="card"><span class="card-label">Core Temp</span><div class="card-value" id="val-cpu">--°C</div></div>
+                <div class="card"><span class="card-label">Room Temp</span>
+                    <div class="card-value" id="val-temp">--°C</div>
+                </div>
+                <div class="card"><span class="card-label">Humidity</span>
+                    <div class="card-value" id="val-hum">--%</div>
+                </div>
+                <div class="card"><span class="card-label">Air Quality</span>
+                    <div class="card-value" id="val-aqi">-- AQI</div>
+                </div>
+                <div class="card"><span class="card-label">Core Temp</span>
+                    <div class="card-value" id="val-cpu">--°C</div>
+                </div>
             </div>
             <div class="ai-box">
                 <div class="status-text" id="ai-status">Voice system offline</div>
@@ -435,17 +711,21 @@
                 </div>
                 <div>
                     <div class="section-title">Roster</div>
-                    <div id="roster-container" style="max-height: 150px; overflow-y: auto; margin-bottom: 1.5rem;"></div>
-                    
+                    <div id="roster-container" style="max-height: 150px; overflow-y: auto; margin-bottom: 1.5rem;">
+                    </div>
+
                     <div class="section-title">Enrollment</div>
                     <!-- Removed <form> to fix capture bug. Using pure JS -->
                     <input type="text" id="input-name" placeholder="Student Name" required>
-                    
+
                     <!-- new file upload option -->
                     <input type="file" id="file-input" accept="image/*" style="display:block; margin:0.5rem 0;">
-                    <button class="btn-submit" id="btn-upload" onclick="uploadAndEnroll()">Upload &amp; Register</button>
+                    <button class="btn-submit" id="btn-upload" onclick="uploadAndEnroll()">Upload &amp;
+                        Register</button>
                     <div style="font-size:0.85rem; color:#666; margin-top:0.5rem;">
-                        Or invoke <code>/api/add_student_from_path</code> (POST JSON: {"name":"...","path":"/absolute/or/relative/file.jpg"}) to register an image already on the server.
+                        Or invoke <code>/api/add_student_from_path</code> (POST JSON:
+                        {"name":"...","path":"/absolute/or/relative/file.jpg"}) to register an image already on the
+                        server.
                     </div>
 
                     <video id="cam-preview" autoplay playsinline></video>
@@ -453,7 +733,8 @@
 
                     <div class="capture-controls">
                         <button class="btn-capture" id="btn-cam-toggle" onclick="toggleCam()">Start Camera</button>
-                        <button class="btn-submit" id="btn-enroll" onclick="captureAndEnroll()" disabled>Capture &amp; Register</button>
+                        <button class="btn-submit" id="btn-enroll" onclick="captureAndEnroll()" disabled>Capture &amp;
+                            Register</button>
                     </div>
                 </div>
             </div>
@@ -461,16 +742,40 @@
 
         <!-- TAB 4: LIVE ENROLLMENT -->
         <div id="enroll" class="tab-content">
-            <div class="section-title">Add Student (Live)</div>
-            <button class="btn-submit" id="btn-open-enroll" onclick="toggleEnrollIframe()">Open Camera Interface</button>
-            <iframe id="enroll-iframe" src="/enroll_frame" allow="camera; microphone" style="width:100%;height:400px;display:none;border:1px solid #444;margin-top:1rem;"></iframe>
+            <div class="section-title">Enrolling New Student</div>
+            <p style="color:var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                This will pause active attendance tracking and use the main camera to automatically register a new
+                person's face.
+            </p>
+
+            <div class="card">
+                <input type="text" id="live-enroll-name" placeholder="Enter Full Name" style="margin-bottom: 1rem;">
+                <button class="btn-submit" onclick="startLiveEnroll()">Start Live Capture</button>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <div class="section-title">Existing Tools</div>
+                <button class="btn-submit" style="background: var(--text); margin-bottom: 0.5rem;"
+                    onclick="toggleEnrollIframe()">Manual Capture (Legacy)</button>
+                <iframe id="enroll-iframe" src="/enroll_frame" allow="camera; microphone"
+                    style="width:100%;height:400px;display:none;border:1px solid #444;margin-top:1rem;"></iframe>
+            </div>
         </div>
+    </div>
+
+    <!-- ENROLLMENT OVERLAY -->
+    <div id="enroll-overlay">
+        <div class="enroll-msg">AURA | Enrollment Mode</div>
+        <div class="enroll-sub" id="enroll-target-text">Waiting for face...</div>
+        <img id="enroll-feed" src="/video_feed" alt="Feed">
+        <button class="btn-submit" style="max-width: 200px; background: var(--error);"
+            onclick="cancelLiveEnroll()">Cancel</button>
     </div>
 
     <script>
         // --- CONFIGURATION ---
-        const GROQ_API_KEY = "YOUR_GROQ_API_KEY_HERE"; 
-        const GROQ_MODEL = "llama-3.1-8b-instant"; 
+        const GROQ_API_KEY = "YOUR_GROQ_API_KEY_HERE";
+        const GROQ_MODEL = "llama-3.1-8b-instant";
 
         // --- STATE ---
         let recognition = null;
@@ -480,7 +785,7 @@
         const MAX_RESTART_ATTEMPTS = 5;
         let silenceTimer = null;
         let blinkInterval = null;
-        let currentStream = null; 
+        let currentStream = null;
 
         // DOM Elements
         const eyes = document.querySelectorAll('.eye-socket');
@@ -493,14 +798,14 @@
 
         // --- EYE ANIMATION LOGIC ---
         function startBlinking() {
-            if(blinkInterval) clearInterval(blinkInterval);
-            
+            if (blinkInterval) clearInterval(blinkInterval);
+
             blinkInterval = setInterval(() => {
                 const delay = Math.random() * 4000 + 2000;
                 setTimeout(() => {
                     const specialStates = ['happy', 'panic', 'angry', 'sad', 'surprised', 'talking'];
                     const shouldBlink = !Array.from(eyes).some(e => specialStates.some(s => e.classList.contains(s)));
-                    
+
                     if (shouldBlink) {
                         eyes.forEach(eye => eye.classList.remove('active'));
                         setTimeout(() => eyes.forEach(eye => eye.classList.add('active')), 150);
@@ -513,7 +818,7 @@
         function setEyesClass(className) {
             eyes.forEach(eye => {
                 eye.classList.remove('happy', 'panic', 'thinking', 'talking', 'angry', 'sad', 'surprised');
-                if(className) eye.classList.add(className);
+                if (className) eye.classList.add(className);
             });
         }
 
@@ -548,13 +853,13 @@
             recognition.continuous = true;
             recognition.interimResults = true;
             recognition.lang = 'en-US';
-            
+
             recognition.onstart = handleRecognitionStart;
             recognition.onend = handleRecognitionEnd;
             recognition.onerror = handleRecognitionError;
             recognition.onresult = handleRecognitionResult;
 
-            try { recognition.start(); isSystemActive = true; } 
+            try { recognition.start(); isSystemActive = true; }
             catch (e) { showError('Failed to start.'); }
         }
 
@@ -582,7 +887,7 @@
             if (!isSystemActive) return;
             if (restartAttempts < MAX_RESTART_ATTEMPTS) {
                 restartAttempts++;
-                setTimeout(() => { if(isSystemActive && recognition) recognition.start(); }, 500);
+                setTimeout(() => { if (isSystemActive && recognition) recognition.start(); }, 500);
             } else { showError('Connection lost.'); shutdownVoice(); }
         }
 
@@ -595,12 +900,12 @@
             const last = event.results.length - 1;
             const transcript = event.results[last][0].transcript.toLowerCase().trim();
             const isFinal = event.results[last].isFinal;
-            
+
             aiStatus.textContent = `Heard: "${transcript}"`;
             if (!isFinal) return;
 
             resetSilenceTimer();
-            
+
             if (!isAwake) {
                 if (['aura', 'hey', 'hello'].some(w => transcript.includes(w))) activateAura();
             } else {
@@ -687,10 +992,10 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: text })
             }).catch(e => console.error(e))
-            .finally(() => {
-                const duration = text.length * 70; 
-                setTimeout(() => setEyesClass(null), duration);
-            });
+                .finally(() => {
+                    const duration = text.length * 70;
+                    setTimeout(() => setEyesClass(null), duration);
+                });
         }
 
         function showError(msg) {
@@ -701,23 +1006,23 @@
 
         // --- ENVIRONMENT & TRACKING ---
         function updateEnvironment() {
-            fetch('/api/sensors').then(r=>r.json()).then(d => {
+            fetch('/api/sensors').then(r => r.json()).then(d => {
                 document.getElementById('val-temp').textContent = d.temp_str;
                 document.getElementById('val-hum').textContent = d.hum_str;
                 document.getElementById('val-aqi').textContent = `${parseInt(d.aqi)} AQI`;
                 document.getElementById('val-cpu').textContent = d.cpu;
             });
 
-            fetch('/api/context').then(r=>r.json()).then(d => {
+            fetch('/api/context').then(r => r.json()).then(d => {
                 const count = d.count || 0;
-                
+
                 if (count > 0) {
-                    const moveX = ((d.x_pos || 0.5) - 0.5) * 50; 
+                    const moveX = ((d.x_pos || 0.5) - 0.5) * 50;
                     irisGroups.forEach(ig => {
                         ig.style.transform = `translate(calc(-50% + ${moveX}px), -50%)`;
                     });
                 } else {
-                    const randomX = (Math.random() * 40) - 20; 
+                    const randomX = (Math.random() * 40) - 20;
                     const randomY = (Math.random() * 10) - 5;
                     irisGroups.forEach(ig => {
                         ig.style.transform = `translate(calc(-50% + ${randomX}px), calc(-50% + ${randomY}px))`;
@@ -726,10 +1031,10 @@
 
                 const names = (d.names || []).map(n => n.toLowerCase());
                 const isBusy = Array.from(eyes).some(e => e.classList.contains('talking') || e.classList.contains('thinking'));
-                if(isBusy) return;
+                if (isBusy) return;
 
                 setEyesClass(null);
-                
+
                 if (names.includes('hari')) {
                     setEyesClass('happy');
                     moodText.innerHTML = "Identity Confirmed // <span>HAPPY</span>";
@@ -746,7 +1051,7 @@
                 }
             });
 
-            fetch('/api/status').then(r=>r.json()).then(d => {
+            fetch('/api/status').then(r => r.json()).then(d => {
                 const el = document.getElementById('roster-container');
                 el.innerHTML = '';
                 for (const [name, status] of Object.entries(d || {})) {
@@ -800,8 +1105,8 @@
         async function uploadAndEnroll() {
             const name = document.getElementById('input-name').value;
             const fileInput = document.getElementById('file-input');
-            if(!name) { alert("Please enter a name first."); return; }
-            if(!fileInput.files || fileInput.files.length === 0) { alert("Please select an image file."); return; }
+            if (!name) { alert("Please enter a name first."); return; }
+            if (!fileInput.files || fileInput.files.length === 0) { alert("Please select an image file."); return; }
 
             const file = fileInput.files[0];
             const fd = new FormData();
@@ -832,8 +1137,8 @@
 
         async function captureAndEnroll() {
             const name = document.getElementById('input-name').value;
-            if(!name) { alert("Please enter a name first."); return; }
-            
+            if (!name) { alert("Please enter a name first."); return; }
+
             // Check if video is ready and has valid dimensions
             if (video.readyState !== video.HAVE_ENOUGH_DATA || video.videoWidth === 0) {
                 alert("Camera is not ready. Please wait or restart.");
@@ -845,10 +1150,10 @@
             canvas.height = video.videoHeight;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
+
             // Convert to Blob
             canvas.toBlob(async (blob) => {
-                if(!blob) {
+                if (!blob) {
                     alert("Failed to capture image.");
                     return;
                 }
@@ -856,7 +1161,7 @@
                 const fd = new FormData();
                 fd.append('name', name);
                 // The filename 'capture.jpg' helps Flask identify the file type
-                fd.append('image', blob, 'capture.jpg'); 
+                fd.append('image', blob, 'capture.jpg');
 
                 btnEnroll.disabled = true;
                 btnEnroll.textContent = "Registering...";
@@ -868,8 +1173,8 @@
                     if (d.status === 'success') {
                         speak(`${name} registered successfully.`);
                         document.getElementById('input-name').value = '';
-                    } else { 
-                        alert(d.msg || "Registration failed."); 
+                    } else {
+                        alert(d.msg || "Registration failed.");
                     }
                 } catch (err) {
                     console.error(err);
@@ -880,11 +1185,59 @@
                 }
             }, 'image/jpeg');
         }
+        async function startLiveEnroll() {
+            const name = document.getElementById('live-enroll-name').value;
+            if (!name) { alert("Please enter a name first."); return; }
+
+            try {
+                const res = await fetch('/api/start_live_enroll', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: name })
+                });
+                const d = await res.json();
+                if (d.status === 'success') {
+                    document.getElementById('enroll-overlay').style.display = 'flex';
+                    document.getElementById('enroll-target-text').textContent = `Looking for: ${name}`;
+                    speak(`Beginning enrollment for ${name}. Please look into the camera.`);
+
+                    // Start polling for status
+                    const poll = setInterval(async () => {
+                        const sRes = await fetch('/api/enroll_status');
+                        const sData = await sRes.json();
+                        if (!sData.enroll_mode) {
+                            clearInterval(poll);
+                            document.getElementById('enroll-overlay').style.display = 'none';
+                            speak(`${name} has been successfully registered.`);
+                            document.getElementById('live-enroll-name').value = '';
+                            updateEnvironment(); // Refresh roster
+                        }
+                    }, 1000);
+                } else {
+                    alert(d.msg || "Failed to start enrollment");
+                }
+            } catch (err) {
+                alert("Connection error.");
+            }
+        }
+
+        async function cancelLiveEnroll() {
+            await fetch('/api/cancel_live_enroll', { method: 'POST' });
+            document.getElementById('enroll-overlay').style.display = 'none';
+        }
+
         function openTab(id) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            event.target.closest('.nav-item').classList.add('active');
+
+            // Fix: handle clicks on children of nav-item
+            const items = document.querySelectorAll('.nav-item');
+            items.forEach(item => {
+                if (item.getAttribute('onclick').includes(`'${id}'`)) {
+                    item.classList.add('active');
+                }
+            });
         }
 
         function toggleEnrollIframe() {
@@ -916,4 +1269,5 @@
         updateEnvironment();
     </script>
 </body>
+
 </html>

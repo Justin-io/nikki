@@ -18,6 +18,9 @@ known_encodings, known_names = [], []
 
 # Scene Data
 scene_data = {"names": [], "count": 0, "x_pos": 0.5} 
+attendance_enabled = True
+enroll_mode = False
+enroll_name = ""
 
 # --- HARDWARE (Mock Fallbacks) ---
 sensor_cache = {"cpu": "40°C", "ram": "30%", "net": "WiFi", "aqi": 45, "temp": 26.0, "hum": 60.0, "bat": 100.0}
@@ -161,11 +164,31 @@ def gen_frames():
                 x_positions = []
                 
                 for (t, r, b, l), enc in zip(locs, encs):
+                    if enroll_mode and enroll_name:
+                        # AUTO ENROLLMENT LOGIC
+                        with data_lock:
+                            name = enroll_name.lower()
+                            if name not in known_names:
+                                known_names.append(name)
+                                known_encodings.append(enc)
+                                attendance_log[name] = "Present"
+                                with open(FACES_FILE, "wb") as f:
+                                    pickle.dump({"encodings": known_encodings, "names": known_names}, f)
+                                logger.info(f"Auto-Registered: {name}")
+                                enroll_mode = False
+                                enroll_name = ""
+                                attendance_enabled = True
+                            else:
+                                # Update encoding if already exists? (Maybe later)
+                                pass
+                        names.append(name)
+                        continue
+
                     name = "Unknown"
                     center_x = (l + r) / 2 / 320
                     x_positions.append(center_x)
 
-                    if known_encodings:
+                    if known_encodings and attendance_enabled:
                         with face_lock:
                             matches = face_recognition.compare_faces(known_encodings, enc, 0.5)
                         if any(matches):
@@ -245,7 +268,6 @@ def api_speak():
     return jsonify({"status": "error", "msg": "No text"}), 400
 
 @app.route('/api/add_student', methods=['POST'])
-@app.route('/api/add_student', methods=['POST'])
 def add_student():
     # existing upload-based enrollment (webcam or file input)
     if 'image' not in request.files:
@@ -286,6 +308,36 @@ def add_student():
         return jsonify({"status": "error", "msg": str(e)})
 
 
+@app.route('/api/start_live_enroll', methods=['POST'])
+def start_live_enroll():
+    global enroll_mode, enroll_name, attendance_enabled
+    data = request.get_json() or {}
+    name = data.get('name', '').lower()
+    if not name:
+        return jsonify({"status": "error", "msg": "No name provided"}), 400
+    
+    with data_lock:
+        enroll_mode = True
+        enroll_name = name
+        attendance_enabled = False # Stop attendance while enrolling
+    
+    logger.info(f"Live Enrollment Started for: {name}")
+    return jsonify({"status": "success", "msg": f"Waiting for {name}"})
+
+@app.route('/api/cancel_live_enroll', methods=['POST'])
+def cancel_live_enroll():
+    global enroll_mode, enroll_name, attendance_enabled
+    with data_lock:
+        enroll_mode = False
+        enroll_name = ""
+        attendance_enabled = True
+    return jsonify({"status": "success"})
+
+@app.route('/api/enroll_status')
+def enroll_status():
+    global enroll_mode, enroll_name
+    return jsonify({"enroll_mode": enroll_mode, "enroll_name": enroll_name})
+
 @app.route('/api/add_student_from_path', methods=['POST'])
 def add_student_from_path():
     data = request.get_json() or {}
@@ -295,26 +347,37 @@ def add_student_from_path():
         return jsonify({"status": "error", "msg": "No name provided"}), 400
     if not path:
         return jsonify({"status": "error", "msg": "No path provided"}), 400
-    if not os.path.isfile(path):
+    
+    # Security Check: Prevent path traversal
+    base_dir = os.path.abspath(os.getcwd())
+    target_path = os.path.abspath(path)
+    if not target_path.startswith(base_dir):
+         # If it's not relative to our app, check if it's a common image dir or just block it.
+         # For safety in this context, we'll only allow paths within the workspace.
+         return jsonify({"status": "error", "msg": "Access denied to external paths"}), 403
+
+    if not os.path.isfile(target_path):
         return jsonify({"status": "error", "msg": "File does not exist"}), 400
 
     try:
-        img = face_recognition.load_image_file(path)
+        img = face_recognition.load_image_file(target_path)
         with face_lock:
             encs = face_recognition.face_encodings(img)
         if not encs:
             return jsonify({"status": "error", "msg": "No face detected in the image"})
         with data_lock:
-            known_names.append(name)
-            known_encodings.append(encs[0])
-            attendance_log[name] = "Absent"
-            with open(FACES_FILE, "wb") as f:
-                pickle.dump({"encodings": known_encodings, "names": known_names}, f)
+            if name not in known_names:
+                known_names.append(name)
+                known_encodings.append(encs[0])
+                attendance_log[name] = "Absent"
+                with open(FACES_FILE, "wb") as f:
+                    pickle.dump({"encodings": known_encodings, "names": known_names}, f)
         logger.info(f"Registered from path: {name} ({path})")
         return jsonify({"status": "success"})
     except Exception as e:
         logger.error(f"Enrollment path error: {e}")
         return jsonify({"status": "error", "msg": str(e)})
+
 @app.route('/enroll_frame')
 def enroll_frame():
     return render_template('enroll_frame.html')
