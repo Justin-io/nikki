@@ -23,7 +23,8 @@ def setup_aura_pro():
     print(f"[*] Executing Live Stream test.")
     
     p1 = subprocess.Popen([sys.executable, "-m", "edge_tts", "--voice", "en-US-AvaNeural", "--text", test_text, "--write-media", "-"], stdout=subprocess.PIPE)
-    p2 = subprocess.Popen([PLAYER, "-q", "-"], stdin=p1.stdout)
+    # Using buffer prevents choppiness on Pi 4
+    p2 = subprocess.Popen([PLAYER, "-q", "--buffer", "1024", "-"], stdin=p1.stdout)
     p1.stdout.close()
     p2.communicate()
     

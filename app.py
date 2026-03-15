@@ -7,6 +7,8 @@ import requests
 import queue
 
 # --- CONFIGURATION ---
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
+os.chdir(APP_DIR)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 logger = logging.getLogger("Nikki")
 app = Flask(__name__)
@@ -397,11 +399,17 @@ def tts_worker():
             
             # Secure execution: no shell=True, avoids command injection vulnerabilities.
             edge_cmd = [sys.executable, "-m", "edge_tts", "--voice", VOICE_NAME, "--text", text, "--write-media", "-"]
-            player_cmd = [MPG123_PATH, "-q", "-"]
+            # Adding buffer to mpg123 prevents network stuttering common on Pi 4
+            player_cmd = [MPG123_PATH, "-q", "--buffer", "1024", "-"]
             
-            p1 = subprocess.Popen(edge_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            # Fix autostart environment missing for PulseAudio/Pipewire
+            env = os.environ.copy()
+            if "XDG_RUNTIME_DIR" not in env:
+                env["XDG_RUNTIME_DIR"] = f"/run/user/{os.getuid()}"
+            
+            p1 = subprocess.Popen(edge_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
             # p2 reads from p1.stdout
-            p2 = subprocess.Popen(player_cmd, stdin=p1.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            p2 = subprocess.Popen(player_cmd, stdin=p1.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
             p1.stdout.close() # allow p1 to receive a SIGPIPE if p2 exits.
             
             # Add timeout to prevent worker from hanging indefinitely
