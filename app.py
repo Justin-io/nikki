@@ -616,8 +616,29 @@ def add_student_from_path():
 def enroll_frame():
     return render_template('enroll_frame.html')
 
+def check_for_updates():
+    try:
+        logger.info("Checking for real-time updates from GitHub...")
+        # Secure execution without shell=True for security against vulnerabilities
+        subprocess.run(["git", "fetch", "origin"], cwd=APP_DIR, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         
+        status = subprocess.run(["git", "status", "-uno"], cwd=APP_DIR, capture_output=True, text=True)
+        if "Your branch is behind" in status.stdout:
+            logger.info("Updates found! Pulling latest code securely...")
+            subprocess.run(["git", "stash"], cwd=APP_DIR, capture_output=True) # Stash local changes to prevent conflicts
+            subprocess.run(["git", "pull", "origin", "main"], cwd=APP_DIR, check=True, capture_output=True)
+            
+            logger.info("Code updated successfully. Restarting AURA core...")
+            # Executing new code safely by replacing the current process
+            os.execv(sys.executable, [sys.executable] + sys.argv)
+        else:
+            logger.info("AURA core is up to date.")
+    except Exception as e:
+        logger.error(f"Auto-update failed: {e}")
+
 if __name__ == "__main__":
+    check_for_updates()
+    
     print("-" * 30)
     print("AURA: LIVE VOCAL SYSTEM ONLINE")
     print(f"VOICE: {VOICE_NAME}")
