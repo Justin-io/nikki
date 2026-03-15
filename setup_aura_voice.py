@@ -9,7 +9,7 @@ def setup_aura_pro():
     
     # 1. Edge-TTS Install
     print("[*] Installing Premium Vocal Engine...")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "edge-tts"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "edge-tts", "--break-system-packages"])
 
     # 2. Test with Absolute Path (Bypasses shell errors)
     PLAYER = "/usr/bin/mpg123"
@@ -20,10 +20,12 @@ def setup_aura_pro():
         subprocess.run("sudo apt update && sudo apt install mpg123 -y", shell=True)
 
     test_text = "System online. Vocal core is now bulletproof."
-    test_cmd = f'edge-tts --voice en-US-AvaNeural --text "{test_text}" --write-media - | {PLAYER} -q -'
+    print(f"[*] Executing Live Stream test.")
     
-    print(f"[*] Executing Live Stream: {test_cmd}")
-    subprocess.run(test_cmd, shell=True)
+    p1 = subprocess.Popen([sys.executable, "-m", "edge_tts", "--voice", "en-US-AvaNeural", "--text", test_text, "--write-media", "-"], stdout=subprocess.PIPE)
+    p2 = subprocess.Popen([PLAYER, "-q", "-"], stdin=p1.stdout)
+    p1.stdout.close()
+    p2.communicate()
     
     print("\n--- DONE ---")
     print("If you heard the voice, run: python3 app.py")

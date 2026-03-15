@@ -1,4 +1,4 @@
-import os, time, logging, threading, pickle, random, subprocess, gc, numpy as np
+import os, sys, socket, time, logging, threading, pickle, random, subprocess, gc, numpy as np
 from collections import deque
 import cv2, face_recognition
 from flask import Flask, render_template, Response, jsonify, request
@@ -65,7 +65,7 @@ def load_env():
 load_env()
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL = "llama-3.1-8b-instant"
-VOICE_NAME = "en-US-AvaNeural"
+VOICE_NAME = "en-US-JennyNeural"
 MPG123_PATH = "/usr/bin/mpg123" # Absolute path for reliability
 
 # --- THREAD SAFE STATE ---
@@ -393,16 +393,29 @@ def tts_worker():
         text = speak_queue.get()
         if text is None: break
         try:
-            # Sanitize text
-            safe_text = text.replace('"', '\\"').replace('$', '\\$').replace('`', '\\`')
-            
-            # Real-time Streaming Pipe: Cloud AI -> Local Absolute Player
-            # We use -q (quiet) to prevent console spam
-            cmd = f'edge-tts --voice {VOICE_NAME} --text "{safe_text}" --write-media - | {MPG123_PATH} -q -'
-            
             logger.info(f"AURA Speaking: {text}")
-            subprocess.run(cmd, shell=True, check=True)
             
+            # Secure execution: no shell=True, avoids command injection vulnerabilities.
+            edge_cmd = [sys.executable, "-m", "edge_tts", "--voice", VOICE_NAME, "--text", text, "--write-media", "-"]
+            player_cmd = [MPG123_PATH, "-q", "-"]
+            
+            p1 = subprocess.Popen(edge_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            # p2 reads from p1.stdout
+            p2 = subprocess.Popen(player_cmd, stdin=p1.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            p1.stdout.close() # allow p1 to receive a SIGPIPE if p2 exits.
+            
+            # Add timeout to prevent worker from hanging indefinitely
+            stdout, stderr = p2.communicate(timeout=30)
+            
+            if p2.returncode != 0:
+                logger.error(f"Player/TTS Error: {stderr.decode('utf-8', errors='ignore')}")
+                
+        except subprocess.TimeoutExpired:
+            p1.kill()
+            p2.kill()
+            p1.communicate()
+            p2.communicate()
+            logger.error("Vocal Engine Error: Execution timed out. Edge-TTS or player hung.")
         except Exception as e:
             logger.error(f"Vocal Engine Error: {e}")
         speak_queue.task_done()
