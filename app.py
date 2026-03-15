@@ -4,6 +4,7 @@ import cv2, face_recognition
 from flask import Flask, render_template, Response, jsonify, request
 from PIL import Image
 import requests
+import queue
 
 # --- CONFIGURATION ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
@@ -294,7 +295,7 @@ def vision_worker():
                         greeted_log[name] = now
                         msg = random.choice(GREETINGS).format(name=name)
                         logger.info(f"Proactive Greeting for {name}")
-                        threading.Thread(target=run_speak, args=(msg,), daemon=True).start()
+                        run_speak(msg)
 
             # Update shared state
             last_locations = [(t*2, r*2, b*2, l*2) for t,r,b,l in locs]
@@ -385,28 +386,39 @@ def api_context():
     with data_lock: return jsonify(scene_data)
 
 # --- BULLETPROOF LIVE TTS (Edge-TTS + Absolute Path Player) ---
+speak_queue = queue.Queue()
+
+def tts_worker():
+    while True:
+        text = speak_queue.get()
+        if text is None: break
+        try:
+            # Sanitize text
+            safe_text = text.replace('"', '\\"').replace('$', '\\$').replace('`', '\\`')
+            
+            # Real-time Streaming Pipe: Cloud AI -> Local Absolute Player
+            # We use -q (quiet) to prevent console spam
+            cmd = f'edge-tts --voice {VOICE_NAME} --text "{safe_text}" --write-media - | {MPG123_PATH} -q -'
+            
+            logger.info(f"AURA Speaking: {text}")
+            subprocess.run(cmd, shell=True, check=True)
+            
+        except Exception as e:
+            logger.error(f"Vocal Engine Error: {e}")
+        speak_queue.task_done()
+
+threading.Thread(target=tts_worker, daemon=True).start()
+
 def run_speak(text):
     if not text: return
-    try:
-        # Sanitize text
-        safe_text = text.replace('"', '\\"').replace('$', '\\$').replace('`', '\\`')
-        
-        # Real-time Streaming Pipe: Cloud AI -> Local Absolute Player
-        # We use -q (quiet) to prevent console spam
-        cmd = f'edge-tts --voice {VOICE_NAME} --text "{safe_text}" --write-media - | {MPG123_PATH} -q -'
-        
-        logger.info(f"AURA Speaking: {text}")
-        subprocess.run(cmd, shell=True, check=True)
-        
-    except Exception as e:
-        logger.error(f"Vocal Engine Error: {e}")
+    speak_queue.put(text)
 
 @app.route('/api/speak', methods=['POST'])
 def api_speak():
     data = request.get_json()
     text = data.get('text', '')
     if text:
-        threading.Thread(target=run_speak, args=(text,), daemon=True).start()
+        run_speak(text)
         return jsonify({"status": "speaking"})
     return jsonify({"status": "error", "msg": "No text"}), 400
 
