@@ -1,4 +1,4 @@
-impor os, sys, socket, time, logging, threading, pickle, random, subprocess, gc, numpy as np
+import os, sys, socket, time, logging, threading, pickle, random, subprocess, gc, numpy as np
 from collections import deque
 import cv2, face_recognition
 from flask import Flask, render_template, Response, jsonify, request
